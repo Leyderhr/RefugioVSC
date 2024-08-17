@@ -3,9 +3,11 @@ package Interface;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Window extends JFrame {
@@ -36,6 +38,12 @@ public class Window extends JFrame {
     private ContratoPanel contratoPanel;
     private ServicioPanel servicioPanel;
     private CuidadoDiarioPanel cuidadoDiarioPanel;
+
+    // Atributos del fondo principal
+    private JLabel lblFotoZooIzq;
+    private JLabel lblFotoZooDer;
+    private JLabel lblHeader;
+    private JLabel lblText;
 
 
     /**
@@ -69,6 +77,12 @@ public class Window extends JFrame {
         contentPane.add(getServicioPanel());
         contentPane.add(getCuidadoDiarioPanel());
 
+        contentPane.add(getFotoZooIzq());
+        contentPane.add(getFotoZooDer());
+        contentPane.add(getLblHeader());
+        contentPane.add(getLblText());
+
+
         ventanas = new ArrayList<>();
         for(int i = 0; i < cantPaneles; i++){
             ventanas.add(false);
@@ -76,8 +90,69 @@ public class Window extends JFrame {
 
     }
 
+    // Métodos para obtener los labels del fondo principal
+    //=========================================================================
+    private JLabel getFotoZooIzq(){
+        if(lblFotoZooIzq == null){
+            lblFotoZooIzq = new JLabel();
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/Rcortada.png")));
+            lblFotoZooIzq.setIcon(icon);
+            lblFotoZooIzq.setBounds(20,80, 250, 300);
+            lblFotoZooIzq.setHorizontalAlignment(SwingConstants.CENTER);
+            lblFotoZooIzq.setHorizontalTextPosition(SwingConstants.CENTER);
+            lblFotoZooIzq.setIconTextGap(1);
+        }
+        return lblFotoZooIzq;
+    }
 
-    //Métodos para obtener los paneles personalizados
+    private JLabel getFotoZooDer(){
+        if(lblFotoZooDer == null){
+            lblFotoZooDer = new JLabel();
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/LogoZooEdit.png")));
+            lblFotoZooDer.setIcon(icon);
+            lblFotoZooDer.setBounds(780,80, 150, 100);
+            lblFotoZooDer.setHorizontalAlignment(SwingConstants.CENTER);
+            lblFotoZooDer.setHorizontalTextPosition(SwingConstants.CENTER);
+            lblFotoZooDer.setIconTextGap(1);
+        }
+        return  lblFotoZooDer;
+    }
+
+    private JLabel getLblHeader(){
+        if(lblHeader == null){
+            lblHeader = new JLabel("Gestor del Refugio Animal");
+            lblHeader.setFont(new Font("Bahnschrift", Font.BOLD, 34));
+            lblHeader.setForeground(Color.WHITE);
+            lblHeader.setOpaque(true);
+            lblHeader.setBounds(20,11, 910, 60);
+            lblHeader.setVisible(true);
+            lblHeader.setBackground(new Color(33,196,58,255));
+            lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
+            lblHeader.setHorizontalTextPosition(SwingConstants.CENTER);
+            lblHeader.setVerticalTextPosition(SwingConstants.CENTER);
+        }
+        return  lblHeader;
+    }
+
+    private JLabel getLblText(){
+        if(lblText == null){
+            lblText = new JLabel();
+            lblText.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
+            lblText.setText("<html> <p align: left><br>El refugio de Animales \"Amigos de Pata\" se dedica a la " +
+                    "protección, cuidado y adopción de animales abandonados o en situación de riego." +
+                    "Ofrece una amplia gama de servicios que incluyen la alimentación, atención médica, " +
+                    "actividades de socialización, adopciones, y programas de voluntariado.</p></html>");
+            lblText.setBounds(280,90, 580,300 );
+            lblText.setVisible(true);
+            lblText.setHorizontalAlignment(SwingConstants.CENTER);
+            lblText.setHorizontalTextPosition(SwingConstants.CENTER);
+            lblText.setVerticalTextPosition(SwingConstants.CENTER);
+        }
+        return  lblText;
+    }
+
+
+    // Métodos para obtener los paneles personalizados
     //=========================================================================
     private ContratoPanel getContratoPanel(){
         if(contratoPanel == null){

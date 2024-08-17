@@ -1,9 +1,7 @@
 package Interface;
 
 import dao.DAOActividadCuidadoDiario;
-import dao.DAOContrato;
 import logic.ActividadCuidadoDiario;
-import logic.Contrato;
 import util.JTextFieldSoloNumeros;
 
 import javax.swing.*;
@@ -28,7 +26,7 @@ public class CuidadoDiarioPanel extends JPanel {
     private JSpinner spinnerHora;
 
     private JScrollPane scrollPane;
-    private JTable tableProveedor;
+    private JTable tableActividad;
 
     private JLabel lblDescActividad;
     private JTextField txtFDescActividad;
@@ -204,7 +202,7 @@ public class CuidadoDiarioPanel extends JPanel {
         if (scrollPane == null) {
             scrollPane = new JScrollPane();
             scrollPane.setBounds(272, 30, 632, 329);
-            scrollPane.setViewportView(getTableProveedor());
+            scrollPane.setViewportView(getTableActividad());
             model.addColumn("Fecha");
             model.addColumn("Hora");
             model.addColumn("Descripción");
@@ -214,15 +212,15 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         return scrollPane;
     }
-    private JTable getTableProveedor() {
-        if (tableProveedor == null) {
-            tableProveedor = new JTable(){
+    private JTable getTableActividad() {
+        if (tableActividad == null) {
+            tableActividad = new JTable(){
                 public boolean isCellEditable(int rowIndex, int colIndex){
                     return false;
                 }
             };
-            tableProveedor.getTableHeader().setReorderingAllowed(false);
-            tableProveedor.setModel(new DefaultTableModel(
+            tableActividad.getTableHeader().setReorderingAllowed(false);
+            tableActividad.setModel(new DefaultTableModel(
                     new Object[][] {
                             {null, null, null, null, null},
                             {null, null, null, null, null},
@@ -232,7 +230,7 @@ public class CuidadoDiarioPanel extends JPanel {
                     }
             ));
         }
-        return tableProveedor;
+        return tableActividad;
     }
 
     public void actualizarTabla(){
@@ -250,7 +248,7 @@ public class CuidadoDiarioPanel extends JPanel {
             ob[4] = a.getId_contrato();
             model.addRow(ob);
         }
-        tableProveedor.setModel(model);
+        tableActividad.setModel(model);
     }
 
 
