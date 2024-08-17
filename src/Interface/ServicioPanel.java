@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class ServicioPanel extends JPanel {
 
 
-    //Atributos
-    //=========================================================================
+    // Atributos
+    // ========================================================================
     public static final int VALUE = 4;
     private JLabel lblPrecio;
     private JTextFieldSoloNumeros txtFPrecio;
@@ -33,11 +33,11 @@ public class ServicioPanel extends JPanel {
     private final DefaultTableModel model = new DefaultTableModel();
     private final DAOServicio dao = new DAOServicio();
     ArrayList<Servicio> lista;
-    //=========================================================================
+    // ========================================================================
 
 
 
-    //Constructor
+    // Constructor
     public ServicioPanel(){
         setBounds(20, 11, 914, 385);
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -53,8 +53,8 @@ public class ServicioPanel extends JPanel {
     }
 
 
-    //Cosas del Precio
-    //=========================================================================
+    // Cosas del Precio
+    // ========================================================================
     private JLabel getLblPrecio() {
         if (lblPrecio == null) {
             lblPrecio = new JLabel("Precio");
@@ -71,12 +71,12 @@ public class ServicioPanel extends JPanel {
         }
         return txtFPrecio;
     }
-    //=========================================================================
+    // ========================================================================
 
 
 
-    //Cosas de Modalidad
-    //=========================================================================
+    // Cosas de Modalidad
+    // ========================================================================
     private JTextFieldSoloLetras getTxtFModalidad() {
         if (txtFModalidad == null) {
             txtFModalidad = new JTextFieldSoloLetras();
@@ -94,12 +94,12 @@ public class ServicioPanel extends JPanel {
         }
         return lblModalidad;
     }
-    //=========================================================================
+    // ========================================================================
 
 
 
-    //ComboBox para ingresar los tipos de Servicios
-    //=========================================================================
+    // JLabel y ComboBox para ingresar los tipos de Servicios
+    // ========================================================================
     private JLabel getLblTipoServicio() {
         if (lblTipoServicio == null) {
             lblTipoServicio = new JLabel("Tipo de Servicio");
@@ -133,7 +133,7 @@ public class ServicioPanel extends JPanel {
 
         return ComboBoxTipoServicio;
     }
-    //=========================================================================
+    // ========================================================================
 
 
 
@@ -150,6 +150,10 @@ public class ServicioPanel extends JPanel {
         }
         return scrollPane;
     }
+
+
+    // Método de la tabla de los Proveedores
+    // ========================================================================
     private JTable getTableProveedor() {
         if (tableServicio == null) {
             tableServicio = new JTable(){
@@ -186,5 +190,47 @@ public class ServicioPanel extends JPanel {
         }
         tableServicio.setModel(model);
     }
+    // ========================================================================
+
+
+
+    // Método para eliminar a un proveedor
+    // ========================================================================
+    public int eliminarServicio(){
+        return lista.get(tableServicio.getSelectedRow()).getId_servicio();
+    }
+    // ========================================================================
+
+
+
+    // Método para crear y agregar un Servicio
+    // ========================================================================
+    public Servicio agregarServicio(){
+        Servicio s = new Servicio();
+
+        s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
+        s.setModalidad(txtFModalidad.getText());
+        s.setId_servicio((int) ComboBoxTipoServicio.getSelectedItem());
+
+        return s;
+    }
+    // ========================================================================
+
+
+
+    // Método para actualizar un Servicio
+    // ========================================================================
+    public Servicio actualizarServicio(){
+        Servicio s = lista.get(tableServicio.getSelectedRow());
+
+        if(!txtFPrecio.getText().equals(""))
+            s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
+        if(!txtFModalidad.getText().equals(""))
+            s.setModalidad(txtFModalidad.getText());
+        s.setId_servicio((int) ComboBoxTipoServicio.getSelectedItem());
+
+        return s;
+    }
+    // ========================================================================
 
 }

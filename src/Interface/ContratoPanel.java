@@ -1,8 +1,7 @@
 package Interface;
 
-import dao.DAOAnimal;
+
 import dao.DAOContrato;
-import logic.Animal;
 import logic.Contrato;
 import util.JTextFieldSoloLetras;
 import util.JTextFieldSoloNumeros;
@@ -18,28 +17,41 @@ import java.util.Date;
 @SuppressWarnings("Unchecked")
 public class ContratoPanel extends JPanel {
 
+
+    // Atributos de la clase
+    // ========================================================================
     public static final int VALUE = 3;
     private JLabel lblResponsable;
     private JTextFieldSoloLetras txtFResponsable;
-    private JTextFieldSoloLetras txtFDescripcion;
-    private JTextFieldSoloNumeros txtFIDServicio;
-    private JTextFieldSoloNumeros txtFIDProveedor;
+
     private JLabel lblDescripcion;
+    private JTextFieldSoloLetras txtFDescripcion;
+
+    private JLabel lblIDServicio;
+    private JTextFieldSoloNumeros txtFIDServicio;
+
+    private JLabel lblIDProveedor;
+    private JTextFieldSoloNumeros txtFIDProveedor;
+
     private JLabel lblFechConciliacion;
     private JSpinner spinnerFechConciliacion;
+
     private JLabel lblFechInicio;
     private JSpinner spinnerFechInicio;
+
+    private JLabel lblFechFin;
+    private JSpinner spinnerFechFin;
+
+    private JLabel lblRecargo;
+    private JTextField txtFRecargo;
+
     private JScrollPane scrollPane;
     private JTable tableContrato;
     private DefaultTableModel model = new DefaultTableModel();
-    private JLabel lblFechFin;
-    private JSpinner spinnerFechFin;
-    private JLabel lblIDServicio;
-    private JLabel lblIDProveedor;
-    private JLabel lblRecargo;
-    private JTextField txtFRecargo;
     private final DAOContrato dao = new DAOContrato();
     ArrayList<Contrato> lista;
+    // ========================================================================
+
 
 
 
@@ -128,7 +140,7 @@ public class ContratoPanel extends JPanel {
         return lblFechConciliacion;
     }
 
-    //JDateChooser para asignar la fecha de la conciliación del contrato
+    //JSpinner para asignar la fecha de la conciliación del contrato
     //-----------------------------------------------------------------------------------------------------------------------------
     private JSpinner getSpinnerFechConciliacion() {
         if (spinnerFechConciliacion == null) {
@@ -160,7 +172,7 @@ public class ContratoPanel extends JPanel {
     }
 
 
-    //JDateChooser para asignar la fecha de inicio del contrato
+    //JSpinner para asignar la fecha de inicio del contrato
     //-----------------------------------------------------------------------------------------------------------------------------
     private JSpinner getSpinnerFechInicio() {
         if (spinnerFechInicio == null) {
@@ -191,7 +203,7 @@ public class ContratoPanel extends JPanel {
         return lblFechFin;
     }
 
-    //JDateChooser para asignar la fecha de inicio del contrato
+    //JSpinner para asignar la fecha de inicio del contrato
     //-----------------------------------------------------------------------------------------------------------------------------
     private JSpinner getSpinnerFechFin() {
         if (spinnerFechFin == null) {
@@ -307,9 +319,13 @@ public class ContratoPanel extends JPanel {
         }
         return scrollPane;
     }
+    // ========================================================================
 
 
-    //Tabla con los contratos
+
+
+    // Tabla con los contratos
+    // ========================================================================
     private JTable getTableContrato() {
         if (tableContrato == null) {
             tableContrato = new JTable(){
@@ -344,5 +360,51 @@ public class ContratoPanel extends JPanel {
         }
         tableContrato.setModel(model);
     }
-    //=========================================================================
+    // ========================================================================
+
+
+
+    // Método para crear y agregar un contrato
+    // ========================================================================
+    public Contrato agregarContrato(){
+        Contrato c = new Contrato();
+
+        c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
+        c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
+        c.setFecha_ini((java.sql.Date) spinnerFechInicio.getValue());
+        c.setFecha_term((java.sql.Date) spinnerFechFin.getValue());
+        c.setFecha_conc((java.sql.Date) spinnerFechConciliacion.getValue());
+        c.setDesc_cont(txtFDescripcion.getText());
+        c.setNom_resp(txtFResponsable.getText());
+        c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
+
+        return c;
+    }
+    // ========================================================================
+
+
+
+    // Método para actualizar un contrato
+    // ========================================================================
+    public Contrato actualizarContrato(){
+        Contrato c = lista.get(tableContrato.getSelectedRow());
+
+        if(!txtFIDProveedor.getText().equals(""))
+            c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
+        if(!txtFIDServicio.getText().equals(""))
+            c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
+        if(!txtFDescripcion.getText().equals(""))
+            c.setDesc_cont(txtFDescripcion.getText());
+        if(!txtFResponsable.getText().equals(""))
+            c.setNom_resp(txtFResponsable.getText());
+        if(!txtFRecargo.getText().equals(""))
+            c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
+        c.setFecha_ini((java.sql.Date) spinnerFechInicio.getValue());
+        c.setFecha_term((java.sql.Date) spinnerFechFin.getValue());
+        c.setFecha_conc((java.sql.Date) spinnerFechConciliacion.getValue());
+
+        return c;
+    }
+    // ========================================================================
+
 }

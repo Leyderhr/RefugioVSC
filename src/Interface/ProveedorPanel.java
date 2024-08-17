@@ -1,8 +1,6 @@
 package Interface;
 
-import dao.DAOContrato;
 import dao.DAOProveedor;
-import logic.Contrato;
 import logic.Proveedor;
 
 import javax.swing.*;
@@ -13,8 +11,8 @@ import java.util.ArrayList;
 
 public class ProveedorPanel extends JPanel {
 
-    //Atributos
-    //=========================================================================
+    // Atributos de la clase
+    // ========================================================================
     public static final int VALUE = 2;
     private JLabel lblNombre;
     private JTextField txtFNombre;
@@ -36,7 +34,8 @@ public class ProveedorPanel extends JPanel {
     private final DAOProveedor dao = new DAOProveedor();
     ArrayList<Proveedor> lista;
     private DefaultTableModel model = new DefaultTableModel();
-    //=========================================================================
+    // ========================================================================
+
 
 
     public ProveedorPanel(){
@@ -57,6 +56,8 @@ public class ProveedorPanel extends JPanel {
         add(getScrollPane());
     }
 
+
+
     private JLabel getLblNombre() {
         if (lblNombre == null) {
             lblNombre = new JLabel("Nombre");
@@ -65,6 +66,8 @@ public class ProveedorPanel extends JPanel {
         }
         return lblNombre;
     }
+
+
     private JTextField getTxtFNombre() {
         if (txtFNombre == null) {
             txtFNombre = new JTextField();
@@ -73,6 +76,8 @@ public class ProveedorPanel extends JPanel {
         }
         return txtFNombre;
     }
+
+
     private JTextField getTxtFDireccion() {
         if (txtFDireccion == null) {
             txtFDireccion = new JTextField();
@@ -81,6 +86,9 @@ public class ProveedorPanel extends JPanel {
         }
         return txtFDireccion;
     }
+
+
+
     private JLabel getLblDireccion() {
         if (lblDireccion == null) {
             lblDireccion = new JLabel("Dirección");
@@ -89,6 +97,9 @@ public class ProveedorPanel extends JPanel {
         }
         return lblDireccion;
     }
+
+
+
     private JTextField getTxtFTelefono() {
         if (txtFTelefono == null) {
             txtFTelefono = new JTextField();
@@ -97,6 +108,9 @@ public class ProveedorPanel extends JPanel {
         }
         return txtFTelefono;
     }
+
+
+
     private JLabel getLblTelefono() {
         if (lblTelefono == null) {
             lblTelefono = new JLabel("Teléfono");
@@ -105,6 +119,9 @@ public class ProveedorPanel extends JPanel {
         }
         return lblTelefono;
     }
+
+
+
     private JTextField getTxtFProvincia() {
         if (txtFProvincia == null) {
             txtFProvincia = new JTextField();
@@ -113,6 +130,9 @@ public class ProveedorPanel extends JPanel {
         }
         return txtFProvincia;
     }
+
+
+
     private JLabel getLblProvincia() {
         if (lblProvincia == null) {
             lblProvincia = new JLabel("Provincia");
@@ -121,6 +141,9 @@ public class ProveedorPanel extends JPanel {
         }
         return lblProvincia;
     }
+
+
+
     private JTextField getTxtFEmail() {
         if (txtFEmail == null) {
             txtFEmail = new JTextField();
@@ -138,6 +161,7 @@ public class ProveedorPanel extends JPanel {
         return lblEmail;
     }
 
+
     private JScrollPane getScrollPane() {
         if (scrollPane == null) {
             scrollPane = new JScrollPane();
@@ -153,6 +177,10 @@ public class ProveedorPanel extends JPanel {
         }
         return scrollPane;
     }
+
+
+    // Método de la tabla de los proveedores
+    // ========================================================================
     private JTable getTableProveedor() {
         if (tableProveedor == null) {
             tableProveedor = new JTable(){
@@ -174,6 +202,7 @@ public class ProveedorPanel extends JPanel {
         return tableProveedor;
     }
 
+
     public void actualizarTabla(){
         while(model.getRowCount()>0)
             model.removeRow(0);
@@ -192,4 +221,54 @@ public class ProveedorPanel extends JPanel {
         }
         tableProveedor.setModel(model);
     }
+    // ========================================================================
+
+
+
+    // Método para eliminar a un proveedor
+    // ========================================================================
+    public int eliminarProveedor(){
+        return lista.get(tableProveedor.getSelectedRow()).getId_proveedor();
+    }
+    // ========================================================================
+
+
+
+    // Método para crear y agregar un Proveedor
+    // ========================================================================
+    public Proveedor agregarProveedor(){
+        Proveedor p = new Proveedor();
+
+        p.setNombre(txtFNombre.getText());
+        p.setDireccion(txtFDireccion.getText());
+        p.setTelefono(txtFTelefono.getText());
+        p.setProvincia(txtFProvincia.getText());
+        p.setEmail(txtFEmail.getText());
+
+        return p;
+    }
+    // ========================================================================
+
+
+
+    // Método para actualizar un Proveedor
+    // ========================================================================
+    public Proveedor actualizarProveedor(){
+        Proveedor p = lista.get(tableProveedor.getSelectedRow());
+
+        if(!txtFNombre.getText().equals(""))
+            p.setNombre(txtFNombre.getText());
+        if(!txtFDireccion.getText().equals(""))
+            p.setDireccion(txtFDireccion.getText());
+        if(!txtFTelefono.getText().equals(""))
+            p.setTelefono(txtFTelefono.getText());
+        if(!txtFProvincia.getText().equals(""))
+            p.setProvincia(txtFProvincia.getText());
+        if(!txtFEmail.getText().equals(""))
+            p.setEmail(txtFEmail.getText());
+
+        return p;
+    }
+    // ========================================================================
+
 }

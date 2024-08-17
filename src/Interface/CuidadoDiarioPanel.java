@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,8 +17,8 @@ public class CuidadoDiarioPanel extends JPanel {
 
 
 
-    //Atributos
-    //=========================================================================
+    // Atributos
+    // ========================================================================
     public static final int VALUE = 5;
     private JLabel lblFecha;
     private JSpinner spinnerFecha;
@@ -40,11 +41,11 @@ public class CuidadoDiarioPanel extends JPanel {
     private final DAOActividadCuidadoDiario dao = new DAOActividadCuidadoDiario();
     ArrayList<ActividadCuidadoDiario> lista;
     private DefaultTableModel model = new DefaultTableModel();
-    //=========================================================================
+    // ========================================================================
 
 
 
-    //Constructor
+    // Constructor
     public CuidadoDiarioPanel(){
         setBounds(20, 11, 914, 385);
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las Actividades de Cuidado Diario Animal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -65,8 +66,8 @@ public class CuidadoDiarioPanel extends JPanel {
     }
 
 
-    //Cosas de la Fecha
-    //=========================================================================
+    // Cosas de la Fecha
+    // ========================================================================
     private JLabel getLblFecha() {
         if (lblFecha == null) {
             lblFecha = new JLabel("Fecha");
@@ -89,13 +90,12 @@ public class CuidadoDiarioPanel extends JPanel {
 
         return spinnerFecha;
     }
-
-    //=========================================================================
-
+    // ========================================================================
 
 
-    //Cosas de la Hora
-    //=========================================================================
+
+    // Cosas de la Hora
+    // ========================================================================
     private JLabel getLblHora() {
         if (lblHora == null) {
             lblHora = new JLabel("Hora");
@@ -121,15 +121,14 @@ public class CuidadoDiarioPanel extends JPanel {
 
         return spinnerHora;
     }
-
-    //=========================================================================
+    // ========================================================================
 
 
 
 
 
     // Cosas de la Descripción de la Actividad Diaria
-    //=========================================================================
+    // ========================================================================
     private JLabel getLblDescActividad() {
         if (lblDescActividad == null) {
             lblDescActividad = new JLabel("Desc. Actividad");
@@ -148,7 +147,8 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         return txtFDescActividad;
     }
-    //=========================================================================
+    // =========================================================================
+
 
 
     // Cosas del Id del Animal
@@ -171,12 +171,12 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         return txtFIdAnimal;
     }
-    //=========================================================================
+    // ========================================================================
 
 
 
     // Cosas del Id del Contrato
-    //=========================================================================
+    // ========================================================================
     private JLabel getLblIdContrato() {
         if (lblIdContrato == null) {
             lblIdContrato = new JLabel("Id. Contrato");
@@ -195,7 +195,8 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         return txtFIdContrato;
     }
-    //=========================================================================
+    // ========================================================================
+
 
 
     private JScrollPane getScrollPane() {
@@ -212,6 +213,10 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         return scrollPane;
     }
+
+
+    // Tabla del Cuidado diario de los animales
+    // ========================================================================
     private JTable getTableActividad() {
         if (tableActividad == null) {
             tableActividad = new JTable(){
@@ -233,6 +238,7 @@ public class CuidadoDiarioPanel extends JPanel {
         return tableActividad;
     }
 
+
     public void actualizarTabla(){
         while(model.getRowCount()>0)
             model.removeRow(0);
@@ -240,7 +246,7 @@ public class CuidadoDiarioPanel extends JPanel {
         lista = dao.consultarACD();
         for(ActividadCuidadoDiario a:lista){
 
-            Object ob[] = new Object[9];
+            Object[] ob = new Object[9];
             ob[0] = a.getFecha();
             ob[1] = a.getHora();
             ob[2] = a.getDesc_act();
@@ -250,9 +256,52 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         tableActividad.setModel(model);
     }
+    // ========================================================================
 
 
 
+    // Método para eliminar una Actividad de Cuidado Diario
+    // ========================================================================
+    public ActividadCuidadoDiario eliminarActividad(){
+        return lista.get(tableActividad.getSelectedRow());
+    }
+    // ========================================================================
 
+
+
+    // Método para crear y agregar una Actividad de Cuidado Diario
+    // ========================================================================
+    public ActividadCuidadoDiario agregarDiarioPanel(){
+        ActividadCuidadoDiario ac = new ActividadCuidadoDiario();
+
+        ac.setDesc_act(txtFDescActividad.getText());
+        ac.setFecha((java.sql.Date) spinnerFecha.getValue());
+        ac.setHora((Time) spinnerHora.getValue());
+        ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
+        ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
+
+        return ac;
+    }
+    // ========================================================================
+
+
+
+    // Método para actualizar una Actividad de Cuidado Diario
+    // ========================================================================
+    public ActividadCuidadoDiario actualizarDiarioPanel(){
+        ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
+
+        if(!txtFDescActividad.getText().equals(""))
+            ac.setDesc_act(txtFDescActividad.getText());
+        if(!txtFIdAnimal.getText().equals(""))
+            ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
+        if(!txtFIdContrato.getText().equals(""))
+            ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
+        ac.setFecha((java.sql.Date) spinnerFecha.getValue());
+        ac.setHora((Time) spinnerHora.getValue());
+
+        return ac;
+    }
+    // ========================================================================
 
 }

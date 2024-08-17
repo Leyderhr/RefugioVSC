@@ -55,6 +55,9 @@ public class AnimalPanel extends JPanel {
         add(getScrollPane());
     }
 
+    public DAOAnimal getDao() {
+        return dao;
+    }
 
     private JLabel getLblNombreAnimal() {
         if (lblNombreAnimal == null) {
@@ -231,5 +234,45 @@ public class AnimalPanel extends JPanel {
         }
         tableAnimal.setModel(model);
     }
+
+
+    // Métodos para Agregar, Eliminar y Actualizar
+    // ========================================================================
+    public Animal agregarAnimal(){
+        Animal a = new Animal();
+        a.setNombre(txtFNombreAnimal.getText());
+        a.setEdad(Integer.parseInt(txtFEdad.getText()));
+        a.setRaza(txtFRaza.getText());
+        a.setEspecie(txtFEspecie.getText());
+        a.setPeso(Double.parseDouble(txtFPeso.getText()));
+        a.setCant_dias_refugio((Integer)spinnerDiasRefugio.getValue());
+
+        return a;
+    }
+
+
+    public int eliminarAnimal(){
+        return lista.get(tableAnimal.getSelectedRow()).getId_animal();
+    }
+
+
+    public Animal actualizarAnimal(){
+        Animal a = lista.get(tableAnimal.getSelectedRow());
+
+        if(!txtFEdad.getText().isEmpty())
+            a.setEdad(Integer.parseInt(txtFEdad.getText()));
+        if(!txtFEspecie.getText().isEmpty())
+            a.setEspecie(txtFEspecie.getText());
+        if(!txtFNombreAnimal.getText().isEmpty())
+            a.setNombre(txtFNombreAnimal.getText());
+        if(!txtFPeso.getText().isEmpty())
+            a.setPeso(Double.parseDouble(txtFPeso.getText()));
+        if(!txtFRaza.getText().isEmpty())
+            a.setRaza(txtFRaza.getText());
+
+        return a;
+    }
+    // ========================================================================
+
 
 }

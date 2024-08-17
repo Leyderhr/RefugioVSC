@@ -268,7 +268,25 @@ public class Window extends JFrame {
             btnAgregar = new JButton("Agregar");
             btnAgregar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-
+                    int vent = 0;
+                    for(int i = 0; i < cantPaneles; i++)
+                        if(ventanas.get(i)) {
+                            vent = i + 1;
+                            i = cantPaneles;
+                        }
+                    switch (vent) {
+                        case 1:
+                            animalPanel.getDao().insertarAnimal(animalPanel.agregarAnimal());
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                    }
                 }
             });
             btnAgregar.setBounds(20, 407, 107, 23);
@@ -282,7 +300,7 @@ public class Window extends JFrame {
             btnEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    animalPanel.eliminarAnimal();
 
                 }
             });
@@ -296,6 +314,7 @@ public class Window extends JFrame {
             btnActualizar = new JButton("Actualizar");
             btnActualizar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    getAnimalPanel().actualizarAnimal();
                 }
             });
             btnActualizar.setBounds(272, 407, 107, 23);
