@@ -1,6 +1,7 @@
 package Interface;
 
 
+import com.toedter.calendar.JDateChooser;
 import dao.DAOContrato;
 import logic.Contrato;
 import util.JTextFieldSoloLetras;
@@ -34,13 +35,14 @@ public class ContratoPanel extends JPanel {
     private JTextFieldSoloNumeros txtFIDProveedor;
 
     private JLabel lblFechConciliacion;
-    private JSpinner spinnerFechConciliacion;
+    private JDateChooser fechaConciliacion;
 
     private JLabel lblFechInicio;
-    private JSpinner spinnerFechInicio;
+    private JDateChooser fechaInicio;
 
     private JLabel lblFechFin;
-    private JSpinner spinnerFechFin;
+ //   private JSpinner spinnerFechFin;
+    private JDateChooser fechaFin;
 
     private JLabel lblRecargo;
     private JTextField txtFRecargo;
@@ -66,11 +68,12 @@ public class ContratoPanel extends JPanel {
         add(getLblDescripcion());
         add(getLblFechaConciliacion());
         add(getScrollPane());
-        add(getSpinnerFechConciliacion());
+        add(getFechaConciliacion());
         add(getLblFechaInicio());
-        add(getSpinnerFechInicio());
+        add(getFechaInicio());
         add(getLblFechaFin());
-        add(getSpinnerFechFin());
+        //add(getSpinnerFechFin());
+        add(getFechaFin());
         add(getLblIDServicio());
         add(getLblIDProveedor());
         add(getTxtFIDServicio());
@@ -140,22 +143,19 @@ public class ContratoPanel extends JPanel {
         return lblFechConciliacion;
     }
 
-    //JSpinner para asignar la fecha de la conciliación del contrato
-    //-----------------------------------------------------------------------------------------------------------------------------
-    private JSpinner getSpinnerFechConciliacion() {
-        if (spinnerFechConciliacion == null) {
 
-            Date hoy = new Date();
-            SpinnerDateModel modelo = new SpinnerDateModel(hoy, null, hoy, Calendar.DAY_OF_MONTH);
 
-            spinnerFechConciliacion = new JSpinner();
-            spinnerFechConciliacion.setBounds(163, 130, 100, 20);
-            spinnerFechConciliacion.setModel(modelo);
+    // JDateChooser para asignar la fecha de la conciliación del contrato
+    // ========================================================================
+    private JDateChooser getFechaConciliacion(){
+        if(fechaConciliacion == null){
+            fechaConciliacion = new JDateChooser();
+            fechaConciliacion.setBounds(163, 130, 100, 20);
+            fechaConciliacion.setMaxSelectableDate(Calendar.getInstance().getTime());
         }
-
-        return spinnerFechConciliacion;
+        return fechaConciliacion;
     }
-    //=========================================================================
+    // ========================================================================
 
 
 
@@ -172,23 +172,19 @@ public class ContratoPanel extends JPanel {
     }
 
 
-    //JSpinner para asignar la fecha de inicio del contrato
-    //-----------------------------------------------------------------------------------------------------------------------------
-    private JSpinner getSpinnerFechInicio() {
-        if (spinnerFechInicio == null) {
 
-            Date hoy = new Date();
-            SpinnerDateModel modelo = new SpinnerDateModel(hoy, null, null, Calendar.DAY_OF_MONTH);
 
-            spinnerFechInicio = new JSpinner();
-            spinnerFechInicio.setBounds(163, 162, 100, 20);
-            spinnerFechInicio.setModel(modelo);
+
+    // JDateChooser para asignar la fecha de la inicio del contrato
+    // ========================================================================
+    private JDateChooser getFechaInicio(){
+        if(fechaInicio == null){
+            fechaInicio = new JDateChooser();
+            fechaInicio.setBounds(163, 162, 100, 20);
         }
-
-        return spinnerFechInicio;
+        return fechaInicio;
     }
-    //=========================================================================
-
+    // ========================================================================
 
 
 
@@ -203,24 +199,16 @@ public class ContratoPanel extends JPanel {
         return lblFechFin;
     }
 
-    //JSpinner para asignar la fecha de inicio del contrato
-    //-----------------------------------------------------------------------------------------------------------------------------
-    private JSpinner getSpinnerFechFin() {
-        if (spinnerFechFin == null) {
-
-            Date hoy = new Date();
-            SpinnerDateModel modelo = new SpinnerDateModel(hoy, null, null, Calendar.DAY_OF_MONTH);
-
-            spinnerFechFin = new JSpinner();
-            spinnerFechFin.setBounds(163, 202, 100, 20);
-            spinnerFechFin.setModel(modelo);
+    // JDateChooser para asignar la fecha de finalización del contrato
+    // ========================================================================
+    private JDateChooser getFechaFin(){
+        if(fechaFin == null){
+            fechaFin = new JDateChooser();
+            fechaFin.setBounds(163, 202, 100, 20);
         }
-
-        return spinnerFechFin;
+        return fechaFin;
     }
-    //=========================================================================
-
-
+    // ========================================================================
 
 
 
@@ -371,9 +359,9 @@ public class ContratoPanel extends JPanel {
 
         c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
         c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
-        c.setFecha_ini((java.sql.Date) spinnerFechInicio.getValue());
-        c.setFecha_term((java.sql.Date) spinnerFechFin.getValue());
-        c.setFecha_conc((java.sql.Date) spinnerFechConciliacion.getValue());
+        c.setFecha_ini((java.sql.Date) fechaInicio.getDate());
+        c.setFecha_term((java.sql.Date) fechaFin.getDate());
+        c.setFecha_conc((java.sql.Date) fechaConciliacion.getDate());
         c.setDesc_cont(txtFDescripcion.getText());
         c.setNom_resp(txtFResponsable.getText());
         c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
@@ -399,9 +387,9 @@ public class ContratoPanel extends JPanel {
             c.setNom_resp(txtFResponsable.getText());
         if(!txtFRecargo.getText().equals(""))
             c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
-        c.setFecha_ini((java.sql.Date) spinnerFechInicio.getValue());
-        c.setFecha_term((java.sql.Date) spinnerFechFin.getValue());
-        c.setFecha_conc((java.sql.Date) spinnerFechConciliacion.getValue());
+        c.setFecha_ini((java.sql.Date) fechaInicio.getDate());
+        c.setFecha_term((java.sql.Date) fechaFin.getDate());
+        c.setFecha_conc((java.sql.Date) fechaConciliacion.getDate());
 
         return c;
     }

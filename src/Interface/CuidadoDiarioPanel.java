@@ -1,5 +1,6 @@
 package Interface;
 
+import com.toedter.calendar.JDateChooser;
 import dao.DAOActividadCuidadoDiario;
 import logic.ActividadCuidadoDiario;
 import util.JTextFieldSoloNumeros;
@@ -21,7 +22,7 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
     public static final int VALUE = 5;
     private JLabel lblFecha;
-    private JSpinner spinnerFecha;
+    private JDateChooser fecha;
 
     private JLabel lblHora;
     private JSpinner spinnerHora;
@@ -52,7 +53,9 @@ public class CuidadoDiarioPanel extends JPanel {
         setLayout(null);
         setVisible(false);
         add(getLblFecha());
-        add(getSpinnerFecha());
+        add(getFecha());
+        //add(getSpinnerFecha());
+
         add(getSpinnerHora());
         add(getLblHora());
         add(getScrollPane());
@@ -77,18 +80,16 @@ public class CuidadoDiarioPanel extends JPanel {
         return lblFecha;
     }
 
-    private JSpinner getSpinnerFecha() {
-        if (spinnerFecha == null) {
 
-            Date hoy = new Date();
-            SpinnerDateModel modelo = new SpinnerDateModel(hoy, hoy, null, Calendar.DAY_OF_MONTH);
-
-            spinnerFecha = new JSpinner();
-            spinnerFecha.setBounds(102, 36, 131, 20);
-            spinnerFecha.setModel(modelo);
+    // JDateChooser para asignar la fecha de finalización del contrato
+    // ========================================================================
+    private JDateChooser getFecha(){
+        if(fecha == null){
+            fecha = new JDateChooser();
+            fecha.setBounds(102, 36, 131, 20);
+            fecha.setMinSelectableDate(Calendar.getInstance().getTime());
         }
-
-        return spinnerFecha;
+        return fecha;
     }
     // ========================================================================
 
@@ -275,7 +276,7 @@ public class CuidadoDiarioPanel extends JPanel {
         ActividadCuidadoDiario ac = new ActividadCuidadoDiario();
 
         ac.setDesc_act(txtFDescActividad.getText());
-        ac.setFecha((java.sql.Date) spinnerFecha.getValue());
+        ac.setFecha((java.sql.Date) fecha.getDate());
         ac.setHora((Time) spinnerHora.getValue());
         ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
         ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
@@ -297,7 +298,7 @@ public class CuidadoDiarioPanel extends JPanel {
             ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
         if(!txtFIdContrato.getText().equals(""))
             ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
-        ac.setFecha((java.sql.Date) spinnerFecha.getValue());
+        ac.setFecha((java.sql.Date) fecha.getDate());
         ac.setHora((Time) spinnerHora.getValue());
 
         return ac;
