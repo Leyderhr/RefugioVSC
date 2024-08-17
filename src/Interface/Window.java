@@ -1,5 +1,8 @@
 package Interface;
 
+import net.sf.jasperreports.engine.JRException;
+import reportes.ContratosVeterinarios;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -13,7 +16,7 @@ import java.util.Objects;
 public class Window extends JFrame {
 
     private final int cantPaneles = 5;
-    private JPanel contentPane;
+    private final JPanel contentPane;
     private JButton btnAgregar;
     private JButton btnEliminar;
     private JButton btnActualizar;
@@ -189,6 +192,8 @@ public class Window extends JFrame {
         return cuidadoDiarioPanel;
     }
     //=========================================================================
+
+
 
     //Método para controlar la visibilidad de los paneles en la ventana
     //=========================================================================
@@ -411,7 +416,13 @@ public class Window extends JFrame {
             mntmContratoProvDeAlimento = new JMenuItem("Mostrar Contratos de Proveedores de Alimentos");
             mntmContratoProvDeAlimento.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                   /**todo*/
+                    try {
+                        ContratosVeterinarios contVeterinarios = new ContratosVeterinarios();
+                        contVeterinarios.mostrarVentanaReporte();
+                    } catch (JRException e) {
+                        throw new RuntimeException(e);
+                    }
+                    /**todo*/
                     // Aquí hay que llamar al método de Abdiel para mostrar los contratos de los Proveedores
                 }
             });
