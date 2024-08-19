@@ -37,8 +37,7 @@ public class ProveedorPanel extends JPanel {
     // ========================================================================
 
 
-
-    public ProveedorPanel(){
+    public ProveedorPanel() {
         setBounds(20, 11, 914, 385);
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Proveedores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
@@ -55,7 +54,6 @@ public class ProveedorPanel extends JPanel {
         add(getLblEmail());
         add(getScrollPane());
     }
-
 
 
     private JLabel getLblNombre() {
@@ -88,7 +86,6 @@ public class ProveedorPanel extends JPanel {
     }
 
 
-
     private JLabel getLblDireccion() {
         if (lblDireccion == null) {
             lblDireccion = new JLabel("Dirección");
@@ -97,7 +94,6 @@ public class ProveedorPanel extends JPanel {
         }
         return lblDireccion;
     }
-
 
 
     private JTextField getTxtFTelefono() {
@@ -110,7 +106,6 @@ public class ProveedorPanel extends JPanel {
     }
 
 
-
     private JLabel getLblTelefono() {
         if (lblTelefono == null) {
             lblTelefono = new JLabel("Teléfono");
@@ -119,7 +114,6 @@ public class ProveedorPanel extends JPanel {
         }
         return lblTelefono;
     }
-
 
 
     private JTextField getTxtFProvincia() {
@@ -132,7 +126,6 @@ public class ProveedorPanel extends JPanel {
     }
 
 
-
     private JLabel getLblProvincia() {
         if (lblProvincia == null) {
             lblProvincia = new JLabel("Provincia");
@@ -143,7 +136,6 @@ public class ProveedorPanel extends JPanel {
     }
 
 
-
     private JTextField getTxtFEmail() {
         if (txtFEmail == null) {
             txtFEmail = new JTextField();
@@ -152,6 +144,7 @@ public class ProveedorPanel extends JPanel {
         }
         return txtFEmail;
     }
+
     private JLabel getLblEmail() {
         if (lblEmail == null) {
             lblEmail = new JLabel("email");
@@ -183,18 +176,18 @@ public class ProveedorPanel extends JPanel {
     // ========================================================================
     private JTable getTableProveedor() {
         if (tableProveedor == null) {
-            tableProveedor = new JTable(){
-                public boolean isCellEditable(int rowIndex, int colIndex){
+            tableProveedor = new JTable() {
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
             tableProveedor.getTableHeader().setReorderingAllowed(false);
             tableProveedor.setModel(new DefaultTableModel(
-                    new Object[][] {
+                    new Object[][]{
                             {null, null, null, null, null},
                             {null, null, null, null, null},
                     },
-                    new String[] {
+                    new String[]{
                             "Id", "Nombre", "Dirección", "Teléfono", "Provincia", "Email"
                     }
             ));
@@ -203,12 +196,12 @@ public class ProveedorPanel extends JPanel {
     }
 
 
-    public void actualizarTabla(){
-        while(model.getRowCount()>0)
+    public void actualizarTabla() {
+        while (model.getRowCount() > 0)
             model.removeRow(0);
 
         lista = dao.consultarProveedores();
-        for(Proveedor a:lista){
+        for (Proveedor a : lista) {
 
             Object[] ob = new Object[6];
             ob[0] = a.getId_proveedor();
@@ -224,51 +217,61 @@ public class ProveedorPanel extends JPanel {
     // ========================================================================
 
 
-
     // Método para eliminar a un proveedor
     // ========================================================================
-    public int eliminarProveedor(){
-        return lista.get(tableProveedor.getSelectedRow()).getId_proveedor();
+    public void eliminarProveedor() {
+
+        dao.eliminarProveedor(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
+        actualizarTabla();
     }
     // ========================================================================
 
 
-
     // Método para crear y agregar un Proveedor
     // ========================================================================
-    public Proveedor agregarProveedor(){
+    public Proveedor agregarProveedor() {
         Proveedor p = new Proveedor();
 
         p.setNombre(txtFNombre.getText());
         p.setDireccion(txtFDireccion.getText());
         p.setTelefono(txtFTelefono.getText());
-        p.setProvincia(txtFProvincia.getText());
+        p.setProvincia(Integer.parseInt(txtFProvincia.getText()));
         p.setEmail(txtFEmail.getText());
+
+        dao.insertarProveedor(p);
+        actualizarTabla();
 
         return p;
     }
     // ========================================================================
-
 
 
     // Método para actualizar un Proveedor
     // ========================================================================
-    public Proveedor actualizarProveedor(){
+    public void actualizarProveedor() {
         Proveedor p = lista.get(tableProveedor.getSelectedRow());
 
-        if(!txtFNombre.getText().equals(""))
+        if (!txtFNombre.getText().equals(""))
             p.setNombre(txtFNombre.getText());
-        if(!txtFDireccion.getText().equals(""))
+        if (!txtFDireccion.getText().equals(""))
             p.setDireccion(txtFDireccion.getText());
-        if(!txtFTelefono.getText().equals(""))
+        if (!txtFTelefono.getText().equals(""))
             p.setTelefono(txtFTelefono.getText());
-        if(!txtFProvincia.getText().equals(""))
-            p.setProvincia(txtFProvincia.getText());
-        if(!txtFEmail.getText().equals(""))
+        if (!txtFProvincia.getText().equals(""))
+            p.setProvincia(Integer.parseInt(txtFProvincia.getText()));
+        if (!txtFEmail.getText().equals(""))
             p.setEmail(txtFEmail.getText());
 
-        return p;
+        dao.actualizarProveedor(p);
+        actualizarTabla();
     }
     // ========================================================================
 
+    public void limpiar(){
+        txtFDireccion.setText(" ");
+        txtFEmail.setText(" ");
+        txtFNombre.setText(" ");
+        txtFProvincia.setText(" ");
+        txtFTelefono.setText(" ");
+    }
 }

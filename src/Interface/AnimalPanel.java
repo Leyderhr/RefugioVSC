@@ -1,7 +1,9 @@
 package Interface;
 
 import dao.DAOAnimal;
+import dao.DAOAnimalAdoptado;
 import logic.Animal;
+import logic.AnimalAdoptado;
 import util.JTextFieldSoloLetras;
 import util.JTextFieldSoloNumeros;
 
@@ -31,6 +33,7 @@ public class AnimalPanel extends JPanel {
     private JTable tableAnimal;
     private DefaultTableModel model = new DefaultTableModel();
     private DAOAnimal dao = new DAOAnimal();
+    private DAOAnimalAdoptado daoAdoptado = new DAOAnimalAdoptado();
     ArrayList<Animal> lista;
 
 
@@ -55,9 +58,6 @@ public class AnimalPanel extends JPanel {
         add(getScrollPane());
     }
 
-    public DAOAnimal getDao() {
-        return dao;
-    }
 
     private JLabel getLblNombreAnimal() {
         if (lblNombreAnimal == null) {
@@ -247,16 +247,21 @@ public class AnimalPanel extends JPanel {
         a.setPeso(Double.parseDouble(txtFPeso.getText()));
         a.setCant_dias_refugio((Integer)spinnerDiasRefugio.getValue());
 
+        dao.insertarAnimal(a);
+        actualizarTabla();
+
         return a;
     }
 
 
-    public int eliminarAnimal(){
-        return lista.get(tableAnimal.getSelectedRow()).getId_animal();
+    public void eliminarAnimal(){
+        dao.eliminarAnimal(lista.get(tableAnimal.getSelectedRow()).getId_animal());
+        actualizarTabla();
+
     }
 
 
-    public Animal actualizarAnimal(){
+    public void actualizarAnimal(){
         Animal a = lista.get(tableAnimal.getSelectedRow());
 
         if(!txtFEdad.getText().isEmpty())
@@ -270,9 +275,19 @@ public class AnimalPanel extends JPanel {
         if(!txtFRaza.getText().isEmpty())
             a.setRaza(txtFRaza.getText());
 
-        return a;
+        dao.actualizarAnimal(a);
+        actualizarTabla();
     }
     // ========================================================================
 
+    public void limpiar(){
+
+        txtFRaza.setText(" ");
+        txtFPeso.setText(" ");
+        txtFNombreAnimal.setText(" ");
+        txtFEspecie.setText(" ");
+        txtFEdad.setText(" ");
+
+    }
 
 }

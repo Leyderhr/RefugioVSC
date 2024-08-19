@@ -11,9 +11,9 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 @SuppressWarnings("Unchecked")
 public class ContratoPanel extends JPanel {
@@ -41,7 +41,7 @@ public class ContratoPanel extends JPanel {
     private JDateChooser fechaInicio;
 
     private JLabel lblFechFin;
- //   private JSpinner spinnerFechFin;
+    //   private JSpinner spinnerFechFin;
     private JDateChooser fechaFin;
 
     private JLabel lblRecargo;
@@ -50,11 +50,10 @@ public class ContratoPanel extends JPanel {
     private JScrollPane scrollPane;
     private JTable tableContrato;
     private DefaultTableModel model = new DefaultTableModel();
+
     private final DAOContrato dao = new DAOContrato();
     ArrayList<Contrato> lista;
     // ========================================================================
-
-
 
 
     public ContratoPanel() {
@@ -106,8 +105,6 @@ public class ContratoPanel extends JPanel {
     //=========================================================================
 
 
-
-
     //Cosas de la Descripción
     //=========================================================================
     private JTextFieldSoloLetras getTxtFDescripcion() {
@@ -130,8 +127,6 @@ public class ContratoPanel extends JPanel {
     //=========================================================================
 
 
-
-
     //Cosas de la Fecha de Conciliación
     //=========================================================================
     private JLabel getLblFechaConciliacion() {
@@ -144,11 +139,10 @@ public class ContratoPanel extends JPanel {
     }
 
 
-
     // JDateChooser para asignar la fecha de la conciliación del contrato
     // ========================================================================
-    private JDateChooser getFechaConciliacion(){
-        if(fechaConciliacion == null){
+    private JDateChooser getFechaConciliacion() {
+        if (fechaConciliacion == null) {
             fechaConciliacion = new JDateChooser();
             fechaConciliacion.setBounds(163, 130, 100, 20);
             fechaConciliacion.setMaxSelectableDate(Calendar.getInstance().getTime());
@@ -156,8 +150,6 @@ public class ContratoPanel extends JPanel {
         return fechaConciliacion;
     }
     // ========================================================================
-
-
 
 
     //Cosas de la Fecha de Inicio
@@ -172,20 +164,16 @@ public class ContratoPanel extends JPanel {
     }
 
 
-
-
-
     // JDateChooser para asignar la fecha de la inicio del contrato
     // ========================================================================
-    private JDateChooser getFechaInicio(){
-        if(fechaInicio == null){
+    private JDateChooser getFechaInicio() {
+        if (fechaInicio == null) {
             fechaInicio = new JDateChooser();
             fechaInicio.setBounds(163, 162, 100, 20);
         }
         return fechaInicio;
     }
     // ========================================================================
-
 
 
     //Cosas de la Fecha de Terminación
@@ -201,15 +189,14 @@ public class ContratoPanel extends JPanel {
 
     // JDateChooser para asignar la fecha de finalización del contrato
     // ========================================================================
-    private JDateChooser getFechaFin(){
-        if(fechaFin == null){
+    private JDateChooser getFechaFin() {
+        if (fechaFin == null) {
             fechaFin = new JDateChooser();
             fechaFin.setBounds(163, 202, 100, 20);
         }
         return fechaFin;
     }
     // ========================================================================
-
 
 
     //Cosas para el ID de Servicio
@@ -224,7 +211,6 @@ public class ContratoPanel extends JPanel {
     }
 
 
-
     private JTextField getTxtFIDServicio() {
         if (txtFIDServicio == null) {
             txtFIDServicio = new JTextFieldSoloNumeros();
@@ -234,8 +220,6 @@ public class ContratoPanel extends JPanel {
         return txtFIDServicio;
     }
     //=========================================================================
-
-
 
 
     //Cosas para seleccionar el id del Proveedor
@@ -272,7 +256,6 @@ public class ContratoPanel extends JPanel {
     }
 
 
-
     private JTextField getTxtFRecargo() {
         if (txtFRecargo == null) {
             txtFRecargo = new JTextFieldSoloNumeros();
@@ -282,9 +265,6 @@ public class ContratoPanel extends JPanel {
         return txtFRecargo;
     }
     //=========================================================================
-
-
-
 
 
     //Panel de Scroll de la Tabla
@@ -310,14 +290,12 @@ public class ContratoPanel extends JPanel {
     // ========================================================================
 
 
-
-
     // Tabla con los contratos
     // ========================================================================
     private JTable getTableContrato() {
         if (tableContrato == null) {
-            tableContrato = new JTable(){
-                public boolean isCellEditable(int rowIndex, int colIndex){
+            tableContrato = new JTable() {
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
@@ -327,12 +305,12 @@ public class ContratoPanel extends JPanel {
     }
 
 
-    public void actualizarTabla(){
-        while(model.getRowCount()>0)
+    public void actualizarTabla() {
+        while (model.getRowCount() > 0)
             model.removeRow(0);
 
         lista = dao.consultarContratos();
-        for(Contrato a:lista){
+        for (Contrato a : lista) {
 
             Object[] ob = new Object[9];
             ob[0] = a.getId_contrato();
@@ -351,48 +329,72 @@ public class ContratoPanel extends JPanel {
     // ========================================================================
 
 
-
     // Método para crear y agregar un contrato
     // ========================================================================
-    public Contrato agregarContrato(){
+    public Contrato agregarContrato() {
         Contrato c = new Contrato();
 
         c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
         c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
-        c.setFecha_ini((java.sql.Date) fechaInicio.getDate());
-        c.setFecha_term((java.sql.Date) fechaFin.getDate());
-        c.setFecha_conc((java.sql.Date) fechaConciliacion.getDate());
+        c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
+        c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
+        c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
         c.setDesc_cont(txtFDescripcion.getText());
         c.setNom_resp(txtFResponsable.getText());
         c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
 
+        dao.insertarContrato(c);
+        actualizarTabla();
+
+
         return c;
     }
     // ========================================================================
-
 
 
     // Método para actualizar un contrato
     // ========================================================================
-    public Contrato actualizarContrato(){
+    public void actualizarContrato() {
         Contrato c = lista.get(tableContrato.getSelectedRow());
 
-        if(!txtFIDProveedor.getText().equals(""))
+        if (!txtFIDProveedor.getText().equals(""))
             c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
-        if(!txtFIDServicio.getText().equals(""))
+        if (!txtFIDServicio.getText().equals(""))
             c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
-        if(!txtFDescripcion.getText().equals(""))
+        if (!txtFDescripcion.getText().equals(""))
             c.setDesc_cont(txtFDescripcion.getText());
-        if(!txtFResponsable.getText().equals(""))
+        if (!txtFResponsable.getText().equals(""))
             c.setNom_resp(txtFResponsable.getText());
-        if(!txtFRecargo.getText().equals(""))
+        if (!txtFRecargo.getText().equals(""))
             c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
-        c.setFecha_ini((java.sql.Date) fechaInicio.getDate());
-        c.setFecha_term((java.sql.Date) fechaFin.getDate());
-        c.setFecha_conc((java.sql.Date) fechaConciliacion.getDate());
 
-        return c;
+        if (fechaInicio.getDate() != null)
+            c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
+        if (fechaFin.getDate() != null)
+            c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
+        if (fechaConciliacion.getDate() != null)
+            c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
+
+        dao.actualizarContrato(c);
+        actualizarTabla();
     }
     // ========================================================================
+
+
+    //Metodo para eliminar un contrato
+    //=========================================================================
+    public void eliminarContrato() {
+
+        dao.eliminarContrato(lista.get(tableContrato.getSelectedRow()).getId_contrato());
+        actualizarTabla();
+    }
+
+    public void limpiar(){
+        txtFRecargo.setText(" ");
+        txtFResponsable.setText(" ");
+        txtFIDProveedor.setText(" ");
+        txtFIDServicio.setText(" ");
+        txtFDescripcion.setText(" ");
+    }
 
 }

@@ -28,7 +28,7 @@ public class DAOAnimal {
             ps.setString(2, a.getEspecie());
             ps.setString(3, a.getRaza());
             ps.setInt(4, a.getEdad());
-            ps.setDouble(5,  a.getPeso());
+            ps.setInt(5,  (int)a.getPeso());
             ps.setInt(6, a.getCant_dias_refugio());
             ps.execute();
             cx.desconectar();
@@ -72,7 +72,7 @@ public class DAOAnimal {
         try {
             ps = cx.conectar().prepareStatement("SELECT animal_delete(?)");
             ps.setInt(1, id);
-            ps.executeUpdate();
+            ps.execute();
             cx.desconectar();
             return true;
         } catch (SQLException e) {

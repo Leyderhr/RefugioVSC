@@ -29,8 +29,8 @@ public class DAOContrato {
             ps.setString(4, c.getDesc_cont());
             ps.setString(5, c.getNom_resp());
             ps.setInt(6, c.getId_proveedor());
-            ps.setInt(7, c.getId_servicio());
             ps.setDouble(8, c.getRecargo());
+            ps.setInt(7, c.getId_servicio());
             ps.execute();
             cx.desconectar();
             return true;
@@ -98,8 +98,8 @@ public class DAOContrato {
             ps.setString(5, c.getDesc_cont());
             ps.setString(6, c.getNom_resp() );
             ps.setInt(7, c.getId_proveedor());
-            ps.setInt(8, c.getId_servicio());
-            ps.setDouble(9, c.getRecargo());
+            ps.setDouble(8, c.getRecargo());
+            ps.setInt(9, c.getId_servicio());
             ps.execute();
             cx.desconectar();
             return true;

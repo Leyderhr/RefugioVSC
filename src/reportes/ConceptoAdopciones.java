@@ -8,13 +8,14 @@ import net.sf.jasperreports.view.JasperViewer;
 import javax.swing.*;
 import java.util.Objects;
 
-public class ContratosVeterinarios {
+public class ConceptoAdopciones {
+
     JasperPrint jprint;
 
-    public ContratosVeterinarios() throws JRException {
+    public ConceptoAdopciones() throws JRException {
 
         Conexion conexion = new Conexion();
-        JasperReport jr= (JasperReport) JRLoader.loadObject(Objects.requireNonNull(getClass().getResource("/utilesReportes/Contratos Veteriarios/ContratosVeterinarios.jasper")));
+        JasperReport jr= (JasperReport) JRLoader.loadObject(Objects.requireNonNull(getClass().getResource("/utilesReportes/Concepto de adpociones/PlanIngresoAdopcion.jasper")));
         jprint = JasperFillManager.fillReport(jr, null, conexion.conectar());
     }
 

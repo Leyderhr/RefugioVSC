@@ -276,15 +276,19 @@ public class Window extends JFrame {
                         }
                     switch (vent) {
                         case 1:
-                            animalPanel.getDao().insertarAnimal(animalPanel.agregarAnimal());
+                            animalPanel.agregarAnimal();
                             break;
                         case 2:
+                            proveedorPanel.agregarProveedor();
                             break;
                         case 3:
+                            contratoPanel.agregarContrato();
                             break;
                         case 4:
+                            servicioPanel.agregarServicio();
                             break;
                         case 5:
+                            cuidadoDiarioPanel.agregarDiarioPanel();
                             break;
                     }
                 }
@@ -300,7 +304,29 @@ public class Window extends JFrame {
             btnEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    animalPanel.eliminarAnimal();
+                    int vent = 0;
+                    for(int i = 0; i < cantPaneles; i++)
+                        if(ventanas.get(i)) {
+                            vent = i + 1;
+                            i = cantPaneles;
+                        }
+                    switch (vent) {
+                        case 1:
+                            animalPanel.eliminarAnimal();
+                            break;
+                        case 2:
+                            proveedorPanel.eliminarProveedor();
+                            break;
+                        case 3:
+                            contratoPanel.eliminarContrato();
+                            break;
+                        case 4:
+                            servicioPanel.eliminarServicio();
+                            break;
+                        case 5:
+                            cuidadoDiarioPanel.eliminarActividad();
+                            break;
+                    }
 
                 }
             });
@@ -314,7 +340,29 @@ public class Window extends JFrame {
             btnActualizar = new JButton("Actualizar");
             btnActualizar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    getAnimalPanel().actualizarAnimal();
+                    int vent = 0;
+                    for(int i = 0; i < cantPaneles; i++)
+                        if(ventanas.get(i)) {
+                            vent = i + 1;
+                            i = cantPaneles;
+                        }
+                    switch (vent) {
+                        case 1:
+                            animalPanel.actualizarAnimal();
+                            break;
+                        case 2:
+                            proveedorPanel.actualizarProveedor();
+                            break;
+                        case 3:
+                            contratoPanel.actualizarContrato();
+                            break;
+                        case 4:
+                            servicioPanel.actualizarServicio();
+                            break;
+                        case 5:
+                            cuidadoDiarioPanel.actualizarDiarioPanel();
+                            break;
+                    }
                 }
             });
             btnActualizar.setBounds(272, 407, 107, 23);
@@ -325,6 +373,34 @@ public class Window extends JFrame {
     private JButton getBtnLimpiar() {
         if (btnLimpiar == null) {
             btnLimpiar = new JButton("Limpiar");
+            btnLimpiar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int vent = 0;
+                    for(int i = 0; i < cantPaneles; i++)
+                        if(ventanas.get(i)) {
+                            vent = i + 1;
+                            i = cantPaneles;
+                        }
+                    switch (vent) {
+                        case 1:
+                            animalPanel.limpiar();
+                            break;
+                        case 2:
+                            proveedorPanel.limpiar();
+                            break;
+                        case 3:
+                            contratoPanel.limpiar();
+                            break;
+                        case 4:
+                            servicioPanel.limpiar();
+                            break;
+                        case 5:
+                            cuidadoDiarioPanel.limpiar();
+                            break;
+                    }
+                }
+            });
             btnLimpiar.setBounds(398, 407, 107, 23);
         }
         return btnLimpiar;

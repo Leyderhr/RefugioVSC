@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ActividadesCuidadoAnimal" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b425bfa2-e11f-4aa5-9011-172928e12319">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ActividadesCuidadoAnimal" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b425bfa2-e11f-4aa5-9011-172928e12319">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Refugio"/>
+	<parameter name="ID_ANIMAL" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
 		<![CDATA[select animal.id_animal, animal.nombre as nombre_animal, animal.especie, animal.raza, animal.edad, animal.peso, animal.cant_dias_refugio, actividadcuidadodiario.fecha, actividadcuidadodiario.hora ,actividadcuidadodiario.desc_act, servicio.precio, proveedor.nombre as nombre_proveedor, servicio.tipo_servicio, servicio.modalidad
 from animal inner join actividadcuidadodiario on animal.id_animal = actividadcuidadodiario.id_animal inner join contrato on actividadcuidadodiario.id_contrato = contrato.id_contrato inner join servicio on contrato.id_servicio = servicio.id_servicio inner join proveedor on contrato.id_proveedor = proveedor.id_proveedor 
-order by animal.id_animal]]>
+where animal.id_animal =  $P{ID_ANIMAL} ]]>
 	</queryString>
 	<field name="id_animal" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id_animal"/>
@@ -87,7 +90,7 @@ order by animal.id_animal]]>
 	<group name="grpIdAnimal" keepTogether="true">
 		<groupExpression><![CDATA[$F{id_animal}]]></groupExpression>
 		<groupHeader>
-			<band height="130">
+			<band height="120">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<staticText>
 					<reportElement mode="Opaque" x="0" y="1" width="100" height="39" forecolor="#FFFFFF" backcolor="#2CAB35" uuid="c5615f01-1322-4943-88fd-b4ab3cf365c9">
@@ -120,7 +123,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Nombre]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="160" y="1" width="70" height="39" backcolor="#2D9159" uuid="bc2a3450-2515-47f4-ba84-80b09d5ad1cd"/>
+					<reportElement mode="Opaque" x="240" y="1" width="70" height="39" backcolor="#2D9159" uuid="bc2a3450-2515-47f4-ba84-80b09d5ad1cd"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -133,7 +136,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Raza]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="230" y="1" width="80" height="39" backcolor="#2D9159" uuid="c981f746-8e21-49be-9c15-ce82cf25a446"/>
+					<reportElement mode="Opaque" x="160" y="1" width="80" height="39" backcolor="#2D9159" uuid="c981f746-8e21-49be-9c15-ce82cf25a446"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -185,7 +188,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Cantidad de días en refugio]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="90" width="98" height="40" forecolor="#FFFFFF" backcolor="#2CAB35" uuid="8e29a61b-8f95-402b-b817-30ea96946f6e">
+					<reportElement mode="Opaque" x="0" y="80" width="98" height="40" forecolor="#FFFFFF" backcolor="#2CAB35" uuid="8e29a61b-8f95-402b-b817-30ea96946f6e">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -202,7 +205,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Actividades cuidado animal]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="98" y="90" width="74" height="40" backcolor="#3AC270" uuid="c37beb88-481e-4d62-9a84-f45e350ef60d">
+					<reportElement mode="Opaque" x="98" y="80" width="74" height="40" backcolor="#3AC270" uuid="c37beb88-481e-4d62-9a84-f45e350ef60d">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box>
@@ -217,7 +220,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Fecha]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="172" y="90" width="56" height="40" backcolor="#3AC270" uuid="4cd56953-3302-4730-a16b-32815a0b443e"/>
+					<reportElement mode="Opaque" x="172" y="80" width="56" height="40" backcolor="#3AC270" uuid="4cd56953-3302-4730-a16b-32815a0b443e"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -230,7 +233,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Hora]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="228" y="90" width="70" height="40" backcolor="#3AC270" uuid="ce24f735-ca77-4df5-bfd8-4e495a668dec"/>
+					<reportElement mode="Opaque" x="228" y="80" width="70" height="40" backcolor="#3AC270" uuid="ce24f735-ca77-4df5-bfd8-4e495a668dec"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -243,7 +246,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Descricpión actividad]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="298" y="90" width="40" height="40" backcolor="#3AC270" uuid="9fd0ebe4-6bde-4a84-ba8e-4552db5b29b5"/>
+					<reportElement mode="Opaque" x="298" y="80" width="40" height="40" backcolor="#3AC270" uuid="9fd0ebe4-6bde-4a84-ba8e-4552db5b29b5"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -256,7 +259,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Precio]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="338" y="90" width="60" height="40" backcolor="#3AC270" uuid="9d93c66a-f241-40f5-b494-c290f3de20ae"/>
+					<reportElement mode="Opaque" x="338" y="80" width="72" height="40" backcolor="#3AC270" uuid="9d93c66a-f241-40f5-b494-c290f3de20ae"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -269,7 +272,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Nombre proveedor]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="398" y="90" width="55" height="40" backcolor="#3AC270" uuid="e08a67ab-6e34-4207-8bd5-4d4bbfbea428"/>
+					<reportElement mode="Opaque" x="410" y="80" width="62" height="40" backcolor="#3AC270" uuid="e08a67ab-6e34-4207-8bd5-4d4bbfbea428"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -282,7 +285,7 @@ order by animal.id_animal]]>
 					<text><![CDATA[Tipo servicio]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="453" y="90" width="50" height="40" backcolor="#3AC270" uuid="9307d2d1-62c5-4573-a796-0a95f7592a6c"/>
+					<reportElement mode="Opaque" x="472" y="80" width="57" height="40" backcolor="#3AC270" uuid="9307d2d1-62c5-4573-a796-0a95f7592a6c"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -311,7 +314,7 @@ order by animal.id_animal]]>
 					<textFieldExpression><![CDATA[$F{nombre_animal}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement mode="Opaque" x="230" y="40" width="80" height="30" backcolor="#9AD9AC" uuid="040fd989-88fd-4bdb-ae2b-f38a28fc363a">
+					<reportElement mode="Opaque" x="160" y="40" width="80" height="30" backcolor="#9AD9AC" uuid="040fd989-88fd-4bdb-ae2b-f38a28fc363a">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box>
@@ -327,7 +330,7 @@ order by animal.id_animal]]>
 					<textFieldExpression><![CDATA[$F{especie}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement mode="Opaque" x="160" y="40" width="70" height="30" backcolor="#9AD9AC" uuid="356ee539-cde0-4f15-bcfc-09f03f5b6f63">
+					<reportElement mode="Opaque" x="240" y="40" width="70" height="30" backcolor="#9AD9AC" uuid="356ee539-cde0-4f15-bcfc-09f03f5b6f63">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box>
@@ -395,7 +398,7 @@ order by animal.id_animal]]>
 		<groupFooter>
 			<band height="74">
 				<textField>
-					<reportElement mode="Opaque" x="429" y="10" width="74" height="20" backcolor="#9AD9AC" uuid="642a427c-58ae-4400-88b7-f209ac8456b6">
+					<reportElement mode="Opaque" x="455" y="10" width="74" height="20" backcolor="#C0EDCB" uuid="642a427c-58ae-4400-88b7-f209ac8456b6">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box>
@@ -411,7 +414,7 @@ order by animal.id_animal]]>
 					<textFieldExpression><![CDATA[$V{PRECIO_TOTAL}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement mode="Opaque" x="350" y="10" width="80" height="20" backcolor="#2D9159" uuid="e6a1b82b-a891-4f18-9112-240cdfceef75"/>
+					<reportElement mode="Opaque" x="376" y="10" width="80" height="20" backcolor="#3AC270" uuid="e6a1b82b-a891-4f18-9112-240cdfceef75"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -565,7 +568,7 @@ voluntariado.]]></text>
 				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="338" y="0" width="60" height="30" backcolor="#C0EDCB" uuid="7c4d4d41-7763-4e91-9b1c-3bceb6dcccc8">
+				<reportElement mode="Opaque" x="338" y="0" width="72" height="30" backcolor="#C0EDCB" uuid="7c4d4d41-7763-4e91-9b1c-3bceb6dcccc8">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<box>
@@ -581,7 +584,7 @@ voluntariado.]]></text>
 				<textFieldExpression><![CDATA[$F{nombre_proveedor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="398" y="0" width="55" height="30" backcolor="#C0EDCB" uuid="6df5357e-25dd-4ddb-9aff-61bde2c6afe6">
+				<reportElement mode="Opaque" x="410" y="0" width="62" height="30" backcolor="#C0EDCB" uuid="6df5357e-25dd-4ddb-9aff-61bde2c6afe6">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<box>
@@ -597,7 +600,7 @@ voluntariado.]]></text>
 				<textFieldExpression><![CDATA[$F{tipo_servicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="453" y="0" width="50" height="30" backcolor="#C0EDCB" uuid="dbeba5bf-7e67-46d4-9b0c-bcd36348c660">
+				<reportElement mode="Opaque" x="472" y="0" width="57" height="30" backcolor="#C0EDCB" uuid="dbeba5bf-7e67-46d4-9b0c-bcd36348c660">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
 				<box>
@@ -625,7 +628,7 @@ voluntariado.]]></text>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Bahnschrift"/>
 					<paragraph leftIndent="5"/>
 				</textElement>

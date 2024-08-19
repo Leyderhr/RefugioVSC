@@ -2,13 +2,13 @@ package logic;
 
 public class Proveedor {
 
-    private int id_proveedor;
-    private String nombre, direccion, telefono, email, provincia;
+    private int id_proveedor, provincia;
+    private String nombre, direccion, telefono, email;
 
     public Proveedor() {
     }
 
-    public Proveedor(int id_proveedor, String nombre, String direccion, String telefono, String email, String provincia) {
+    public Proveedor(int id_proveedor, String nombre, String direccion, String telefono, String email, int provincia) {
         setId_proveedor(id_proveedor);
         setNombre(nombre);
         setDireccion(direccion);
@@ -57,11 +57,11 @@ public class Proveedor {
         this.email = email;
     }
 
-    public String getProvincia() {
+    public int getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(String provincia) {
+    public void setProvincia(int provincia) {
         this.provincia = provincia;
     }
 }

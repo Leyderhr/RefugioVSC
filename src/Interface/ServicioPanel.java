@@ -196,8 +196,10 @@ public class ServicioPanel extends JPanel {
 
     // Método para eliminar a un proveedor
     // ========================================================================
-    public int eliminarServicio(){
-        return lista.get(tableServicio.getSelectedRow()).getId_servicio();
+    public void eliminarServicio(){
+
+        dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
+        actualizarTabla();
     }
     // ========================================================================
 
@@ -210,7 +212,10 @@ public class ServicioPanel extends JPanel {
 
         s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
         s.setModalidad(txtFModalidad.getText());
-        s.setId_servicio((int) ComboBoxTipoServicio.getSelectedItem());
+        s.setTipo_servicio((String) getComboBoxTipoServicio().getSelectedItem());
+
+        dao.insertarServicio(s);
+        actualizarTabla();
 
         return s;
     }
@@ -220,17 +225,23 @@ public class ServicioPanel extends JPanel {
 
     // Método para actualizar un Servicio
     // ========================================================================
-    public Servicio actualizarServicio(){
+    public void actualizarServicio(){
         Servicio s = lista.get(tableServicio.getSelectedRow());
 
         if(!txtFPrecio.getText().equals(""))
             s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
         if(!txtFModalidad.getText().equals(""))
             s.setModalidad(txtFModalidad.getText());
-        s.setId_servicio((int) ComboBoxTipoServicio.getSelectedItem());
 
-        return s;
+
+        dao.actualizarTipoServicio(s);
+        actualizarTabla();
     }
     // ========================================================================
 
+
+    public void limpiar(){
+        txtFModalidad.setText(" ");
+        txtFPrecio.setText(" ");
+    }
 }

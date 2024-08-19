@@ -17,7 +17,6 @@ import java.util.Date;
 public class CuidadoDiarioPanel extends JPanel {
 
 
-
     // Atributos
     // ========================================================================
     public static final int VALUE = 5;
@@ -45,9 +44,8 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Constructor
-    public CuidadoDiarioPanel(){
+    public CuidadoDiarioPanel() {
         setBounds(20, 11, 914, 385);
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las Actividades de Cuidado Diario Animal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
@@ -83,8 +81,8 @@ public class CuidadoDiarioPanel extends JPanel {
 
     // JDateChooser para asignar la fecha de finalización del contrato
     // ========================================================================
-    private JDateChooser getFecha(){
-        if(fecha == null){
+    private JDateChooser getFecha() {
+        if (fecha == null) {
             fecha = new JDateChooser();
             fecha.setBounds(102, 36, 131, 20);
             fecha.setMinSelectableDate(Calendar.getInstance().getTime());
@@ -92,7 +90,6 @@ public class CuidadoDiarioPanel extends JPanel {
         return fecha;
     }
     // ========================================================================
-
 
 
     // Cosas de la Hora
@@ -125,9 +122,6 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
 
 
-
-
-
     // Cosas de la Descripción de la Actividad Diaria
     // ========================================================================
     private JLabel getLblDescActividad() {
@@ -149,7 +143,6 @@ public class CuidadoDiarioPanel extends JPanel {
         return txtFDescActividad;
     }
     // =========================================================================
-
 
 
     // Cosas del Id del Animal
@@ -175,7 +168,6 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Cosas del Id del Contrato
     // ========================================================================
     private JLabel getLblIdContrato() {
@@ -199,7 +191,6 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
 
 
-
     private JScrollPane getScrollPane() {
         if (scrollPane == null) {
             scrollPane = new JScrollPane();
@@ -220,18 +211,18 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
     private JTable getTableActividad() {
         if (tableActividad == null) {
-            tableActividad = new JTable(){
-                public boolean isCellEditable(int rowIndex, int colIndex){
+            tableActividad = new JTable() {
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
             tableActividad.getTableHeader().setReorderingAllowed(false);
             tableActividad.setModel(new DefaultTableModel(
-                    new Object[][] {
+                    new Object[][]{
                             {null, null, null, null, null},
                             {null, null, null, null, null},
                     },
-                    new String[] {
+                    new String[]{
                             "Id", "Fecha", "Hora", "Desc. Actividad", "Id Animal", "Id Contrato"
                     }
             ));
@@ -240,12 +231,12 @@ public class CuidadoDiarioPanel extends JPanel {
     }
 
 
-    public void actualizarTabla(){
-        while(model.getRowCount()>0)
+    public void actualizarTabla() {
+        while (model.getRowCount() > 0)
             model.removeRow(0);
 
         lista = dao.consultarACD();
-        for(ActividadCuidadoDiario a:lista){
+        for (ActividadCuidadoDiario a : lista) {
 
             Object[] ob = new Object[9];
             ob[0] = a.getFecha();
@@ -260,49 +251,62 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Método para eliminar una Actividad de Cuidado Diario
     // ========================================================================
-    public ActividadCuidadoDiario eliminarActividad(){
-        return lista.get(tableActividad.getSelectedRow());
+    public void eliminarActividad() {
+
+        ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
+        dao.eliminarACD(ac.getFecha(), ac.getHora(), ac.getId_animal());
+        actualizarTabla();
     }
     // ========================================================================
-
 
 
     // Método para crear y agregar una Actividad de Cuidado Diario
     // ========================================================================
-    public ActividadCuidadoDiario agregarDiarioPanel(){
+    public void agregarDiarioPanel() {
         ActividadCuidadoDiario ac = new ActividadCuidadoDiario();
 
         ac.setDesc_act(txtFDescActividad.getText());
-        ac.setFecha((java.sql.Date) fecha.getDate());
-        ac.setHora((Time) spinnerHora.getValue());
+        ac.setFecha(new java.sql.Date(fecha.getDate().getTime()));
+        ac.setHora(new Time(((Date) (spinnerHora.getValue())).getTime()));
         ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
         ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
 
-        return ac;
+        dao.insertarACD(ac);
+        actualizarTabla();
+
     }
     // ========================================================================
-
 
 
     // Método para actualizar una Actividad de Cuidado Diario
     // ========================================================================
-    public ActividadCuidadoDiario actualizarDiarioPanel(){
+    public void actualizarDiarioPanel() {
         ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
 
-        if(!txtFDescActividad.getText().equals(""))
+        if (!txtFDescActividad.getText().isEmpty())
             ac.setDesc_act(txtFDescActividad.getText());
-        if(!txtFIdAnimal.getText().equals(""))
+        if (!txtFIdAnimal.getText().isEmpty())
             ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
-        if(!txtFIdContrato.getText().equals(""))
+        if (!txtFIdContrato.getText().isEmpty())
             ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
-        ac.setFecha((java.sql.Date) fecha.getDate());
-        ac.setHora((Time) spinnerHora.getValue());
 
-        return ac;
+        if (fecha.getDate() != null)
+            ac.setFecha(new java.sql.Date(fecha.getDate().getTime()));
+
+
+
+
+        dao.actualizarACD(ac);
+        actualizarTabla();
     }
     // ========================================================================
 
+    public void limpiar(){
+        txtFDescActividad.setText(" ");
+        txtFIdAnimal.setText(" ");
+        txtFIdContrato.setText(" ");
+
+    }
 }

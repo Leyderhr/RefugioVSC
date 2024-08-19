@@ -88,7 +88,7 @@ public class DAOActividadCuidadoDiario {
             ps.setTime(2, a.getHora());
             ps.setString(3, a.getDesc_act());
             ps.setInt(4, a.getId_animal());
-            ps.setInt(5, a.getId_contrato());
+            ps.setInt(5, (int) a.getId_contrato());
             ps.execute();
             cx.desconectar();
             return true;

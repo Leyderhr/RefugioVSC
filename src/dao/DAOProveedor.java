@@ -27,7 +27,7 @@ public class DAOProveedor {
             ps.setString(2, p.getDireccion());
             ps.setString(3, p.getTelefono());
             ps.setString(4, p.getEmail());
-            ps.setString(5, p.getProvincia());
+            ps.setInt(5, p.getProvincia());
             ps.execute();
             cx.desconectar();
             return true;
@@ -52,7 +52,7 @@ public class DAOProveedor {
                 p.setDireccion(rs.getString("direccion"));
                 p.setTelefono(rs.getString("telefono"));
                 p.setEmail(rs.getString("email"));
-                p.setProvincia(rs.getString("id_provincia"));
+                p.setProvincia(rs.getInt("id_provincia"));
                 lista.add(p);
             }
         } catch (SQLException e) {
@@ -90,7 +90,7 @@ public class DAOProveedor {
             ps.setString(3,p.getDireccion());
             ps.setString(4, p.getTelefono());
             ps.setString(5, p.getEmail());
-            ps.setString(6, p.getProvincia());
+            ps.setInt(6, p.getProvincia());
             ps.execute();
             cx.desconectar();
             return true;
