@@ -1,6 +1,8 @@
 package Interface;
 
+import logic.Usuario;
 import net.sf.jasperreports.engine.JRException;
+import reportes.ConceptoAdopciones;
 import reportes.ContratosVeterinarios;
 
 import javax.swing.*;
@@ -35,6 +37,9 @@ public class Window extends JFrame {
 
     private JMenu mnReportes;
     private JMenuItem mntmContratoProvDeAlimento;
+    private JMenuItem mntmConceptoAdopciones;
+    private JMenuItem mntmContratoVeterinario;
+    private JMenuItem mntmContratoVeterinarioActivo;
 
     //Atributos de los paneles
     private ArrayList<Boolean> ventanas;
@@ -56,7 +61,7 @@ public class Window extends JFrame {
     /**
      * Constructor de la ventana.
      */
-    public Window() {
+    public Window(Object user) {
 
         //Declaración de atributos de la ventana
         //======================================
@@ -73,9 +78,9 @@ public class Window extends JFrame {
 
 
         contentPane.setLayout(null);
-        contentPane.add(getBtnAgregar());
-        contentPane.add(getBtnEliminar());
-        contentPane.add(getBtnActualizar());
+        contentPane.add(getBtnAgregar(user));
+        contentPane.add(getBtnEliminar(user));
+        contentPane.add(getBtnActualizar(user));
         contentPane.add(getBtnLimpiar());
 
         contentPane.add(getAnimalPanel());
@@ -322,9 +327,12 @@ public class Window extends JFrame {
         }
     }
 
-    private JButton getBtnAgregar() {
+    private JButton getBtnAgregar(Object user) {
         if (btnAgregar == null) {
             btnAgregar = new JButton("Agregar");
+            if(user.getClass() == Usuario.class)
+                btnAgregar.setEnabled(false);
+
             btnAgregar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int vent = 0;
@@ -354,6 +362,7 @@ public class Window extends JFrame {
                             break;
                         case 7:
                             adminPanel.agregarAdmin();
+                            break;
                         default:
                             break;
                     }
@@ -364,9 +373,13 @@ public class Window extends JFrame {
         return btnAgregar;
     }
 
-    private JButton getBtnEliminar() {
+    private JButton getBtnEliminar(Object user) {
         if (btnEliminar == null) {
             btnEliminar = new JButton("Eliminar");
+
+            if(user.getClass() == Usuario.class)
+                btnEliminar.setEnabled(false);
+
             btnEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -394,6 +407,7 @@ public class Window extends JFrame {
                             break;
                         case 6:
                             usuarioPanel.eliminarUsuario();
+                            break;
                         case 7:
                             adminPanel.eliminarAdmin();
                             break;
@@ -406,9 +420,13 @@ public class Window extends JFrame {
         return btnEliminar;
     }
 
-    private JButton getBtnActualizar() {
+    private JButton getBtnActualizar(Object user) {
         if (btnActualizar == null) {
             btnActualizar = new JButton("Actualizar");
+
+            if(user.getClass() == Usuario.class)
+                btnActualizar.setEnabled(false);
+
             btnActualizar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int vent = 0;
@@ -613,6 +631,9 @@ public class Window extends JFrame {
         if (mnReportes == null) {
             mnReportes = new JMenu("Reportes");
             mnReportes.add(getMntmContratoProvDeAlimento());
+            mnReportes.add(getMntmConceptoAdopciones());
+            mnReportes.add(getMntmContratoVeterinario());
+            mnReportes.add(getMntmContratoVeterinarioActivo());
         }
         return mnReportes;
     }
@@ -634,6 +655,64 @@ public class Window extends JFrame {
         }
         return mntmContratoProvDeAlimento;
     }
+
+
+    private JMenuItem getMntmConceptoAdopciones() {
+        if (mntmConceptoAdopciones == null) {
+            mntmConceptoAdopciones = new JMenuItem("Mostrar Concepto de Adopciones");
+
+            mntmConceptoAdopciones.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    try {
+                        ConceptoAdopciones conceptoAdopciones = new ConceptoAdopciones();
+                        conceptoAdopciones.mostrarVentanaReporte();
+                    } catch (JRException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+        return mntmConceptoAdopciones;
+    }
+
+
+    private JMenuItem getMntmContratoVeterinario() {
+        if (mntmContratoVeterinario == null) {
+            mntmContratoVeterinario = new JMenuItem("Mostrar Contratos de Veterinarios");
+
+            mntmContratoVeterinario.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    try {
+                        ContratosVeterinarios contratosVeterinarios = new ContratosVeterinarios();
+                        contratosVeterinarios.mostrarVentanaReporte();
+                    } catch (JRException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+        return mntmContratoVeterinario;
+    }
+
+
+    private JMenuItem getMntmContratoVeterinarioActivo() {
+        if (mntmContratoVeterinarioActivo == null) {
+            mntmContratoVeterinarioActivo = new JMenuItem("Mostrar Contratos de Veterinarios Activos");
+
+            mntmContratoVeterinarioActivo.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    try {
+                        ContratosVeterinarios contratosVeterinarios = new ContratosVeterinarios();
+                        contratosVeterinarios.mostrarVentanaReporte();
+                    } catch (JRException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+        return mntmContratoVeterinarioActivo;
+    }
+
 
 
 

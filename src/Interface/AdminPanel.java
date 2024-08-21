@@ -37,7 +37,7 @@ public class AdminPanel extends JPanel {
     // Constructor
     public AdminPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las usuarios con acceso a la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los administradores de la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
 
@@ -181,8 +181,10 @@ public class AdminPanel extends JPanel {
             Usuario u = lista.get(tableAdmin.getSelectedRow());
             dao.eliminarAdministrador(u.getNombre());
             actualizarTabla();
-        } else
+        } else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 
@@ -215,8 +217,10 @@ public class AdminPanel extends JPanel {
 
             dao.actualizarAdministrador(a);
             actualizarTabla();
-        } else
+        } else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 

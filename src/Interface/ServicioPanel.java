@@ -194,8 +194,14 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
     public void eliminarServicio() {
 
-        dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
-        actualizarTabla();
+        if(tableServicio.getSelectedRowCount() >= 1) {
+            dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
+            actualizarTabla();
+        }
+        else{
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 
@@ -232,8 +238,10 @@ public class ServicioPanel extends JPanel {
             dao.actualizarTipoServicio(s);
             actualizarTabla();
         }
-        else
+        else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 

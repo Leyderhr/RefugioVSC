@@ -221,8 +221,13 @@ public class ProveedorPanel extends JPanel {
     // ========================================================================
     public void eliminarProveedor() {
 
-        dao.eliminarProveedor(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
-        actualizarTabla();
+        if(tableProveedor.getSelectedRowCount() >= 1) {
+            dao.eliminarProveedor(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
+            actualizarTabla();
+        }  else {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 
@@ -266,8 +271,10 @@ public class ProveedorPanel extends JPanel {
             dao.actualizarProveedor(p);
             actualizarTabla();
         }
-        else
+        else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 

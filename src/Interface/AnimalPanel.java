@@ -255,8 +255,14 @@ public class AnimalPanel extends JPanel {
 
 
     public void eliminarAnimal(){
-        dao.eliminarAnimal(lista.get(tableAnimal.getSelectedRow()).getId_animal());
-        actualizarTabla();
+        if(tableAnimal.getSelectedRowCount() >= 1) {
+            dao.eliminarAnimal(lista.get(tableAnimal.getSelectedRow()).getId_animal());
+            actualizarTabla();
+        }
+        else{
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
@@ -279,8 +285,10 @@ public class AnimalPanel extends JPanel {
             dao.actualizarAnimal(a);
             actualizarTabla();
         }
-        else
+        else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 

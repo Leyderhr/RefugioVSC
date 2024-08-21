@@ -14,9 +14,10 @@ import java.util.ArrayList;
 
 public class Authentication extends JFrame {
 
-    private ArrayList<Usuario> users;
-    private DAOUsuario daoUsuario;
-    private DAOAdministrador daoAdministrador;
+    private final ArrayList<Usuario> users;
+    private final ArrayList<Administrador> admins;
+    private final DAOUsuario daoUsuario;
+    private final DAOAdministrador daoAdministrador;
 
     private JTextField txtFUsuario;
     private JLabel lblLogin;
@@ -57,7 +58,7 @@ public class Authentication extends JFrame {
         daoUsuario = new DAOUsuario();
         daoAdministrador = new DAOAdministrador();
         users = daoUsuario.consultarUsuario();
-        users.addAll(daoAdministrador.consultarAdministrador());
+        admins = daoAdministrador.consultarAdministrador();
     }
 
     private JPasswordField getPasswordField() {
@@ -72,15 +73,27 @@ public class Authentication extends JFrame {
                 public void keyReleased(KeyEvent e) {
                     if (e.getKeyChar() == '\n') {
                         Usuario user = new Usuario(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
-                        if (users.contains(user)) {
+                        Administrador admin = new Administrador(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
+
+                        if (admins.contains(admin)) {
                             try {
-                                window = new Window();
+                                window = new Window(admin);
                                 window.setVisible(true);
                             } catch (Exception e1) {
                                 System.out.println(e1.getMessage());
                             }
                             dispose();
-
+                        }
+                        else if (users.contains(user)) {
+                            try {
+                                window = new Window(user);
+                                window.setVisible(true);
+                            } catch (Exception e1) {
+                                System.out.println(e1.getMessage());
+                            }
+                            dispose();
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
                         }
                         else
                             JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -141,11 +154,23 @@ public class Authentication extends JFrame {
             btnEntrar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Usuario user = new Usuario(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
+                    Administrador admin = new Administrador(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
 
-                    if (users.contains(user)) {
+                    if (admins.contains(admin)) {
                         try {
-                            window = new Window();
+                            window = new Window(admin);
                             window.setVisible(true);
+                        } catch (Exception e1) {
+                            System.out.println(e1.getMessage());
+                        }
+                        dispose();
+                    }
+                    else if (users.contains(user)) {
+                        try {
+                            window = new Window(user);
+                            window.setVisible(true);
+                            Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
                         } catch (Exception e1) {
                             System.out.println(e1.getMessage());
                         }

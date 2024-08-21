@@ -256,9 +256,14 @@ public class CuidadoDiarioPanel extends JPanel {
     // ========================================================================
     public void eliminarActividad() {
 
-        ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
-        dao.eliminarACD(ac.getFecha(), ac.getHora(), ac.getId_animal());
-        actualizarTabla();
+        if(tableActividad.getSelectedRowCount() >= 1) {
+            ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
+            dao.eliminarACD(ac.getFecha(), ac.getHora(), ac.getId_animal());
+            actualizarTabla();
+        }else{
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 
@@ -300,8 +305,10 @@ public class CuidadoDiarioPanel extends JPanel {
             dao.actualizarACD(ac);
             actualizarTabla();
         }
-        else
+        else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 

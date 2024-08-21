@@ -38,7 +38,7 @@ public class UsuarioPanel extends JPanel {
     // Constructor
     public UsuarioPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las usuarios con acceso a la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los usuarios con acceso a la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
 
@@ -181,13 +181,16 @@ public class UsuarioPanel extends JPanel {
     // Método para eliminar una Actividad de Cuidado Diario
     // ========================================================================
     public void eliminarUsuario() {
+
         if (tableUsuario.getSelectedRowCount() >= 1) {
             Usuario u = lista.get(tableUsuario.getSelectedRow());
             dao.eliminarUsuario(u.getNombre());
             actualizarTabla();
         }
-        else
+        else{
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 
@@ -220,8 +223,10 @@ public class UsuarioPanel extends JPanel {
 
             dao.actualizarUsuario(u);
             actualizarTabla();
-        } else
+        } else {
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 

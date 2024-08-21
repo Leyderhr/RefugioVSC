@@ -377,9 +377,10 @@ public class ContratoPanel extends JPanel {
 
             dao.actualizarContrato(c);
             actualizarTabla();
-        }
-        else
+        } else {
+            Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     // ========================================================================
 
@@ -387,9 +388,13 @@ public class ContratoPanel extends JPanel {
     // Método para eliminar un contrato
     // ========================================================================
     public void eliminarContrato() {
-
-        dao.eliminarContrato(lista.get(tableContrato.getSelectedRow()).getId_contrato());
-        actualizarTabla();
+        if (tableContrato.getSelectedRowCount() >= 1) {
+            dao.eliminarContrato(lista.get(tableContrato.getSelectedRow()).getId_contrato());
+            actualizarTabla();
+        } else {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void limpiar() {
