@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class Window extends JFrame {
 
-    private final int cantPaneles = 5;
+    private final int cantPaneles = 7;
     private final JPanel contentPane;
     private JButton btnAgregar;
     private JButton btnEliminar;
@@ -30,6 +30,8 @@ public class Window extends JFrame {
     private JMenuItem mntmProveedores;
     private JMenuItem mntmServicios;
     private JMenuItem mntmCuidadoDiario;
+    private JMenuItem mntmUsuario;
+    private JMenuItem mntmAdmin;
 
     private JMenu mnReportes;
     private JMenuItem mntmContratoProvDeAlimento;
@@ -41,6 +43,8 @@ public class Window extends JFrame {
     private ContratoPanel contratoPanel;
     private ServicioPanel servicioPanel;
     private CuidadoDiarioPanel cuidadoDiarioPanel;
+    private UsuarioPanel usuarioPanel;
+    private AdminPanel adminPanel;
 
     // Atributos del fondo principal
     private JLabel lblFotoZooIzq;
@@ -79,6 +83,8 @@ public class Window extends JFrame {
         contentPane.add(getContratoPanel());
         contentPane.add(getServicioPanel());
         contentPane.add(getCuidadoDiarioPanel());
+        contentPane.add(getUsuarioPanel());
+        contentPane.add(getAdminPanel());
 
         contentPane.add(getFotoZooIzq());
         contentPane.add(getFotoZooDer());
@@ -191,6 +197,20 @@ public class Window extends JFrame {
         }
         return cuidadoDiarioPanel;
     }
+
+    private UsuarioPanel getUsuarioPanel(){
+        if(usuarioPanel == null){
+            usuarioPanel = new UsuarioPanel();
+        }
+        return usuarioPanel;
+    }
+
+    private AdminPanel getAdminPanel(){
+        if(adminPanel == null){
+            adminPanel = new AdminPanel();
+        }
+        return adminPanel;
+    }
     //=========================================================================
 
 
@@ -209,7 +229,8 @@ public class Window extends JFrame {
                 proveedorPanel.setVisible(false);
                 contratoPanel.setVisible(false);
                 servicioPanel.setVisible(false);
-
+                usuarioPanel.setVisible(false);
+                adminPanel.setVisible(false);
                 break;
             case 2:
 
@@ -222,6 +243,8 @@ public class Window extends JFrame {
                 contratoPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
+                usuarioPanel.setVisible(false);
+                adminPanel.setVisible(false);
                 break;
             case 3:
 
@@ -234,6 +257,8 @@ public class Window extends JFrame {
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
+                usuarioPanel.setVisible(false);
+                adminPanel.setVisible(false);
                 break;
             case 4:
 
@@ -246,6 +271,8 @@ public class Window extends JFrame {
                 animalPanel.setVisible(false);
                 proveedorPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
+                usuarioPanel.setVisible(false);
+                adminPanel.setVisible(false);
                 break;
             case 5:
 
@@ -258,6 +285,38 @@ public class Window extends JFrame {
                 animalPanel.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
+                usuarioPanel.setVisible(false);
+                adminPanel.setVisible(false);
+                break;
+
+            case 6:
+
+                for(int i = 0; i < cantPaneles; i++){
+                    ventanas.set(i, false);
+                }
+                usuarioPanel.setVisible(true);
+                ventanas.set(5, true);
+                cuidadoDiarioPanel.setVisible(false);
+                contratoPanel.setVisible(false);
+                animalPanel.setVisible(false);
+                proveedorPanel.setVisible(false);
+                servicioPanel.setVisible(false);
+                adminPanel.setVisible(false);
+                break;
+            case 7:
+
+                for(int i = 0; i < cantPaneles; i++){
+                    ventanas.set(i, false);
+                }
+                adminPanel.setVisible(true);
+                usuarioPanel.setVisible(false);
+                ventanas.set(6, true);
+                cuidadoDiarioPanel.setVisible(false);
+                contratoPanel.setVisible(false);
+                animalPanel.setVisible(false);
+                proveedorPanel.setVisible(false);
+                servicioPanel.setVisible(false);
+                break;
             default:
                 break;
         }
@@ -289,6 +348,13 @@ public class Window extends JFrame {
                             break;
                         case 5:
                             cuidadoDiarioPanel.agregarDiarioPanel();
+                            break;
+                        case 6:
+                            usuarioPanel.agregarUsuario();
+                            break;
+                        case 7:
+                            adminPanel.agregarAdmin();
+                        default:
                             break;
                     }
                 }
@@ -326,6 +392,11 @@ public class Window extends JFrame {
                         case 5:
                             cuidadoDiarioPanel.eliminarActividad();
                             break;
+                        case 6:
+                            usuarioPanel.eliminarUsuario();
+                        case 7:
+                            adminPanel.eliminarAdmin();
+                            break;
                     }
 
                 }
@@ -361,6 +432,13 @@ public class Window extends JFrame {
                             break;
                         case 5:
                             cuidadoDiarioPanel.actualizarDiarioPanel();
+                            break;
+                        case 6:
+                            usuarioPanel.actualizarUsuarioPanel();
+                            break;
+                        case 7:
+                            adminPanel.actualizarAdminPanel();
+                        default:
                             break;
                     }
                 }
@@ -398,6 +476,13 @@ public class Window extends JFrame {
                         case 5:
                             cuidadoDiarioPanel.limpiar();
                             break;
+                        case 6:
+                            usuarioPanel.limpiar();
+                            break;
+                        case 7:
+                            adminPanel.limpiar();
+                        default:
+                            break;
                     }
                 }
             });
@@ -430,6 +515,8 @@ public class Window extends JFrame {
             mnVisualizar.add(getMntmServicios());
             mnVisualizar.add(getMntmProveedores());
             mnVisualizar.add(getMntmCuidadoDiario());
+            mnVisualizar.add(getMntmUsuario());
+            mnVisualizar.add(getMntmAdmin());
         }
         return mnVisualizar;
     }
@@ -495,6 +582,30 @@ public class Window extends JFrame {
         return mntmCuidadoDiario;
     }
 
+    private JMenuItem getMntmUsuario() {
+        if (mntmUsuario == null) {
+            mntmUsuario = new JMenuItem("Usuarios");
+            mntmUsuario.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    controlPanel(UsuarioPanel.VALUE);
+                }
+            });
+        }
+        return mntmUsuario;
+    }
+
+    private JMenuItem getMntmAdmin() {
+        if (mntmAdmin == null) {
+            mntmAdmin = new JMenuItem("Administradores");
+            mntmAdmin.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    controlPanel(AdminPanel.VALUE);
+                }
+            });
+        }
+        return mntmAdmin;
+    }
+
 
     // Elementos de la visualización de los Reportes
     // ========================================================================
@@ -509,6 +620,7 @@ public class Window extends JFrame {
     private JMenuItem getMntmContratoProvDeAlimento() {
         if (mntmContratoProvDeAlimento == null) {
             mntmContratoProvDeAlimento = new JMenuItem("Mostrar Contratos de Proveedores de Alimentos");
+
             mntmContratoProvDeAlimento.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
                     try {
@@ -517,8 +629,6 @@ public class Window extends JFrame {
                     } catch (JRException e) {
                         throw new RuntimeException(e);
                     }
-                    /**todo*/
-                    // Aquí hay que llamar al método de Abdiel para mostrar los contratos de los Proveedores
                 }
             });
         }

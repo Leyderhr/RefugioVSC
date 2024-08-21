@@ -232,6 +232,7 @@ public class CuidadoDiarioPanel extends JPanel {
 
 
     public void actualizarTabla() {
+
         while (model.getRowCount() > 0)
             model.removeRow(0);
 
@@ -283,30 +284,33 @@ public class CuidadoDiarioPanel extends JPanel {
     // Método para actualizar una Actividad de Cuidado Diario
     // ========================================================================
     public void actualizarDiarioPanel() {
-        ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
+        if(tableActividad.getSelectedRowCount() >= 1) {
+            ActividadCuidadoDiario ac = lista.get(tableActividad.getSelectedRow());
 
-        if (!txtFDescActividad.getText().isEmpty())
-            ac.setDesc_act(txtFDescActividad.getText());
-        if (!txtFIdAnimal.getText().isEmpty())
-            ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
-        if (!txtFIdContrato.getText().isEmpty())
-            ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
+            if (!txtFDescActividad.getText().isEmpty())
+                ac.setDesc_act(txtFDescActividad.getText());
+            if (!txtFIdAnimal.getText().isEmpty())
+                ac.setId_animal(Integer.parseInt(txtFIdAnimal.getText()));
+            if (!txtFIdContrato.getText().isEmpty())
+                ac.setId_contrato(Integer.parseInt(txtFIdContrato.getText()));
 
-        if (fecha.getDate() != null)
-            ac.setFecha(new java.sql.Date(fecha.getDate().getTime()));
+            if (fecha.getDate() != null)
+                ac.setFecha(new java.sql.Date(fecha.getDate().getTime()));
 
-
-
-
-        dao.actualizarACD(ac);
-        actualizarTabla();
+            dao.actualizarACD(ac);
+            actualizarTabla();
+        }
+        else
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
     }
     // ========================================================================
 
     public void limpiar(){
-        txtFDescActividad.setText(" ");
-        txtFIdAnimal.setText(" ");
-        txtFIdContrato.setText(" ");
+        txtFDescActividad.setText("");
+        txtFIdAnimal.setText("");
+        txtFIdContrato.setText("");
+        fecha.setDate(null);
+        spinnerHora.setValue(Calendar.getInstance().getTime());
 
     }
 }

@@ -46,7 +46,7 @@ public class DAOContrato {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM contrato");
+            ps = cx.conectar().prepareStatement("SELECT * FROM contrato ORDER BY id_contrato ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Contrato c = new Contrato();

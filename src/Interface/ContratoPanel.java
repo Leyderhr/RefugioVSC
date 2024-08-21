@@ -11,7 +11,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -49,7 +48,7 @@ public class ContratoPanel extends JPanel {
 
     private JScrollPane scrollPane;
     private JTable tableContrato;
-    private DefaultTableModel model = new DefaultTableModel();
+    private final DefaultTableModel model = new DefaultTableModel();
 
     private final DAOContrato dao = new DAOContrato();
     ArrayList<Contrato> lista;
@@ -355,46 +354,53 @@ public class ContratoPanel extends JPanel {
     // Método para actualizar un contrato
     // ========================================================================
     public void actualizarContrato() {
-        Contrato c = lista.get(tableContrato.getSelectedRow());
+        if (tableContrato.getSelectedRowCount() >= 1) {
+            Contrato c = lista.get(tableContrato.getSelectedRow());
 
-        if (!txtFIDProveedor.getText().equals(""))
-            c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
-        if (!txtFIDServicio.getText().equals(""))
-            c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
-        if (!txtFDescripcion.getText().equals(""))
-            c.setDesc_cont(txtFDescripcion.getText());
-        if (!txtFResponsable.getText().equals(""))
-            c.setNom_resp(txtFResponsable.getText());
-        if (!txtFRecargo.getText().equals(""))
-            c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
+            if (!txtFIDProveedor.getText().isEmpty())
+                c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
+            if (!txtFIDServicio.getText().isEmpty())
+                c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
+            if (!txtFDescripcion.getText().isEmpty())
+                c.setDesc_cont(txtFDescripcion.getText());
+            if (!txtFResponsable.getText().isEmpty())
+                c.setNom_resp(txtFResponsable.getText());
+            if (!txtFRecargo.getText().isEmpty())
+                c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
 
-        if (fechaInicio.getDate() != null)
-            c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
-        if (fechaFin.getDate() != null)
-            c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
-        if (fechaConciliacion.getDate() != null)
-            c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
+            if (fechaInicio.getDate() != null)
+                c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
+            if (fechaFin.getDate() != null)
+                c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
+            if (fechaConciliacion.getDate() != null)
+                c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
 
-        dao.actualizarContrato(c);
-        actualizarTabla();
+            dao.actualizarContrato(c);
+            actualizarTabla();
+        }
+        else
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
     }
     // ========================================================================
 
 
-    //Metodo para eliminar un contrato
-    //=========================================================================
+    // Método para eliminar un contrato
+    // ========================================================================
     public void eliminarContrato() {
 
         dao.eliminarContrato(lista.get(tableContrato.getSelectedRow()).getId_contrato());
         actualizarTabla();
     }
 
-    public void limpiar(){
-        txtFRecargo.setText(" ");
-        txtFResponsable.setText(" ");
-        txtFIDProveedor.setText(" ");
-        txtFIDServicio.setText(" ");
-        txtFDescripcion.setText(" ");
+    public void limpiar() {
+        txtFRecargo.setText("");
+        txtFResponsable.setText("");
+        txtFIDProveedor.setText("");
+        txtFIDServicio.setText("");
+        txtFDescripcion.setText("");
+        fechaConciliacion.setDate(null);
+        fechaInicio.setDate(null);
+        fechaFin.setDate(null);
     }
 
 }

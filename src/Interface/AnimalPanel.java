@@ -262,31 +262,36 @@ public class AnimalPanel extends JPanel {
 
 
     public void actualizarAnimal(){
-        Animal a = lista.get(tableAnimal.getSelectedRow());
+        if(tableAnimal.getSelectedRowCount() >= 1) {
+            Animal a = lista.get(tableAnimal.getSelectedRow());
 
-        if(!txtFEdad.getText().isEmpty())
-            a.setEdad(Integer.parseInt(txtFEdad.getText()));
-        if(!txtFEspecie.getText().isEmpty())
-            a.setEspecie(txtFEspecie.getText());
-        if(!txtFNombreAnimal.getText().isEmpty())
-            a.setNombre(txtFNombreAnimal.getText());
-        if(!txtFPeso.getText().isEmpty())
-            a.setPeso(Double.parseDouble(txtFPeso.getText()));
-        if(!txtFRaza.getText().isEmpty())
-            a.setRaza(txtFRaza.getText());
+            if (!txtFEdad.getText().isEmpty())
+                a.setEdad(Integer.parseInt(txtFEdad.getText()));
+            if (!txtFEspecie.getText().isEmpty())
+                a.setEspecie(txtFEspecie.getText());
+            if (!txtFNombreAnimal.getText().isEmpty())
+                a.setNombre(txtFNombreAnimal.getText());
+            if (!txtFPeso.getText().isEmpty())
+                a.setPeso(Double.parseDouble(txtFPeso.getText()));
+            if (!txtFRaza.getText().isEmpty())
+                a.setRaza(txtFRaza.getText());
 
-        dao.actualizarAnimal(a);
-        actualizarTabla();
+            dao.actualizarAnimal(a);
+            actualizarTabla();
+        }
+        else
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
     }
     // ========================================================================
 
     public void limpiar(){
 
-        txtFRaza.setText(" ");
-        txtFPeso.setText(" ");
-        txtFNombreAnimal.setText(" ");
-        txtFEspecie.setText(" ");
-        txtFEdad.setText(" ");
+        txtFRaza.setText("");
+        txtFPeso.setText("");
+        txtFNombreAnimal.setText("");
+        txtFEspecie.setText("");
+        txtFEdad.setText("");
+        spinnerDiasRefugio.setValue(0);
 
     }
 

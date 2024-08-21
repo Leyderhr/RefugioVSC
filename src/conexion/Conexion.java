@@ -9,7 +9,7 @@ public class Conexion {
     Connection cx = null;
     String url = "jdbc:postgresql://localhost:5432/Refugio";
     String user = "postgres";
-    String pass = "uchiha";
+    String pass = "lym";
 
     public Connection conectar() {
 

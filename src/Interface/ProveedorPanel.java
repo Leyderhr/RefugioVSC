@@ -33,7 +33,7 @@ public class ProveedorPanel extends JPanel {
     private JTable tableProveedor;
     private final DAOProveedor dao = new DAOProveedor();
     ArrayList<Proveedor> lista;
-    private DefaultTableModel model = new DefaultTableModel();
+    private final DefaultTableModel model = new DefaultTableModel();
     // ========================================================================
 
 
@@ -249,29 +249,33 @@ public class ProveedorPanel extends JPanel {
     // Método para actualizar un Proveedor
     // ========================================================================
     public void actualizarProveedor() {
-        Proveedor p = lista.get(tableProveedor.getSelectedRow());
+        if(tableProveedor.getSelectedRowCount() >= 1) {
+            Proveedor p = lista.get(tableProveedor.getSelectedRow());
 
-        if (!txtFNombre.getText().equals(""))
-            p.setNombre(txtFNombre.getText());
-        if (!txtFDireccion.getText().equals(""))
-            p.setDireccion(txtFDireccion.getText());
-        if (!txtFTelefono.getText().equals(""))
-            p.setTelefono(txtFTelefono.getText());
-        if (!txtFProvincia.getText().equals(""))
-            p.setProvincia(Integer.parseInt(txtFProvincia.getText()));
-        if (!txtFEmail.getText().equals(""))
-            p.setEmail(txtFEmail.getText());
+            if (!txtFNombre.getText().isEmpty())
+                p.setNombre(txtFNombre.getText());
+            if (!txtFDireccion.getText().isEmpty())
+                p.setDireccion(txtFDireccion.getText());
+            if (!txtFTelefono.getText().isEmpty())
+                p.setTelefono(txtFTelefono.getText());
+            if (!txtFProvincia.getText().isEmpty())
+                p.setProvincia(Integer.parseInt(txtFProvincia.getText()));
+            if (!txtFEmail.getText().isEmpty())
+                p.setEmail(txtFEmail.getText());
 
-        dao.actualizarProveedor(p);
-        actualizarTabla();
+            dao.actualizarProveedor(p);
+            actualizarTabla();
+        }
+        else
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
     }
     // ========================================================================
 
     public void limpiar(){
-        txtFDireccion.setText(" ");
-        txtFEmail.setText(" ");
-        txtFNombre.setText(" ");
-        txtFProvincia.setText(" ");
-        txtFTelefono.setText(" ");
+        txtFDireccion.setText("");
+        txtFEmail.setText("");
+        txtFNombre.setText("");
+        txtFProvincia.setText("");
+        txtFTelefono.setText("");
     }
 }

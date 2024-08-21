@@ -1,6 +1,8 @@
 package Interface;
 
+import dao.DAOAdministrador;
 import dao.DAOUsuario;
+import logic.Administrador;
 import logic.Usuario;
 
 import javax.swing.*;
@@ -14,6 +16,7 @@ public class Authentication extends JFrame {
 
     private ArrayList<Usuario> users;
     private DAOUsuario daoUsuario;
+    private DAOAdministrador daoAdministrador;
 
     private JTextField txtFUsuario;
     private JLabel lblLogin;
@@ -52,7 +55,9 @@ public class Authentication extends JFrame {
 
 
         daoUsuario = new DAOUsuario();
+        daoAdministrador = new DAOAdministrador();
         users = daoUsuario.consultarUsuario();
+        users.addAll(daoAdministrador.consultarAdministrador());
     }
 
     private JPasswordField getPasswordField() {
@@ -65,21 +70,21 @@ public class Authentication extends JFrame {
             passwordField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
-                    if (e.getKeyChar() == '\n'){
+                    if (e.getKeyChar() == '\n') {
                         Usuario user = new Usuario(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
-                        if(users.contains(user)) {
-                            try{
+                        if (users.contains(user)) {
+                            try {
                                 window = new Window();
                                 window.setVisible(true);
-                            }catch (Exception e1){
+                            } catch (Exception e1) {
                                 System.out.println(e1.getMessage());
                             }
                             dispose();
 
                         }
-                        else{
-                            JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
-                        }
+                        else
+                            JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+
                     }
 
 
@@ -137,17 +142,16 @@ public class Authentication extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     Usuario user = new Usuario(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
 
-                    if(users.contains(user)){
-                        try{
+                    if (users.contains(user)) {
+                        try {
                             window = new Window();
                             window.setVisible(true);
-                        }catch (Exception e1){
+                        } catch (Exception e1) {
                             System.out.println(e1.getMessage());
                         }
                         dispose();
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
+                    } else
+                        JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
 
@@ -162,8 +166,8 @@ public class Authentication extends JFrame {
 
             chckbxShowPwd.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if(chckbxShowPwd.isSelected())
-                        passwordField.setEchoChar((char)0);
+                    if (chckbxShowPwd.isSelected())
+                        passwordField.setEchoChar((char) 0);
                     else
                         passwordField.setEchoChar('*');
                 }

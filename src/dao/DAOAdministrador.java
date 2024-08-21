@@ -23,8 +23,8 @@ public class DAOAdministrador {
 
             ps = cx.conectar().prepareStatement("select administrador_insert(?,?)");
 
-            ps.setString(1, a.getNombre());
-            ps.setString(2, a.getContrasegna());
+            ps.setString(1, a.getContrasegna());
+            ps.setString(2, a.getNombre());
             ps.execute();
             cx.desconectar();
             return true;
@@ -40,7 +40,7 @@ public class DAOAdministrador {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM administrador");
+            ps = cx.conectar().prepareStatement("SELECT * FROM administrador ORDER BY nombre ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Administrador a = new Administrador();
@@ -78,8 +78,8 @@ public class DAOAdministrador {
 
             ps = cx.conectar().prepareStatement("select administrador_update(?,?)");
 
-            ps.setString(1, a.getNombre());
-            ps.setString(2, a.getContrasegna());
+            ps.setString(1, a.getContrasegna());
+            ps.setString(2, a.getNombre());
             ps.execute();
             cx.desconectar();
             return true;

@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
+
 public class ServicioPanel extends JPanel {
 
 
@@ -36,9 +37,8 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Constructor
-    public ServicioPanel(){
+    public ServicioPanel() {
         setBounds(20, 11, 914, 385);
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
@@ -63,6 +63,7 @@ public class ServicioPanel extends JPanel {
         }
         return lblPrecio;
     }
+
     private JTextFieldSoloNumeros getTxtFPrecio() {
         if (txtFPrecio == null) {
             txtFPrecio = new JTextFieldSoloNumeros();
@@ -72,7 +73,6 @@ public class ServicioPanel extends JPanel {
         return txtFPrecio;
     }
     // ========================================================================
-
 
 
     // Cosas de Modalidad
@@ -97,7 +97,6 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
 
 
-
     // JLabel y ComboBox para ingresar los tipos de Servicios
     // ========================================================================
     private JLabel getLblTipoServicio() {
@@ -108,7 +107,6 @@ public class ServicioPanel extends JPanel {
         }
         return lblTipoServicio;
     }
-
 
 
     private JComboBox<String> getComboBoxTipoServicio() {
@@ -128,13 +126,12 @@ public class ServicioPanel extends JPanel {
 //                ComboBoxTipoServicio.addItem(item);
 //            }
 
-            ComboBoxTipoServicio.setModel(new DefaultComboBoxModel<String>(new String[] {"Alimentario", "Veterinario", "Complementario"}));
+            ComboBoxTipoServicio.setModel(new DefaultComboBoxModel<String>(new String[]{"Alimentario", "Veterinario", "Complementario"}));
         }
 
         return ComboBoxTipoServicio;
     }
     // ========================================================================
-
 
 
     private JScrollPane getScrollPane() {
@@ -156,18 +153,18 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
     private JTable getTableProveedor() {
         if (tableServicio == null) {
-            tableServicio = new JTable(){
-                public boolean isCellEditable(int rowIndex, int colIndex){
+            tableServicio = new JTable() {
+                public boolean isCellEditable(int rowIndex, int colIndex) {
                     return false;
                 }
             };
             tableServicio.getTableHeader().setReorderingAllowed(false);
             tableServicio.setModel(new DefaultTableModel(
-                    new Object[][] {
+                    new Object[][]{
                             {null, null, null, null, null},
                             {null, null, null, null, null},
                     },
-                    new String[] {
+                    new String[]{
                             "Id", "Tipo. Servicio", "Modalidad", "Precio"
                     }
             ));
@@ -193,10 +190,9 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Método para eliminar a un proveedor
     // ========================================================================
-    public void eliminarServicio(){
+    public void eliminarServicio() {
 
         dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
         actualizarTabla();
@@ -204,10 +200,9 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Método para crear y agregar un Servicio
     // ========================================================================
-    public Servicio agregarServicio(){
+    public Servicio agregarServicio() {
         Servicio s = new Servicio();
 
         s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
@@ -222,26 +217,29 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
 
 
-
     // Método para actualizar un Servicio
     // ========================================================================
-    public void actualizarServicio(){
-        Servicio s = lista.get(tableServicio.getSelectedRow());
+    public void actualizarServicio() {
+        if (tableServicio.getSelectedRowCount() >= 1) {
+            Servicio s = lista.get(tableServicio.getSelectedRow());
 
-        if(!txtFPrecio.getText().equals(""))
-            s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
-        if(!txtFModalidad.getText().equals(""))
-            s.setModalidad(txtFModalidad.getText());
+            if (!txtFPrecio.getText().isEmpty())
+                s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
+            if (!txtFModalidad.getText().isEmpty())
+                s.setModalidad(txtFModalidad.getText());
 
 
-        dao.actualizarTipoServicio(s);
-        actualizarTabla();
+            dao.actualizarTipoServicio(s);
+            actualizarTabla();
+        }
+        else
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
     }
     // ========================================================================
 
 
-    public void limpiar(){
-        txtFModalidad.setText(" ");
-        txtFPrecio.setText(" ");
+    public void limpiar() {
+        txtFModalidad.setText("");
+        txtFPrecio.setText("");
     }
 }

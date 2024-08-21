@@ -45,7 +45,7 @@ public class DAOAnimal {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM animal");
+            ps = cx.conectar().prepareStatement("SELECT * FROM animal ORDER BY id_animal ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Animal a = new Animal();
