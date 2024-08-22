@@ -28,6 +28,9 @@ public class Window extends JFrame {
 
     // Atributos del menu
     private JMenuBar menuBar;
+    private JMenu mnLogOut;
+    private JMenuItem mntmLogOut;
+
     private JMenu mnVisualizar;
     private JMenuItem mntmAnimales;
     private JMenuItem mntmContratos;
@@ -79,7 +82,7 @@ public class Window extends JFrame {
         setTitle("Gestor del Refugio");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 960, 500);
-        setJMenuBar(getMenuBarVisualizar());
+        setJMenuBar(getMenuBarVisualizar(user));
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -103,9 +106,8 @@ public class Window extends JFrame {
         contentPane.add(getLblText());
 
 
-
         ventanas = new ArrayList<>();
-        for(int i = 0; i < cantPaneles; i++){
+        for (int i = 0; i < cantPaneles; i++) {
             ventanas.add(false);
         }
 
@@ -113,12 +115,12 @@ public class Window extends JFrame {
 
     // Métodos para obtener los labels del fondo principal
     //=========================================================================
-    private JLabel getFotoZooIzq(){
-        if(lblFotoZooIzq == null){
+    private JLabel getFotoZooIzq() {
+        if (lblFotoZooIzq == null) {
             lblFotoZooIzq = new JLabel();
             ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/Rcortada.png")));
             lblFotoZooIzq.setIcon(icon);
-            lblFotoZooIzq.setBounds(20,80, 250, 300);
+            lblFotoZooIzq.setBounds(20, 80, 250, 300);
             lblFotoZooIzq.setHorizontalAlignment(SwingConstants.CENTER);
             lblFotoZooIzq.setHorizontalTextPosition(SwingConstants.CENTER);
             lblFotoZooIzq.setIconTextGap(1);
@@ -126,105 +128,104 @@ public class Window extends JFrame {
         return lblFotoZooIzq;
     }
 
-    private JLabel getFotoZooDer(){
-        if(lblFotoZooDer == null){
+    private JLabel getFotoZooDer() {
+        if (lblFotoZooDer == null) {
             lblFotoZooDer = new JLabel();
             ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/LogoZooEdit.png")));
             lblFotoZooDer.setIcon(icon);
-            lblFotoZooDer.setBounds(780,80, 150, 100);
+            lblFotoZooDer.setBounds(780, 80, 150, 100);
             lblFotoZooDer.setHorizontalAlignment(SwingConstants.CENTER);
             lblFotoZooDer.setHorizontalTextPosition(SwingConstants.CENTER);
             lblFotoZooDer.setIconTextGap(1);
         }
-        return  lblFotoZooDer;
+        return lblFotoZooDer;
     }
 
-    private JLabel getLblHeader(){
-        if(lblHeader == null){
+    private JLabel getLblHeader() {
+        if (lblHeader == null) {
             lblHeader = new JLabel("Gestor del Refugio Animal");
             lblHeader.setFont(new Font("Bahnschrift", Font.BOLD, 34));
             lblHeader.setForeground(Color.WHITE);
             lblHeader.setOpaque(true);
-            lblHeader.setBounds(20,11, 910, 60);
+            lblHeader.setBounds(20, 11, 910, 60);
             lblHeader.setVisible(true);
-            lblHeader.setBackground(new Color(33,196,58,255));
+            lblHeader.setBackground(new Color(33, 196, 58, 255));
             lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
             lblHeader.setHorizontalTextPosition(SwingConstants.CENTER);
             lblHeader.setVerticalTextPosition(SwingConstants.CENTER);
         }
-        return  lblHeader;
+        return lblHeader;
     }
 
-    private JLabel getLblText(){
-        if(lblText == null){
+    private JLabel getLblText() {
+        if (lblText == null) {
             lblText = new JLabel();
             lblText.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
             lblText.setText("<html> <p align: left><br>El refugio de Animales \"Amigos de Pata\" se dedica a la " +
                     "protección, cuidado y adopción de animales abandonados o en situación de riego." +
                     "Ofrece una amplia gama de servicios que incluyen la alimentación, atención médica, " +
                     "actividades de socialización, adopciones, y programas de voluntariado.</p></html>");
-            lblText.setBounds(280,90, 580,300 );
+            lblText.setBounds(280, 90, 580, 300);
             lblText.setVisible(true);
             lblText.setHorizontalAlignment(SwingConstants.CENTER);
             lblText.setHorizontalTextPosition(SwingConstants.CENTER);
             lblText.setVerticalTextPosition(SwingConstants.CENTER);
         }
-        return  lblText;
+        return lblText;
     }
 
 
     // Métodos para obtener los paneles personalizados
     //=========================================================================
-    private ContratoPanel getContratoPanel(){
-        if(contratoPanel == null){
+    private ContratoPanel getContratoPanel() {
+        if (contratoPanel == null) {
             contratoPanel = new ContratoPanel();
         }
         return contratoPanel;
     }
 
-    private AnimalPanel getAnimalPanel(){
-        if(animalPanel == null){
+    private AnimalPanel getAnimalPanel() {
+        if (animalPanel == null) {
             animalPanel = new AnimalPanel();
         }
         return animalPanel;
     }
 
-    private ProveedorPanel getProovedorPanel(){
-        if(proveedorPanel == null){
+    private ProveedorPanel getProovedorPanel() {
+        if (proveedorPanel == null) {
             proveedorPanel = new ProveedorPanel();
         }
         return proveedorPanel;
     }
 
-    private ServicioPanel getServicioPanel(){
-        if(servicioPanel == null){
+    private ServicioPanel getServicioPanel() {
+        if (servicioPanel == null) {
             servicioPanel = new ServicioPanel();
         }
         return servicioPanel;
     }
 
-    private CuidadoDiarioPanel getCuidadoDiarioPanel(){
-        if(cuidadoDiarioPanel == null){
+    private CuidadoDiarioPanel getCuidadoDiarioPanel() {
+        if (cuidadoDiarioPanel == null) {
             cuidadoDiarioPanel = new CuidadoDiarioPanel();
         }
         return cuidadoDiarioPanel;
     }
 
-    private UsuarioPanel getUsuarioPanel(){
-        if(usuarioPanel == null){
+    private UsuarioPanel getUsuarioPanel() {
+        if (usuarioPanel == null) {
             usuarioPanel = new UsuarioPanel();
         }
         return usuarioPanel;
     }
 
-    private AdminPanel getAdminPanel(){
-        if(adminPanel == null){
+    private AdminPanel getAdminPanel() {
+        if (adminPanel == null) {
             adminPanel = new AdminPanel();
         }
         return adminPanel;
     }
     //=========================================================================
-
 
 
     //Método para controlar la visibilidad de los paneles en la ventana
@@ -233,7 +234,7 @@ public class Window extends JFrame {
         switch (value) {
             case 1:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 animalPanel.setVisible(true);
@@ -246,7 +247,7 @@ public class Window extends JFrame {
                 break;
             case 2:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 proveedorPanel.setVisible(true);
@@ -260,7 +261,7 @@ public class Window extends JFrame {
                 break;
             case 3:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 contratoPanel.setVisible(true);
@@ -274,7 +275,7 @@ public class Window extends JFrame {
                 break;
             case 4:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 servicioPanel.setVisible(true);
@@ -288,7 +289,7 @@ public class Window extends JFrame {
                 break;
             case 5:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 cuidadoDiarioPanel.setVisible(true);
@@ -303,7 +304,7 @@ public class Window extends JFrame {
 
             case 6:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 usuarioPanel.setVisible(true);
@@ -317,7 +318,7 @@ public class Window extends JFrame {
                 break;
             case 7:
 
-                for(int i = 0; i < cantPaneles; i++){
+                for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
                 adminPanel.setVisible(true);
@@ -337,14 +338,14 @@ public class Window extends JFrame {
     private JButton getBtnAgregar(Object user) {
         if (btnAgregar == null) {
             btnAgregar = new JButton("Agregar");
-            if(user.getClass() == Usuario.class)
+            if (user.getClass() == Usuario.class)
                 btnAgregar.setEnabled(false);
 
             btnAgregar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int vent = 0;
-                    for(int i = 0; i < cantPaneles; i++)
-                        if(ventanas.get(i)) {
+                    for (int i = 0; i < cantPaneles; i++)
+                        if (ventanas.get(i)) {
                             vent = i + 1;
                             i = cantPaneles;
                         }
@@ -384,15 +385,15 @@ public class Window extends JFrame {
         if (btnEliminar == null) {
             btnEliminar = new JButton("Eliminar");
 
-            if(user.getClass() == Usuario.class)
+            if (user.getClass() == Usuario.class)
                 btnEliminar.setEnabled(false);
 
             btnEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int vent = 0;
-                    for(int i = 0; i < cantPaneles; i++)
-                        if(ventanas.get(i)) {
+                    for (int i = 0; i < cantPaneles; i++)
+                        if (ventanas.get(i)) {
                             vent = i + 1;
                             i = cantPaneles;
                         }
@@ -431,14 +432,14 @@ public class Window extends JFrame {
         if (btnActualizar == null) {
             btnActualizar = new JButton("Actualizar");
 
-            if(user.getClass() == Usuario.class)
+            if (user.getClass() == Usuario.class)
                 btnActualizar.setEnabled(false);
 
             btnActualizar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int vent = 0;
-                    for(int i = 0; i < cantPaneles; i++)
-                        if(ventanas.get(i)) {
+                    for (int i = 0; i < cantPaneles; i++)
+                        if (ventanas.get(i)) {
                             vent = i + 1;
                             i = cantPaneles;
                         }
@@ -480,8 +481,8 @@ public class Window extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int vent = 0;
-                    for(int i = 0; i < cantPaneles; i++)
-                        if(ventanas.get(i)) {
+                    for (int i = 0; i < cantPaneles; i++)
+                        if (ventanas.get(i)) {
                             vent = i + 1;
                             i = cantPaneles;
                         }
@@ -517,22 +518,53 @@ public class Window extends JFrame {
     }
 
 
-
     // Elementos del menuBar para Visualizar
     // ========================================================================
-    private JMenuBar getMenuBarVisualizar() {
+    private JMenuBar getMenuBarVisualizar(Object user) {
         if (menuBar == null) {
             menuBar = new JMenuBar();
-            menuBar.add(getMnVisualizar());
+            menuBar.add(getMnLogOut());
+            menuBar.add(getMnVisualizar(user));
             menuBar.add(getMnReportes());
         }
         return menuBar;
     }
 
 
+    // Elemento para desloguearse
+    // ========================================================================
+    private JMenu getMnLogOut() {
+        if (mnLogOut == null) {
+            mnLogOut = new JMenu("Opciones");
+            mnLogOut.add(getMntmLogOut());
+        }
+        return mnLogOut;
+    }
+
+    private JMenuItem getMntmLogOut() {
+        if (mntmLogOut == null) {
+            mntmLogOut = new JMenuItem("Cambiar de Usuario");
+            mntmLogOut.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+
+                    try {
+                        dispose();
+                        Authentication a = new Authentication();
+                        a.setLocationRelativeTo(null);
+                        a.setVisible(true);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
+        }
+        return mntmLogOut;
+    }
+
+
     // Elementos de la visualización de los datos de las tablas
     // ========================================================================
-    private JMenu getMnVisualizar() {
+    private JMenu getMnVisualizar(Object user) {
         if (mnVisualizar == null) {
             mnVisualizar = new JMenu("Visualizar");
             mnVisualizar.add(getMntmAnimales());
@@ -540,8 +572,8 @@ public class Window extends JFrame {
             mnVisualizar.add(getMntmServicios());
             mnVisualizar.add(getMntmProveedores());
             mnVisualizar.add(getMntmCuidadoDiario());
-            mnVisualizar.add(getMntmUsuario());
-            mnVisualizar.add(getMntmAdmin());
+            mnVisualizar.add(getMntmUsuario(user));
+            mnVisualizar.add(getMntmAdmin(user));
         }
         return mnVisualizar;
     }
@@ -607,24 +639,35 @@ public class Window extends JFrame {
         return mntmCuidadoDiario;
     }
 
-    private JMenuItem getMntmUsuario() {
+    private JMenuItem getMntmUsuario(Object user) {
         if (mntmUsuario == null) {
             mntmUsuario = new JMenuItem("Usuarios");
             mntmUsuario.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                    controlPanel(UsuarioPanel.VALUE);
+
+                    if (user.getClass() == Usuario.class) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
+                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else
+                        controlPanel(UsuarioPanel.VALUE);
                 }
             });
         }
         return mntmUsuario;
     }
 
-    private JMenuItem getMntmAdmin() {
+    private JMenuItem getMntmAdmin(Object user) {
         if (mntmAdmin == null) {
             mntmAdmin = new JMenuItem("Administradores");
             mntmAdmin.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                    controlPanel(AdminPanel.VALUE);
+                    if (user.getClass() == Usuario.class) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
+                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else
+                        controlPanel(AdminPanel.VALUE);
                 }
             });
         }
@@ -727,11 +770,10 @@ public class Window extends JFrame {
 
             mntmActCuidadoAnimal.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                    try{
+                    try {
                         IdAnimalJDialog jDialog = new IdAnimalJDialog(Window.this);
                         jDialog.setVisible(true);
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
