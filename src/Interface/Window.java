@@ -1,9 +1,11 @@
 package Interface;
 
+import dao.DAOActividadCuidadoDiario;
 import logic.Usuario;
 import net.sf.jasperreports.engine.JRException;
 import reportes.ConceptoAdopciones;
 import reportes.ContratosVeterinarios;
+import reportes.ReporteActividadCuidadoAnimal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -40,6 +42,8 @@ public class Window extends JFrame {
     private JMenuItem mntmConceptoAdopciones;
     private JMenuItem mntmContratoVeterinario;
     private JMenuItem mntmContratoVeterinarioActivo;
+    private JMenuItem mntmActCuidadoAnimal;
+
 
     //Atributos de los paneles
     private ArrayList<Boolean> ventanas;
@@ -66,7 +70,10 @@ public class Window extends JFrame {
         //Declaración de atributos de la ventana
         //======================================
         contentPane = new JPanel();
+        contentPane.setLayout(null);
+        contentPane.setBackground(Color.WHITE);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
         setContentPane(contentPane);
 
         setTitle("Gestor del Refugio");
@@ -77,7 +84,6 @@ public class Window extends JFrame {
         setResizable(false);
 
 
-        contentPane.setLayout(null);
         contentPane.add(getBtnAgregar(user));
         contentPane.add(getBtnEliminar(user));
         contentPane.add(getBtnActualizar(user));
@@ -95,6 +101,7 @@ public class Window extends JFrame {
         contentPane.add(getFotoZooDer());
         contentPane.add(getLblHeader());
         contentPane.add(getLblText());
+
 
 
         ventanas = new ArrayList<>();
@@ -634,6 +641,7 @@ public class Window extends JFrame {
             mnReportes.add(getMntmConceptoAdopciones());
             mnReportes.add(getMntmContratoVeterinario());
             mnReportes.add(getMntmContratoVeterinarioActivo());
+            mnReportes.add(getMntmActCuidadoAnimal());
         }
         return mnReportes;
     }
@@ -713,8 +721,24 @@ public class Window extends JFrame {
         return mntmContratoVeterinarioActivo;
     }
 
+    private JMenuItem getMntmActCuidadoAnimal() {
+        if (mntmActCuidadoAnimal == null) {
+            mntmActCuidadoAnimal = new JMenuItem("Mostrar Actividades de Cuidado Animal");
 
+            mntmActCuidadoAnimal.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    try{
+                        IdAnimalJDialog jDialog = new IdAnimalJDialog(Window.this);
+                        jDialog.setVisible(true);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
 
-
+                }
+            });
+        }
+        return mntmActCuidadoAnimal;
+    }
 
 }
