@@ -3,10 +3,7 @@ package Interface;
 import dao.DAOActividadCuidadoDiario;
 import logic.Usuario;
 import net.sf.jasperreports.engine.JRException;
-import reportes.ConceptoAdopciones;
-import reportes.ContratosServicioComplementario;
-import reportes.ContratosVeterinarios;
-import reportes.ReporteActividadCuidadoAnimal;
+import reportes.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -705,8 +702,8 @@ public class Window extends JFrame {
             mntmContratoProvDeAlimento.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
                     try {
-                        ContratosVeterinarios contVeterinarios = new ContratosVeterinarios();
-                        contVeterinarios.mostrarVentanaReporte();
+                        ContratosProveedoresAlimentos contratosProveedoresAlimentos = new ContratosProveedoresAlimentos();
+                        contratosProveedoresAlimentos.mostrarVentanaReporte();
                     } catch (JRException e) {
                         throw new RuntimeException(e);
                     }
@@ -762,8 +759,8 @@ public class Window extends JFrame {
             mntmContratoVeterinarioActivo.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
                     try {
-                        ContratosVeterinarios contratosVeterinarios = new ContratosVeterinarios();
-                        contratosVeterinarios.mostrarVentanaReporte();
+                        ContratosVeterinariosActivos contratosVeterinariosActivos = new ContratosVeterinariosActivos();
+                        contratosVeterinariosActivos.mostrarVentanaReporte();
                     } catch (JRException e) {
                         throw new RuntimeException(e);
                     }
