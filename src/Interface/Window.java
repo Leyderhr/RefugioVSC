@@ -4,6 +4,7 @@ import dao.DAOActividadCuidadoDiario;
 import logic.Usuario;
 import net.sf.jasperreports.engine.JRException;
 import reportes.ConceptoAdopciones;
+import reportes.ContratosServicioComplementario;
 import reportes.ContratosVeterinarios;
 import reportes.ReporteActividadCuidadoAnimal;
 
@@ -13,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -46,6 +48,7 @@ public class Window extends JFrame {
     private JMenuItem mntmContratoVeterinario;
     private JMenuItem mntmContratoVeterinarioActivo;
     private JMenuItem mntmActCuidadoAnimal;
+    private JMenuItem mntmContratoServComplement;
 
 
     //Atributos de los paneles
@@ -162,7 +165,7 @@ public class Window extends JFrame {
             lblText = new JLabel();
             lblText.setFont(new Font("Bahnschrift", Font.PLAIN, 18));
             lblText.setText("<html> <p align: left><br>El refugio de Animales \"Amigos de Pata\" se dedica a la " +
-                    "protección, cuidado y adopción de animales abandonados o en situación de riego." +
+                    "protección, cuidado y adopción de animales abandonados o en situación de riesgo." +
                     "Ofrece una amplia gama de servicios que incluyen la alimentación, atención médica, " +
                     "actividades de socialización, adopciones, y programas de voluntariado.</p></html>");
             lblText.setBounds(280, 90, 580, 300);
@@ -243,6 +246,7 @@ public class Window extends JFrame {
                 contratoPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
+                cuidadoDiarioPanel.setVisible(false);
                 adminPanel.setVisible(false);
                 break;
             case 2:
@@ -351,7 +355,11 @@ public class Window extends JFrame {
                         }
                     switch (vent) {
                         case 1:
-                            animalPanel.agregarAnimal();
+                            try {
+                                animalPanel.agregarAnimal();
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                             break;
                         case 2:
                             proveedorPanel.agregarProveedor();
@@ -417,7 +425,7 @@ public class Window extends JFrame {
                             usuarioPanel.eliminarUsuario();
                             break;
                         case 7:
-                            adminPanel.eliminarAdmin();
+                            adminPanel.eliminarAdmin((Usuario) user);
                             break;
                     }
 
@@ -685,6 +693,7 @@ public class Window extends JFrame {
             mnReportes.add(getMntmContratoVeterinario());
             mnReportes.add(getMntmContratoVeterinarioActivo());
             mnReportes.add(getMntmActCuidadoAnimal());
+            mnReportes.add(getMntmContratoServComplement());
         }
         return mnReportes;
     }
@@ -774,13 +783,33 @@ public class Window extends JFrame {
                         IdAnimalJDialog jDialog = new IdAnimalJDialog(Window.this);
                         jDialog.setVisible(true);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
 
                 }
             });
         }
         return mntmActCuidadoAnimal;
+    }
+
+
+    private JMenuItem getMntmContratoServComplement() {
+        if (mntmContratoServComplement == null) {
+            mntmContratoServComplement = new JMenuItem("Mostrar Contratos de Servicios Complementarios");
+
+            mntmContratoServComplement.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    try {
+                        ContratosServicioComplementario csc = new ContratosServicioComplementario();
+                        csc.mostrarVentanaReporte();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                }
+            });
+        }
+        return mntmContratoServComplement;
     }
 
 }

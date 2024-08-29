@@ -3,9 +3,12 @@ package dao;
 import conexion.Conexion;
 import logic.Proveedor;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DAOProveedor {
@@ -14,6 +17,22 @@ public class DAOProveedor {
 
     public DAOProveedor(){
         cx = new Conexion();
+    }
+
+
+    public int obtenerUltimoID() throws SQLException {
+        ResultSet rs = null;
+        Statement stmt = cx.conectar().createStatement();
+        int ultimoId = 0;
+        String sql = "SELECT obtener_ultimo_idProveedor();";
+        rs = stmt.executeQuery(sql);
+
+        // Procesar el resultado
+        if (rs.next()) {
+            ultimoId = rs.getInt(1); // Obtener el primer (y único) valor de la fila
+        }
+
+        return ultimoId;
     }
 
     public boolean insertarProveedor(Proveedor p){
@@ -32,8 +51,7 @@ public class DAOProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException("Los campos para agregar la información de un proveedor no pueden estar vacios");
         }
     }
 
@@ -73,7 +91,8 @@ public class DAOProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -95,8 +114,8 @@ public class DAOProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
+            //return false;
         }
     }
 }

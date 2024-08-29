@@ -4,23 +4,39 @@ package dao;
 import conexion.Conexion;
 import logic.Animal;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DAOAnimal {
 
     Conexion cx;
 
-    public DAOAnimal(){
+    public DAOAnimal() {
         cx = new Conexion();
     }
 
-    public boolean insertarAnimal(Animal a){
+
+    public int obtenerUltimoID() throws SQLException {
+        ResultSet rs = null;
+        Statement stmt = cx.conectar().createStatement();
+        int ultimoId = 0;
+        String sql = "SELECT obtener_ultimo_id();";
+        rs = stmt.executeQuery(sql);
+
+        // Procesar el resultado
+        if (rs.next()) {
+            ultimoId = rs.getInt(1); // Obtener el primer (y único) valor de la fila
+        }
+
+        return ultimoId;
+    }
+
+    public boolean insertarAnimal(Animal a) {
 
         PreparedStatement ps = null;
-        try{
+        try {
 
             ps = cx.conectar().prepareStatement("select animal_insert(?,?,?,?,?,?)");
 
@@ -28,18 +44,17 @@ public class DAOAnimal {
             ps.setString(2, a.getEspecie());
             ps.setString(3, a.getRaza());
             ps.setInt(4, a.getEdad());
-            ps.setInt(5,  (int)a.getPeso());
+            ps.setDouble(5, a.getPeso());
             ps.setInt(6, a.getCant_dias_refugio());
             ps.execute();
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public ArrayList<Animal> consultarAnimales()  {
+    public ArrayList<Animal> consultarAnimales() {
         ArrayList<Animal> lista = new ArrayList<Animal>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -47,14 +62,14 @@ public class DAOAnimal {
         try {
             ps = cx.conectar().prepareStatement("SELECT * FROM animal ORDER BY id_animal ASC");
             rs = ps.executeQuery();
-            while ((rs.next())){
+            while ((rs.next())) {
                 Animal a = new Animal();
                 a.setId_animal(rs.getInt("id_animal"));
                 a.setNombre(rs.getString("nombre"));
                 a.setEspecie(rs.getString("especie"));
                 a.setRaza(rs.getString("raza"));
                 a.setEdad(rs.getInt("edad"));
-                a.setPeso((double)rs.getInt("peso"));
+                a.setPeso((double) rs.getInt("peso"));
                 a.setCant_dias_refugio(rs.getInt("cant_dias_refugio"));
                 lista.add(a);
             }
@@ -65,7 +80,7 @@ public class DAOAnimal {
         return lista;
     }
 
-    public boolean eliminarAnimal(int id){
+    public boolean eliminarAnimal(int id) {
 
         PreparedStatement ps = null;
 
@@ -76,19 +91,20 @@ public class DAOAnimal {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    public boolean actualizarAnimal(Animal a){
+    public boolean actualizarAnimal(Animal a) {
 
         PreparedStatement ps = null;
-        try{
+        try {
 
             ps = cx.conectar().prepareStatement("select animal_update(?,?,?,?,?,?,?)");
 
-            ps.setInt(1,a.getId_animal());
+            ps.setInt(1, a.getId_animal());
             ps.setString(2, a.getNombre());
             ps.setString(3, a.getEspecie());
             ps.setString(4, a.getRaza());

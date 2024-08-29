@@ -133,7 +133,7 @@ public class AdminPanel extends JPanel {
     }
 
 
-    // Tabla del Cuidado diario de los animales
+    // Tabla de los Administradores
     // ========================================================================
     private JTable getTableAdmin() {
         if (tableAdmin == null) {
@@ -174,14 +174,21 @@ public class AdminPanel extends JPanel {
     // ========================================================================
 
 
-    // Método para eliminar una Actividad de Cuidado Diario
+    // Método para eliminar el Administrador seleccionado
     // ========================================================================
-    public void eliminarAdmin() {
+    public void eliminarAdmin(Usuario user) {
         if (tableAdmin.getSelectedRowCount() >= 1) {
             Usuario u = lista.get(tableAdmin.getSelectedRow());
-            dao.eliminarAdministrador(u.getNombre());
-            actualizarTabla();
-        } else{
+
+            if (!(user.getNombre().equals(u.getNombre()) && user.getContrasegna().equals(u.getContrasegna()))) {
+                dao.eliminarAdministrador(u.getNombre());
+                actualizarTabla();
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "No se puede eliminar a usted mismo", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -189,7 +196,7 @@ public class AdminPanel extends JPanel {
     // ========================================================================
 
 
-    // Método para crear y agregar una Actividad de Cuidado Diario
+    // Método para crear y agregar un Administrador
     // ========================================================================
     public void agregarAdmin() {
         Administrador a = new Administrador();
@@ -204,7 +211,7 @@ public class AdminPanel extends JPanel {
     // ========================================================================
 
 
-    // Método para actualizar una Actividad de Cuidado Diario
+    // Método para actualizar los datos del Administrador seleccionado
     // ========================================================================
     public void actualizarAdminPanel() {
         if (tableAdmin.getSelectedRowCount() >= 1) {
@@ -217,9 +224,10 @@ public class AdminPanel extends JPanel {
 
             dao.actualizarAdministrador(a);
             actualizarTabla();
-        } else{
+        } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una" +
+                    " celda", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     // ========================================================================

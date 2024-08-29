@@ -34,12 +34,12 @@ public class DAOProvincia {
     }
 
     public ArrayList<Provincia> consultarProvincia()  {
-        ArrayList<Provincia> lista = new ArrayList<Provincia>();
+        ArrayList<Provincia> lista = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM provincia");
+            ps = cx.conectar().prepareStatement("SELECT * FROM provincia ORDER BY id_provincia ASC ");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Provincia p = new Provincia();

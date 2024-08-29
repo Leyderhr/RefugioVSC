@@ -4,8 +4,8 @@ package Interface;
 import dao.DAOServicio;
 
 import logic.Servicio;
+import util.JTextFieldNumerosFlotantes;
 import util.JTextFieldSoloLetras;
-import util.JTextFieldSoloNumeros;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -21,13 +21,13 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
     public static final int VALUE = 4;
     private JLabel lblPrecio;
-    private JTextFieldSoloNumeros txtFPrecio;
+    private JTextFieldNumerosFlotantes txtFPrecio;
 
     private JTextFieldSoloLetras txtFModalidad;
     private JLabel lblModalidad;
 
     private JLabel lblTipoServicio;
-    private JComboBox<String> ComboBoxTipoServicio;
+    private JComboBox<String> comboBoxTipoServicio;
 
     private JScrollPane scrollPane;
     private JTable tableServicio;
@@ -64,9 +64,9 @@ public class ServicioPanel extends JPanel {
         return lblPrecio;
     }
 
-    private JTextFieldSoloNumeros getTxtFPrecio() {
+    private JTextFieldNumerosFlotantes getTxtFPrecio() {
         if (txtFPrecio == null) {
-            txtFPrecio = new JTextFieldSoloNumeros();
+            txtFPrecio = new JTextFieldNumerosFlotantes();
             txtFPrecio.setBounds(102, 36, 131, 20);
             txtFPrecio.setColumns(10);
         }
@@ -110,26 +110,27 @@ public class ServicioPanel extends JPanel {
 
 
     private JComboBox<String> getComboBoxTipoServicio() {
-        if (ComboBoxTipoServicio == null) {
-            ComboBoxTipoServicio = new JComboBox<>();
-            ComboBoxTipoServicio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            ComboBoxTipoServicio.setBounds(10, 145, 150, 20);
+        if (comboBoxTipoServicio == null) {
+            comboBoxTipoServicio = new JComboBox<>();
+            comboBoxTipoServicio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            comboBoxTipoServicio.setBounds(10, 145, 150, 20);
 
             // ArrayList de prueba para cargar todos los identificadores
-            ArrayList<String> items = new ArrayList<>();
-            items.add("Item 1");
-            items.add("Item 2");
-            items.add("Item 3");
+//            ArrayList<String> items = new ArrayList<>();
+//            items.add("Item 1");
+//            items.add("Item 2");
+//            items.add("Item 3");
 
             // Cargar el JComboBox con los datos del ArrayList
 //            for (String item : items) {
 //                ComboBoxTipoServicio.addItem(item);
 //            }
 
-            ComboBoxTipoServicio.setModel(new DefaultComboBoxModel<String>(new String[]{"Alimentario", "Veterinario", "Complementario"}));
+            comboBoxTipoServicio.setModel(new DefaultComboBoxModel<String>(new String[]{"Alimentario", "Veterinario", "Complementario"}));
+            comboBoxTipoServicio.setSelectedIndex(-1);
         }
 
-        return ComboBoxTipoServicio;
+        return comboBoxTipoServicio;
     }
     // ========================================================================
 
@@ -194,11 +195,10 @@ public class ServicioPanel extends JPanel {
     // ========================================================================
     public void eliminarServicio() {
 
-        if(tableServicio.getSelectedRowCount() >= 1) {
+        if (tableServicio.getSelectedRowCount() >= 1) {
             dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
             actualizarTabla();
-        }
-        else{
+        } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -211,13 +211,17 @@ public class ServicioPanel extends JPanel {
     public Servicio agregarServicio() {
         Servicio s = new Servicio();
 
-        s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
-        s.setModalidad(txtFModalidad.getText());
-        s.setTipo_servicio((String) getComboBoxTipoServicio().getSelectedItem());
+        try {
+            s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
+            s.setModalidad(txtFModalidad.getText());
+            s.setTipo_servicio((String) getComboBoxTipoServicio().getSelectedItem());
 
-        dao.insertarServicio(s);
-        actualizarTabla();
+            dao.insertarServicio(s);
+            actualizarTabla();
+            limpiar();
+        }catch (Exception e){
 
+        }
         return s;
     }
     // ========================================================================
@@ -237,8 +241,7 @@ public class ServicioPanel extends JPanel {
 
             dao.actualizarTipoServicio(s);
             actualizarTabla();
-        }
-        else{
+        } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -249,5 +252,8 @@ public class ServicioPanel extends JPanel {
     public void limpiar() {
         txtFModalidad.setText("");
         txtFPrecio.setText("");
+        if (comboBoxTipoServicio.getSelectedIndex() != -1) {
+            comboBoxTipoServicio.setSelectedIndex(-1);
+        }
     }
 }

@@ -131,7 +131,14 @@ public class Authentication extends JFrame {
             txtFUsuario.setBounds(10, 113, 228, 28);
             txtFUsuario.setColumns(10);
 
-
+            txtFUsuario.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e){
+                    if(e.getKeyChar() == '\n'){
+                        passwordField.requestFocus();
+                    }
+                }
+            });
         }
         return txtFUsuario;
     }

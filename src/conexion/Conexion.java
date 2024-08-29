@@ -19,7 +19,7 @@ public class Conexion {
             System.out.println("Conectado...");
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         return cx;

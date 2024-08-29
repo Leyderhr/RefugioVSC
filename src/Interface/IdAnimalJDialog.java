@@ -62,6 +62,7 @@ public class IdAnimalJDialog extends JDialog{
             for(Animal animal: a){
                 comboBoxIdAnimal.addItem("Id del Animal: "+animal.getId_animal()+" "+"Nombre: "+animal.getNombre());
             }
+            comboBoxIdAnimal.setSelectedIndex(-1);
 
 
             comboBoxIdAnimal.addActionListener(new ActionListener() {
@@ -69,7 +70,9 @@ public class IdAnimalJDialog extends JDialog{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        ReporteActividadCuidadoAnimal rp = new ReporteActividadCuidadoAnimal(comboBoxIdAnimal.getSelectedIndex()+1);
+                        DAOAnimal daoAnimal = new DAOAnimal();
+                        ArrayList<Animal> a = daoAnimal.consultarAnimales();
+                        ReporteActividadCuidadoAnimal rp = new ReporteActividadCuidadoAnimal(a.get(comboBoxIdAnimal.getSelectedIndex()).getId_animal());
                         rp.mostrarVentanaReporte();
                         dispose();
                     } catch (JRException ex) {

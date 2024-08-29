@@ -3,6 +3,8 @@ package dao;
 import conexion.Conexion;
 import logic.ProvAlimentos;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,8 +31,7 @@ public class DAOProveedorAlimentos {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException("Los campos para agregar la información de un proveedor de alimentos no pueden estar vacios");
         }
     }
 
@@ -66,7 +67,8 @@ public class DAOProveedorAlimentos {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

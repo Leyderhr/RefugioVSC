@@ -1,10 +1,5 @@
 import javax.swing.JFrame;
-import conexion.Conexion;
 import Interface.Authentication;
-import dao.DAOContrato;
-import logic.Contrato;
-
-import java.sql.Date;
 
 public class App {
     public static void main(String[] args) throws Exception {

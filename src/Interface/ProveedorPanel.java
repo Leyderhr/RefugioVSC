@@ -1,12 +1,17 @@
 package Interface;
 
-import dao.DAOProveedor;
-import logic.Proveedor;
+
+import dao.*;
+import logic.*;
+import util.JTextFieldSoloLetras;
+import util.JTextFieldSoloNumeros;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ProveedorPanel extends JPanel {
@@ -20,18 +25,33 @@ public class ProveedorPanel extends JPanel {
     private JTextField txtFDireccion;
     private JLabel lblDireccion;
 
-    private JTextField txtFTelefono;
+    private JTextFieldSoloNumeros txtFTelefono;
     private JLabel lblTelefono;
 
-    private JTextField txtFProvincia;
+    private JComboBox<String> comboBoxProvincia;
     private JLabel lblProvincia;
 
     private JTextField txtFEmail;
     private JLabel lblEmail;
 
+    // Atributos correspondientes a la selección del tipo de Proveedor
+    private JLabel lblRepresentante;
+    private JTextFieldSoloLetras txtFRepresentante;
+    private JLabel lblTipoProveedor;
+    private JComboBox<String> comboBoxTipoProveedor;
+    private JLabel lblFax;
+    private JTextField txtFFax;
+    private JLabel lblEspecialidad;
+    private JTextFieldSoloLetras txtFEspecialidad;
+    private JLabel lblClinica;
+    private JTextFieldSoloLetras txtFClinica;
+
     private JScrollPane scrollPane;
     private JTable tableProveedor;
     private final DAOProveedor dao = new DAOProveedor();
+    private final DAOProveedorAlimentos daoProvAlimentos = new DAOProveedorAlimentos();
+    private final DAOProvServComplementarios daoProvServComp = new DAOProvServComplementarios();
+    private final DAOVeterinario daoVeterinario = new DAOVeterinario();
     ArrayList<Proveedor> lista;
     private final DefaultTableModel model = new DefaultTableModel();
     // ========================================================================
@@ -42,16 +62,37 @@ public class ProveedorPanel extends JPanel {
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Proveedores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
+
         add(getLblNombre());
         add(getTxtFNombre());
+
         add(getTxtFDireccion());
         add(getLblDireccion());
+
         add(getTxtFTelefono());
         add(getLblTelefono());
-        add(getTxtFProvincia());
+
+        add(getComboBoxProvincia());
         add(getLblProvincia());
+
         add(getTxtFEmail());
         add(getLblEmail());
+
+        add(getLblTipoProveedor());
+        add(getComboBoxTipoProveedor());
+
+        add(getLblRepresentante());
+        add(getTxtFRepresentante());
+
+        add(getLblFax());
+        add(getTxtFFax());
+
+        add(getLblEspecialidad());
+        add(getTxtFEspecialidad());
+
+        add(getLblClinica());
+        add(getTxtFClinica());
+
         add(getScrollPane());
     }
 
@@ -60,7 +101,7 @@ public class ProveedorPanel extends JPanel {
         if (lblNombre == null) {
             lblNombre = new JLabel("Nombre");
             lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblNombre.setBounds(10, 30, 66, 29);
+            lblNombre.setBounds(10, 33, 66, 15);
         }
         return lblNombre;
     }
@@ -69,7 +110,7 @@ public class ProveedorPanel extends JPanel {
     private JTextField getTxtFNombre() {
         if (txtFNombre == null) {
             txtFNombre = new JTextField();
-            txtFNombre.setBounds(102, 36, 131, 20);
+            txtFNombre.setBounds(102, 30, 131, 20);
             txtFNombre.setColumns(10);
         }
         return txtFNombre;
@@ -80,7 +121,7 @@ public class ProveedorPanel extends JPanel {
         if (txtFDireccion == null) {
             txtFDireccion = new JTextField();
             txtFDireccion.setColumns(10);
-            txtFDireccion.setBounds(102, 85, 131, 20);
+            txtFDireccion.setBounds(102, 60, 131, 20);
         }
         return txtFDireccion;
     }
@@ -90,17 +131,17 @@ public class ProveedorPanel extends JPanel {
         if (lblDireccion == null) {
             lblDireccion = new JLabel("Dirección");
             lblDireccion.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblDireccion.setBounds(10, 79, 76, 29);
+            lblDireccion.setBounds(10, 63, 76, 15);
         }
         return lblDireccion;
     }
 
 
-    private JTextField getTxtFTelefono() {
+    private JTextFieldSoloNumeros getTxtFTelefono() {
         if (txtFTelefono == null) {
-            txtFTelefono = new JTextField();
-            txtFTelefono.setColumns(10);
-            txtFTelefono.setBounds(102, 136, 131, 20);
+            txtFTelefono = new JTextFieldSoloNumeros();
+            txtFTelefono.setLimite(8);
+            txtFTelefono.setBounds(102, 90, 131, 20);
         }
         return txtFTelefono;
     }
@@ -110,19 +151,28 @@ public class ProveedorPanel extends JPanel {
         if (lblTelefono == null) {
             lblTelefono = new JLabel("Teléfono");
             lblTelefono.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblTelefono.setBounds(10, 130, 66, 29);
+            lblTelefono.setBounds(10, 93, 66, 15);
         }
         return lblTelefono;
     }
 
 
-    private JTextField getTxtFProvincia() {
-        if (txtFProvincia == null) {
-            txtFProvincia = new JTextField();
-            txtFProvincia.setColumns(10);
-            txtFProvincia.setBounds(102, 183, 131, 20);
+    private JComboBox<String> getComboBoxProvincia() {
+        if (comboBoxProvincia == null) {
+            comboBoxProvincia = new JComboBox<>();
+            comboBoxProvincia.setBounds(102, 120, 131, 20);
+            comboBoxProvincia.setVisible(true);
+
+            DAOProvincia daoProvincia = new DAOProvincia();
+            ArrayList<Provincia> provincias = daoProvincia.consultarProvincia();
+
+            for (Provincia p : provincias) {
+                comboBoxProvincia.addItem("Id: " + p.getId_provinvcia() + " " + "Nombre: " + p.getNombre());
+            }
+            comboBoxProvincia.setSelectedIndex(-1);
+
         }
-        return txtFProvincia;
+        return comboBoxProvincia;
     }
 
 
@@ -130,7 +180,7 @@ public class ProveedorPanel extends JPanel {
         if (lblProvincia == null) {
             lblProvincia = new JLabel("Provincia");
             lblProvincia.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblProvincia.setBounds(10, 177, 76, 29);
+            lblProvincia.setBounds(10, 123, 76, 15);
         }
         return lblProvincia;
     }
@@ -140,7 +190,7 @@ public class ProveedorPanel extends JPanel {
         if (txtFEmail == null) {
             txtFEmail = new JTextField();
             txtFEmail.setColumns(10);
-            txtFEmail.setBounds(102, 231, 131, 20);
+            txtFEmail.setBounds(102, 150, 131, 20);
         }
         return txtFEmail;
     }
@@ -149,11 +199,166 @@ public class ProveedorPanel extends JPanel {
         if (lblEmail == null) {
             lblEmail = new JLabel("email");
             lblEmail.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEmail.setBounds(10, 225, 66, 29);
+            lblEmail.setBounds(10, 153, 66, 15);
         }
         return lblEmail;
     }
 
+
+    // Métodos para elegir el tipo de Proveedor
+    // =========================================================================
+    private JLabel getLblTipoProveedor() {
+        if (lblTipoProveedor == null) {
+            lblTipoProveedor = new JLabel("Tipo de Proveedor");
+            lblTipoProveedor.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblTipoProveedor.setBounds(10, 183, 150, 15);
+            lblTipoProveedor.setVisible(true);
+        }
+        return lblTipoProveedor;
+    }
+
+    private JComboBox<String> getComboBoxTipoProveedor() {
+        if (comboBoxTipoProveedor == null) {
+            comboBoxTipoProveedor = new JComboBox<>();
+            comboBoxTipoProveedor.setBounds(10, 208, 131, 20);
+            comboBoxTipoProveedor.setVisible(true);
+
+            comboBoxTipoProveedor.addItem("Alimentario");
+            comboBoxTipoProveedor.addItem("Veterinario");
+            comboBoxTipoProveedor.addItem("Complementario");
+            comboBoxTipoProveedor.setSelectedIndex(-1);
+
+            comboBoxTipoProveedor.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int selected = comboBoxTipoProveedor.getSelectedIndex();
+
+                    switch (selected) {
+                        case -1:
+                            lblRepresentante.setVisible(false);
+                            txtFRepresentante.setVisible(false);
+                            lblFax.setVisible(false);
+                            txtFFax.setVisible(false);
+                            lblEspecialidad.setVisible(false);
+                            txtFEspecialidad.setVisible(false);
+                            lblClinica.setVisible(false);
+                            txtFClinica.setVisible(false);
+                            break;
+                        case 0, 2:
+                            lblRepresentante.setVisible(true);
+                            txtFRepresentante.setVisible(true);
+                            lblFax.setVisible(false);
+                            txtFFax.setVisible(false);
+                            lblEspecialidad.setVisible(false);
+                            txtFEspecialidad.setVisible(false);
+                            lblClinica.setVisible(false);
+                            txtFClinica.setVisible(false);
+                            break;
+                        case 1:
+                            lblFax.setVisible(true);
+                            txtFFax.setVisible(true);
+                            lblEspecialidad.setVisible(true);
+                            txtFEspecialidad.setVisible(true);
+                            lblClinica.setVisible(true);
+                            txtFClinica.setVisible(true);
+                            lblRepresentante.setVisible(false);
+                            txtFRepresentante.setVisible(false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+
+        }
+        return comboBoxTipoProveedor;
+    }
+
+
+    // Métodos para los proveedores de tipo Complementario y Alimentario
+    public JLabel getLblRepresentante() {
+        if (lblRepresentante == null) {
+            lblRepresentante = new JLabel("Representante");
+            lblRepresentante.setFont(new Font("Bahnschrift", Font.BOLD, 13));
+            lblRepresentante.setBounds(10, 241, 90, 15);
+            lblRepresentante.setVisible(false);
+        }
+        return lblRepresentante;
+    }
+
+    private JTextFieldSoloLetras getTxtFRepresentante() {
+        if (txtFRepresentante == null) {
+            txtFRepresentante = new JTextFieldSoloLetras();
+            txtFRepresentante.setBounds(102, 238, 131, 20);
+            txtFRepresentante.setVisible(false);
+        }
+        return txtFRepresentante;
+    }
+
+
+    //Metodos para los proveedores de tipo Veterinario
+    public JLabel getLblFax() {
+        if (lblFax == null) {
+            lblFax = new JLabel("Fax");
+            lblFax.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblFax.setBounds(10, 241, 76, 15);
+            lblFax.setVisible(false);
+        }
+        return lblFax;
+    }
+
+    private JTextField getTxtFFax() {
+        if (txtFFax == null) {
+            txtFFax = new JTextField();
+            txtFFax.setBounds(102, 238, 131, 20);
+            txtFFax.setVisible(false);
+
+        }
+        return txtFFax;
+    }
+
+    public JLabel getLblEspecialidad() {
+        if (lblEspecialidad == null) {
+            lblEspecialidad = new JLabel("Especialidad");
+            lblEspecialidad.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblEspecialidad.setBounds(10, 271, 90, 15);
+            lblEspecialidad.setVisible(false);
+        }
+        return lblEspecialidad;
+    }
+
+    private JTextFieldSoloLetras getTxtFEspecialidad() {
+        if (txtFEspecialidad == null) {
+            txtFEspecialidad = new JTextFieldSoloLetras();
+            txtFEspecialidad.setBounds(102, 268, 131, 20);
+            txtFEspecialidad.setVisible(false);
+
+        }
+        return txtFEspecialidad;
+    }
+
+    public JLabel getLblClinica() {
+        if (lblClinica == null) {
+            lblClinica = new JLabel("Clínica");
+            lblClinica.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblClinica.setBounds(10, 301, 76, 15);
+            lblClinica.setVisible(false);
+        }
+        return lblClinica;
+    }
+
+    private JTextFieldSoloLetras getTxtFClinica() {
+        if (txtFClinica == null) {
+            txtFClinica = new JTextFieldSoloLetras();
+            txtFClinica.setBounds(102, 298, 131, 20);
+            txtFClinica.setVisible(false);
+
+        }
+        return txtFClinica;
+    }
+
+
+    // =========================================================================
 
     private JScrollPane getScrollPane() {
         if (scrollPane == null) {
@@ -221,10 +426,10 @@ public class ProveedorPanel extends JPanel {
     // ========================================================================
     public void eliminarProveedor() {
 
-        if(tableProveedor.getSelectedRowCount() >= 1) {
+        if (tableProveedor.getSelectedRowCount() >= 1) {
             dao.eliminarProveedor(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
             actualizarTabla();
-        }  else {
+        } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -236,15 +441,58 @@ public class ProveedorPanel extends JPanel {
     // ========================================================================
     public Proveedor agregarProveedor() {
         Proveedor p = new Proveedor();
+        int idProveedor = -1;
+        boolean add = false;
 
-        p.setNombre(txtFNombre.getText());
-        p.setDireccion(txtFDireccion.getText());
-        p.setTelefono(txtFTelefono.getText());
-        p.setProvincia(Integer.parseInt(txtFProvincia.getText()));
-        p.setEmail(txtFEmail.getText());
+        try {
+            p.setNombre(txtFNombre.getText());
+            p.setDireccion(txtFDireccion.getText());
+            p.setTelefono(txtFTelefono.getText());
+            p.setProvincia(comboBoxProvincia.getSelectedIndex() + 1);
+            p.setEmail(txtFEmail.getText());
 
-        dao.insertarProveedor(p);
-        actualizarTabla();
+            dao.insertarProveedor(p);
+            idProveedor = dao.obtenerUltimoID();
+            add = true;
+            limpiar();
+
+            switch (comboBoxTipoProveedor.getSelectedIndex()) {
+                case 0:
+                    ProvAlimentos provAlimentos = new ProvAlimentos();
+                    provAlimentos.setId_proveedor(idProveedor);
+                    provAlimentos.setRepresentante(txtFRepresentante.getText());
+                    daoProvAlimentos.insertarProveedorAlimentos(provAlimentos);
+                    limpiar();
+                    break;
+                case 1:
+                    Veterinario vet = new Veterinario();
+                    vet.setId_proveedor(idProveedor);
+                    vet.setEspecialidad(txtFEspecialidad.getText());
+                    vet.setFax(txtFFax.getText());
+                    vet.setClinica(txtFClinica.getText());
+                    daoVeterinario.insertarVeterinario(vet);
+                    limpiar();
+                    break;
+                case 2:
+                    ProvServComplementarios provServCompl = new ProvServComplementarios();
+                    provServCompl.setId_proveedor(idProveedor);
+                    provServCompl.setRepresentante(txtFRepresentante.getText());
+                    daoProvServComp.insertarProvServComplementarios(provServCompl);
+                    limpiar();
+                    break;
+                default:
+                    break;
+            }
+            actualizarTabla();
+
+        } catch (Exception e) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No se puede agregar un animal si algún campo está" +
+                    " vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            if (comboBoxTipoProveedor.getSelectedIndex() != -1 && add) {
+                dao.eliminarProveedor(idProveedor);
+            }
+        }
 
         return p;
     }
@@ -254,35 +502,52 @@ public class ProveedorPanel extends JPanel {
     // Método para actualizar un Proveedor
     // ========================================================================
     public void actualizarProveedor() {
-        if(tableProveedor.getSelectedRowCount() >= 1) {
-            Proveedor p = lista.get(tableProveedor.getSelectedRow());
+        if (tableProveedor.getSelectedRowCount() >= 1) {
+            try {
+                Proveedor p = lista.get(tableProveedor.getSelectedRow());
 
-            if (!txtFNombre.getText().isEmpty())
-                p.setNombre(txtFNombre.getText());
-            if (!txtFDireccion.getText().isEmpty())
-                p.setDireccion(txtFDireccion.getText());
-            if (!txtFTelefono.getText().isEmpty())
-                p.setTelefono(txtFTelefono.getText());
-            if (!txtFProvincia.getText().isEmpty())
-                p.setProvincia(Integer.parseInt(txtFProvincia.getText()));
-            if (!txtFEmail.getText().isEmpty())
-                p.setEmail(txtFEmail.getText());
+                if (!txtFNombre.getText().isEmpty())
+                    p.setNombre(txtFNombre.getText());
+                if (!txtFDireccion.getText().isEmpty())
+                    p.setDireccion(txtFDireccion.getText());
+                if (!txtFTelefono.getText().isEmpty())
+                    p.setTelefono(txtFTelefono.getText());
+                if (comboBoxProvincia.getSelectedIndex() != -1)
+                    p.setProvincia(comboBoxProvincia.getSelectedIndex() + 1);
+                if (!txtFEmail.getText().isEmpty())
+                    p.setEmail(txtFEmail.getText());
 
-            dao.actualizarProveedor(p);
-            actualizarTabla();
-        }
-        else{
+
+                dao.actualizarProveedor(p);
+                actualizarTabla();
+            } catch (Exception e) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     // ========================================================================
 
-    public void limpiar(){
+    public void limpiar() {
         txtFDireccion.setText("");
         txtFEmail.setText("");
         txtFNombre.setText("");
-        txtFProvincia.setText("");
+        comboBoxProvincia.setSelectedIndex(-1);
         txtFTelefono.setText("");
+
+        if (comboBoxTipoProveedor.getSelectedIndex() != -1) {
+            txtFClinica.setText("");
+            txtFRepresentante.setText("");
+            txtFFax.setText("");
+            txtFEspecialidad.setText("");
+            comboBoxTipoProveedor.setSelectedIndex(-1);
+        }
+    }
+
+    public void actualizarComboBox() {
+
     }
 }

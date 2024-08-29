@@ -3,6 +3,8 @@ package dao;
 import conexion.Conexion;
 import logic.ActividadCuidadoDiario;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -30,8 +32,7 @@ public class DAOActividadCuidadoDiario {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException("Los campos para agregar la información de una actividad de cuidado diario no pueden estar vacios");
         }
     }
 
@@ -72,7 +73,8 @@ public class DAOActividadCuidadoDiario {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

@@ -3,6 +3,8 @@ package dao;
 import conexion.Conexion;
 import logic.Veterinario;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,8 +33,7 @@ public class DAOVeterinario {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException("Los campos para agregar la información de un veterinario no pueden estar vacios");
         }
     }
 
@@ -70,7 +71,8 @@ public class DAOVeterinario {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

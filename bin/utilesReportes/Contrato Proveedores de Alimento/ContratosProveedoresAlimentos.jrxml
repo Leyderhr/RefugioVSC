@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ContratosProveedoresAlimentos" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ac10254-b6c2-446a-9722-9b40bf5bf876">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Refugio"/>
+	<queryString language="SQL">
+		<![CDATA[select proveedor.nombre as nombre_proveedor, servicio.modalidad as tipo_alimento, provincia.nombre as nombre_provincia, proveedor.direccion, contrato.fecha_ini, contrato.fecha_term, contrato.fecha_conc, contrato.desc_contrato
+from contrato inner join proveedor on contrato.id_proveedor = proveedor.id_proveedor inner join provalimentos on proveedor.id_proveedor = provalimentos.id_proveedor inner join provincia on proveedor.id_provincia = provincia.id_provincia inner join servicioproveedor on proveedor.id_proveedor = servicioproveedor.id_proveedor inner join servicio on servicioproveedor.id_servicio = servicio.id_servicio]]>
+	</queryString>
+	<field name="nombre_proveedor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_proveedor"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_proveedor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor"/>
+	</field>
+	<field name="tipo_alimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_alimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_alimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="servicio"/>
+	</field>
+	<field name="nombre_provincia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_provincia"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_provincia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="provincia"/>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor"/>
+	</field>
+	<field name="fecha_ini" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_ini"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_ini"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="fecha_term" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_term"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_term"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="fecha_conc" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_conc"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_conc"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="desc_contrato" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="desc_contrato"/>
+		<property name="com.jaspersoft.studio.field.label" value="desc_contrato"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="572" height="67" forecolor="#FFFFFF" backcolor="#21C43A" uuid="353dda28-7454-479c-9116-95f7a6a556cb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Refugio animal]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="160" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="161" y="0" width="250" height="60" forecolor="#227D32" uuid="7e56fc6f-4038-45de-ae33-d2bae3874ba5">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contratos con proveedores de alimentos]]></text>
+			</staticText>
+			<image>
+				<reportElement x="10" y="0" width="120" height="140" uuid="fcc69e55-4923-4980-b017-ba8d6adbc00a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["Rcortada.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="460" y="-16" width="112" height="76" uuid="b052f28e-1396-4a63-8191-53c08d0826f8">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["LogoZooEdit.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="140" y="60" width="360" height="69" forecolor="#0E5438" uuid="35c6c95a-51dc-4d18-a6fe-f4ceec5c01cc">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[El refugio de animales "Amigos de Pata" se dedica a la protección,
+cuidado y adopción de animales abandonados o en situación de riesgo.
+Ofrece una amplia gama de servicios que incluyen la alimentación,
+atención médica, actividades de socialización, adopciones, y programas de
+voluntariado.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="0" width="79" height="30" backcolor="#3AC270" uuid="393a41b4-017b-43a3-8666-8b7c871302d7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8ee9c43e-eed7-419e-a1bc-4b60db714c9c"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Nombre proveedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="90" y="0" width="71" height="30" backcolor="#3AC270" uuid="931c37ba-7ad3-4796-ad0f-fdf947b0bc85">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fe088a52-febe-4f7d-b061-ce07867a02de"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Tipo alimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="161" y="0" width="70" height="30" backcolor="#3AC270" uuid="6a611686-361a-4034-bdf5-636d14420961">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c66bab7e-4467-4769-9cae-eb019e186181"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Nombre provincia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="231" y="0" width="58" height="30" backcolor="#3AC270" uuid="59d3ed33-27e8-4688-9cdc-e9cf9717334c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="88c4e18b-8e12-410f-86b3-cec55bc73a75"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="511" y="0" width="61" height="30" backcolor="#3AC270" uuid="fa074faa-baf7-4083-bc8c-14f98f6630c1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="820a017d-0d13-45d8-a960-9b9985484b1c"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Descripción contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="289" y="0" width="74" height="30" backcolor="#3AC270" uuid="0e034fc0-d947-43d3-a6b9-b9394e37d8eb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2396fea-2b32-4a97-a498-d39eb745399e"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Fecha conciliación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="363" y="0" width="74" height="30" backcolor="#3AC270" uuid="7d6e28bc-f287-4eee-a13d-e6fea481f0ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aa8c07c6-c916-40b4-b08d-38d630538e98"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Fecha inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="437" y="0" width="74" height="30" backcolor="#3AC270" uuid="5b49c570-8f51-430d-bbff-3827d7963fc7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af3cdf37-cb9d-4a52-bfa9-da0d53ba238a"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+				</textElement>
+				<text><![CDATA[Fecha terminación]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="11" y="0" width="79" height="30" backcolor="#C0EDCB" uuid="71b690ce-8514-4c71-8245-d0c1e2f9d316">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8ee9c43e-eed7-419e-a1bc-4b60db714c9c"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_proveedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="90" y="0" width="71" height="30" backcolor="#C0EDCB" uuid="9c887793-dc52-4c5b-923d-b45b4a1fe360">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fe088a52-febe-4f7d-b061-ce07867a02de"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_alimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="161" y="0" width="70" height="30" backcolor="#C0EDCB" uuid="fbd43396-8c05-4cae-9227-4215919271aa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c66bab7e-4467-4769-9cae-eb019e186181"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_provincia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="231" y="0" width="58" height="30" backcolor="#C0EDCB" uuid="4cb04f46-114b-470e-bbbc-75237035b7f4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="88c4e18b-8e12-410f-86b3-cec55bc73a75"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="363" y="0" width="74" height="30" backcolor="#C0EDCB" uuid="025c1960-5611-4073-9cb7-145a4e0fce91">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aa8c07c6-c916-40b4-b08d-38d630538e98"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_ini}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="437" y="0" width="74" height="30" backcolor="#C0EDCB" uuid="44802b68-d8c9-445f-8223-472719e34e14">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af3cdf37-cb9d-4a52-bfa9-da0d53ba238a"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_term}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="289" y="0" width="74" height="30" backcolor="#C0EDCB" uuid="7b21d530-968c-4a2a-abee-5ebcd5eb3a5a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2396fea-2b32-4a97-a498-d39eb745399e"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_conc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="511" y="0" width="61" height="30" backcolor="#C0EDCB" uuid="3c26494c-e776-46e4-88a1-ddf0640c4092">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="820a017d-0d13-45d8-a960-9b9985484b1c"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{desc_contrato}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="47" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="20" width="572" height="20" forecolor="#2C6929" backcolor="#8EF5AF" uuid="6aee4fc5-b67c-4987-8fa6-4fea794ed8f9">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bahnschrift"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="45" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement mode="Opaque" x="71" y="11" width="60" height="20" backcolor="#ACE8C6" uuid="3c9a3ada-1987-481d-a7c7-b7b4427a9845">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="11" width="60" height="20" backcolor="#51C46F" uuid="4b670363-1805-40c7-9c7d-8449b3ad49f0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -4,6 +4,8 @@ package dao;
 import conexion.Conexion;
 import logic.AnimalAdoptado;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,15 +24,16 @@ public class DAOAnimalAdoptado {
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select animaladoptado_insert(?)");
+            ps = cx.conectar().prepareStatement("select animaladoptado_insert(?,?,?)");
 
             ps.setInt(1, a.getId_animal());
+            ps.setDouble(2, a.getPrecio_Total_adopcion());
+            ps.setDouble(3,a.getCant_dondaciones());
             ps.execute();
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException("Los campos para agregar la información de un animal adoptado no pueden estar vacios");
         }
     }
 
@@ -65,7 +68,8 @@ public class DAOAnimalAdoptado {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

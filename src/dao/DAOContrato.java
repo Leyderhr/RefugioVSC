@@ -3,6 +3,8 @@ package dao;
 import conexion.Conexion;
 import logic.Contrato;
 
+import javax.swing.*;
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +19,6 @@ public class DAOContrato {
     }
 
     public boolean insertarContrato(Contrato c){
-
         PreparedStatement ps = null;
         try{
 
@@ -35,8 +36,7 @@ public class DAOContrato {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException("Los campos no pueden estar vacios");
         }
     }
 
@@ -62,7 +62,7 @@ public class DAOContrato {
                 lista.add(c);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("Los campos para agregar la información de un contrato no pueden estar vacios");
         }
 
         return lista;
@@ -79,7 +79,8 @@ public class DAOContrato {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

@@ -4,6 +4,7 @@ package Interface;
 import com.toedter.calendar.JDateChooser;
 import dao.DAOContrato;
 import logic.Contrato;
+import util.JTextFieldNumerosFlotantes;
 import util.JTextFieldSoloLetras;
 import util.JTextFieldSoloNumeros;
 
@@ -44,7 +45,7 @@ public class ContratoPanel extends JPanel {
     private JDateChooser fechaFin;
 
     private JLabel lblRecargo;
-    private JTextField txtFRecargo;
+    private JTextFieldNumerosFlotantes txtFRecargo;
 
     private JScrollPane scrollPane;
     private JTable tableContrato;
@@ -255,9 +256,9 @@ public class ContratoPanel extends JPanel {
     }
 
 
-    private JTextField getTxtFRecargo() {
+    private JTextFieldNumerosFlotantes getTxtFRecargo() {
         if (txtFRecargo == null) {
-            txtFRecargo = new JTextFieldSoloNumeros();
+            txtFRecargo = new JTextFieldNumerosFlotantes();
             txtFRecargo.setColumns(10);
             txtFRecargo.setBounds(102, 320, 131, 20);
         }
@@ -333,18 +334,24 @@ public class ContratoPanel extends JPanel {
     public Contrato agregarContrato() {
         Contrato c = new Contrato();
 
-        c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
-        c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
-        c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
-        c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
-        c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
-        c.setDesc_cont(txtFDescripcion.getText());
-        c.setNom_resp(txtFResponsable.getText());
-        c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
+        try {
+            c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
+            c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
+            c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
+            c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
+            c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
+            c.setDesc_cont(txtFDescripcion.getText());
+            c.setNom_resp(txtFResponsable.getText());
+            c.setRecargo(Float.parseFloat(txtFRecargo.getText()));
 
-        dao.insertarContrato(c);
-        actualizarTabla();
-
+            dao.insertarContrato(c);
+            actualizarTabla();
+            limpiar();
+        }catch (Exception e){
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No se puede agregar un animal si algún campo está" +
+                    " vacío", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
         return c;
     }

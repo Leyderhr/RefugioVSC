@@ -5,6 +5,11 @@ import java.sql.Time;
 
 public class ActividadCuidadoDiario {
 
+    private int id_contrato, id_animal;
+    private Date fecha;
+    private Time hora;
+    private String desc_act;
+
     public ActividadCuidadoDiario(){}
     public ActividadCuidadoDiario(int id_contrato, int id_animal, Date fecha, Time hora, String desc_act) {
         setId_contrato(id_contrato);
@@ -54,8 +59,5 @@ public class ActividadCuidadoDiario {
         this.desc_act = desc_act;
     }
 
-    private int id_contrato, id_animal;
-    private Date fecha;
-    private Time hora;
-    private String desc_act;
+    
 }

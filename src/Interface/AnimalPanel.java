@@ -4,6 +4,7 @@ import dao.DAOAnimal;
 import dao.DAOAnimalAdoptado;
 import logic.Animal;
 import logic.AnimalAdoptado;
+import util.JTextFieldNumerosFlotantes;
 import util.JTextFieldSoloLetras;
 import util.JTextFieldSoloNumeros;
 
@@ -11,6 +12,11 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AnimalPanel extends JPanel {
@@ -18,52 +24,78 @@ public class AnimalPanel extends JPanel {
     public static final int VALUE = 1;
     private JLabel lblNombreAnimal;
     private JTextFieldSoloLetras txtFNombreAnimal;
+
     private JTextFieldSoloLetras txtFEspecie;
     private JLabel lblEspecie;
+
     private JTextFieldSoloLetras txtFRaza;
     private JLabel lblRaza;
+
     private JTextFieldSoloNumeros txtFEdad;
     private JLabel lblEdad;
+
     private JTextFieldSoloNumeros txtFPeso;
     private JLabel lblPeso;
+
     private JLabel lblCantDasEn;
     private JSpinner spinnerDiasRefugio;
+
     private JCheckBox chckbxesAdoptado;
+
+    private JTextFieldNumerosFlotantes txtFPrecioAdopcion;
+    private JLabel lblPrecioAdopcion;
+
+    private JTextFieldNumerosFlotantes txtFCantDonaciones;
+    private JLabel lblCantDonaciones;
+
     private JScrollPane scrollPane;
     private JTable tableAnimal;
-    private DefaultTableModel model = new DefaultTableModel();
-    private DAOAnimal dao = new DAOAnimal();
-    private DAOAnimalAdoptado daoAdoptado = new DAOAnimalAdoptado();
-    ArrayList<Animal> lista;
+    private final DefaultTableModel model = new DefaultTableModel();
 
+    private final DAOAnimal dao = new DAOAnimal();
+    private final DAOAnimalAdoptado daoAdoptado = new DAOAnimalAdoptado();
+    ArrayList<Animal> lista;
 
     public AnimalPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Animales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Animales",
+                TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
         add(getLblNombreAnimal());
         add(getTxtFNombreAnimal());
+
         add(getTxtFEspecie());
         add(getLblEspecie());
+
         add(getTxtFRaza());
         add(getLblRaza());
+
         add(getTxtFEdad());
         add(getLblEdad());
+
         add(getTxtFPeso());
         add(getLblPeso());
+
         add(getLblCantDasEn());
         add(getSpinnerDiasRefugio());
+
         add(getChckbxesAdoptado());
+
+        add(getLblPrecioTotalAdopcion());
+        add(getTxtFPrecioTotalAdopcion());
+
+        add(getLblCantDonaciones());
+        add(getTxtCantDonaciones());
+
         add(getScrollPane());
     }
-
 
     private JLabel getLblNombreAnimal() {
         if (lblNombreAnimal == null) {
             lblNombreAnimal = new JLabel("Nombre");
             lblNombreAnimal.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblNombreAnimal.setBounds(10, 30, 66, 29);
+            lblNombreAnimal.setBounds(10, 38, 66, 15);
         }
         return lblNombreAnimal;
     }
@@ -81,7 +113,7 @@ public class AnimalPanel extends JPanel {
         if (txtFEspecie == null) {
             txtFEspecie = new JTextFieldSoloLetras();
             txtFEspecie.setColumns(10);
-            txtFEspecie.setBounds(102, 85, 131, 20);
+            txtFEspecie.setBounds(102, 66, 131, 20);
         }
         return txtFEspecie;
     }
@@ -90,7 +122,7 @@ public class AnimalPanel extends JPanel {
         if (lblEspecie == null) {
             lblEspecie = new JLabel("Especie");
             lblEspecie.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEspecie.setBounds(10, 79, 66, 29);
+            lblEspecie.setBounds(10, 69, 66, 15);
         }
         return lblEspecie;
     }
@@ -99,7 +131,7 @@ public class AnimalPanel extends JPanel {
         if (txtFRaza == null) {
             txtFRaza = new JTextFieldSoloLetras();
             txtFRaza.setColumns(10);
-            txtFRaza.setBounds(102, 136, 131, 20);
+            txtFRaza.setBounds(102, 96, 131, 20);
         }
         return txtFRaza;
     }
@@ -108,7 +140,7 @@ public class AnimalPanel extends JPanel {
         if (lblRaza == null) {
             lblRaza = new JLabel("Raza");
             lblRaza.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblRaza.setBounds(10, 130, 66, 29);
+            lblRaza.setBounds(10, 99, 66, 15);
         }
         return lblRaza;
     }
@@ -117,7 +149,7 @@ public class AnimalPanel extends JPanel {
         if (txtFEdad == null) {
             txtFEdad = new JTextFieldSoloNumeros();
             txtFEdad.setColumns(10);
-            txtFEdad.setBounds(102, 183, 131, 20);
+            txtFEdad.setBounds(102, 126, 131, 20);
         }
         return txtFEdad;
     }
@@ -126,7 +158,7 @@ public class AnimalPanel extends JPanel {
         if (lblEdad == null) {
             lblEdad = new JLabel("Edad");
             lblEdad.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEdad.setBounds(10, 177, 66, 29);
+            lblEdad.setBounds(10, 129, 66, 15);
         }
         return lblEdad;
     }
@@ -135,7 +167,7 @@ public class AnimalPanel extends JPanel {
         if (txtFPeso == null) {
             txtFPeso = new JTextFieldSoloNumeros();
             txtFPeso.setColumns(10);
-            txtFPeso.setBounds(102, 231, 131, 20);
+            txtFPeso.setBounds(102, 156, 131, 20);
         }
         return txtFPeso;
     }
@@ -144,7 +176,7 @@ public class AnimalPanel extends JPanel {
         if (lblPeso == null) {
             lblPeso = new JLabel("Peso");
             lblPeso.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblPeso.setBounds(10, 225, 66, 29);
+            lblPeso.setBounds(10, 159, 66, 15);
         }
         return lblPeso;
     }
@@ -153,7 +185,7 @@ public class AnimalPanel extends JPanel {
         if (lblCantDasEn == null) {
             lblCantDasEn = new JLabel("Cant. días en el Refigio");
             lblCantDasEn.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblCantDasEn.setBounds(10, 286, 171, 29);
+            lblCantDasEn.setBounds(10, 189, 171, 15);
         }
         return lblCantDasEn;
     }
@@ -162,19 +194,82 @@ public class AnimalPanel extends JPanel {
         if (spinnerDiasRefugio == null) {
             spinnerDiasRefugio = new JSpinner();
             spinnerDiasRefugio.setModel(new SpinnerNumberModel(0, 0, null, 1));
-            spinnerDiasRefugio.setBounds(191, 292, 42, 20);
+            spinnerDiasRefugio.setBounds(191, 186, 42, 20);
         }
         return spinnerDiasRefugio;
     }
 
+    // Métodos para ingresar a un animal adoptado
+    // =========================================================================
     private JCheckBox getChckbxesAdoptado() {
         if (chckbxesAdoptado == null) {
             chckbxesAdoptado = new JCheckBox("¿Es adoptado?");
             chckbxesAdoptado.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            chckbxesAdoptado.setBounds(10, 336, 137, 23);
+            chckbxesAdoptado.setBounds(10, 216, 137, 23);
+
+            chckbxesAdoptado.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (chckbxesAdoptado.isSelected()) {
+                        txtFPrecioAdopcion.setVisible(true);
+                        lblPrecioAdopcion.setVisible(true);
+
+                        lblCantDonaciones.setVisible(true);
+                        txtFCantDonaciones.setVisible(true);
+                    } else {
+                        txtFPrecioAdopcion.setVisible(false);
+                        lblPrecioAdopcion.setVisible(false);
+
+                        txtFCantDonaciones.setVisible(false);
+                        lblCantDonaciones.setVisible(false);
+                    }
+                }
+            });
         }
         return chckbxesAdoptado;
     }
+
+    private JTextFieldNumerosFlotantes getTxtFPrecioTotalAdopcion() {
+        if (txtFPrecioAdopcion == null) {
+            txtFPrecioAdopcion = new JTextFieldNumerosFlotantes();
+            txtFPrecioAdopcion.setColumns(10);
+            txtFPrecioAdopcion.setBounds(191, 249, 42, 20);
+            txtFPrecioAdopcion.setVisible(false);
+        }
+        return txtFPrecioAdopcion;
+    }
+
+    private JLabel getLblPrecioTotalAdopcion() {
+        if (lblPrecioAdopcion == null) {
+            lblPrecioAdopcion = new JLabel("Precio Total de Adopción");
+            lblPrecioAdopcion.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblPrecioAdopcion.setBounds(10, 282, 171, 15);
+            lblPrecioAdopcion.setVisible(false);
+        }
+        return lblPrecioAdopcion;
+    }
+
+    private JTextFieldNumerosFlotantes getTxtCantDonaciones() {
+        if (txtFCantDonaciones == null) {
+            txtFCantDonaciones = new JTextFieldNumerosFlotantes();
+            txtFCantDonaciones.setColumns(10);
+            txtFCantDonaciones.setBounds(191, 279, 42, 20);
+            txtFCantDonaciones.setVisible(false);
+        }
+        return txtFCantDonaciones;
+    }
+
+    private JLabel getLblCantDonaciones() {
+        if (lblCantDonaciones == null) {
+            lblCantDonaciones = new JLabel("Cantidad de Donaciones");
+            lblCantDonaciones.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblCantDonaciones.setBounds(10, 252, 171, 15);
+            lblCantDonaciones.setVisible(false);
+        }
+        return lblCantDonaciones;
+    }
+
+    // =========================================================================
 
     private JScrollPane getScrollPane() {
         if (scrollPane == null) {
@@ -202,14 +297,13 @@ public class AnimalPanel extends JPanel {
             };
             tableAnimal.getTableHeader().setReorderingAllowed(false);
             tableAnimal.setModel(new DefaultTableModel(
-                    new Object[][]{
-                            {null, null, null, null, null, null, null},
-                            {null, null, null, null, null, null, null},
+                    new Object[][] {
+                            { null, null, null, null, null, null, null },
+                            { null, null, null, null, null, null, null },
                     },
-                    new String[]{
+                    new String[] {
                             "id", "Nombre", "Especie", "Raza", "Edad", "Peso", "Cant. dias refugio"
-                    }
-            ));
+                    }));
         }
         return tableAnimal;
     }
@@ -235,40 +329,68 @@ public class AnimalPanel extends JPanel {
         tableAnimal.setModel(model);
     }
 
-
     // Métodos para Agregar, Eliminar y Actualizar
     // ========================================================================
-    public Animal agregarAnimal(){
+    public Animal agregarAnimal() throws SQLException {
         Animal a = new Animal();
-        a.setNombre(txtFNombreAnimal.getText());
-        a.setEdad(Integer.parseInt(txtFEdad.getText()));
-        a.setRaza(txtFRaza.getText());
-        a.setEspecie(txtFEspecie.getText());
-        a.setPeso(Double.parseDouble(txtFPeso.getText()));
-        a.setCant_dias_refugio((Integer)spinnerDiasRefugio.getValue());
+        int idAnimal = -1;
+        boolean add = false;
 
-        dao.insertarAnimal(a);
-        actualizarTabla();
+        try {
+            a.setNombre(txtFNombreAnimal.getText());
+            a.setEdad(Integer.parseInt(txtFEdad.getText()));
+            a.setRaza(txtFRaza.getText());
+            a.setEspecie(txtFEspecie.getText());
+            a.setPeso(Double.parseDouble(txtFPeso.getText()));
+            a.setCant_dias_refugio((Integer) spinnerDiasRefugio.getValue());
+
+            dao.insertarAnimal(a);
+            add = true;
+            limpiar();
+
+            if (chckbxesAdoptado.isSelected()) {
+                idAnimal = dao.obtenerUltimoID();
+            
+                AnimalAdoptado adoptado = new AnimalAdoptado();
+                adoptado.setId_animal(idAnimal);
+                adoptado.setPrecio_Total_adopcion(Double.parseDouble(txtFPrecioAdopcion.getText()));
+                adoptado.setCant_dondaciones(Double.parseDouble(txtFCantDonaciones.getText()));
+
+                daoAdoptado.insertarAnimalAdoptado(adoptado);
+                limpiar();
+            }
+            actualizarTabla();
+
+        }catch (Exception e){
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "No se puede agregar un animal si algún campo está" +
+                    " vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            if(chckbxesAdoptado.isSelected() && add){
+                dao.eliminarAnimal(idAnimal);
+            }    
+        }
+
 
         return a;
     }
 
+    public void eliminarAnimal() {
 
-    public void eliminarAnimal(){
-        if(tableAnimal.getSelectedRowCount() >= 1) {
+        if (tableAnimal.getSelectedRowCount() >= 1) {
+
             dao.eliminarAnimal(lista.get(tableAnimal.getSelectedRow()).getId_animal());
             actualizarTabla();
-        }
-        else{
+
+        } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
-
-    public void actualizarAnimal(){
-        if(tableAnimal.getSelectedRowCount() >= 1) {
+    public void actualizarAnimal() {
+        if (tableAnimal.getSelectedRowCount() >= 1) {
             Animal a = lista.get(tableAnimal.getSelectedRow());
 
             if (!txtFEdad.getText().isEmpty())
@@ -284,15 +406,15 @@ public class AnimalPanel extends JPanel {
 
             dao.actualizarAnimal(a);
             actualizarTabla();
-        }
-        else{
+        } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
     // ========================================================================
 
-    public void limpiar(){
+    public void limpiar() {
 
         txtFRaza.setText("");
         txtFPeso.setText("");
@@ -300,6 +422,11 @@ public class AnimalPanel extends JPanel {
         txtFEspecie.setText("");
         txtFEdad.setText("");
         spinnerDiasRefugio.setValue(0);
+        if(chckbxesAdoptado.isSelected()){
+            txtFCantDonaciones.setText("");
+            txtFPrecioAdopcion.setText("");
+            chckbxesAdoptado.setSelected(false);
+        }
 
     }
 
