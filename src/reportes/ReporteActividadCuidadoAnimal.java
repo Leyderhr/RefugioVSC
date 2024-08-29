@@ -1,7 +1,10 @@
 package reportes;
 
+import com.spire.doc.Document;
+import com.spire.doc.FileFormat;
 import conexion.Conexion;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRGenericPrintElementParameterFactory;
 import net.sf.jasperreports.view.JasperViewer;
@@ -31,8 +34,25 @@ public class ReporteActividadCuidadoAnimal {
         view.setVisible(true);
     }
 
-    public void exportarPDF() throws JRException {
+    public void exportarPDF_DOC() throws JRException {
 
-        JasperExportManager.exportReportToPdfFile(jprint, "utilesReportes/Contratos Veteriarios/ContratosVeterinarios.jasper");
+        JRDocxExporter exporter = new JRDocxExporter();
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jprint);
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "ReporteActividadCuidadoAnimal.docx");
+        exporter.exportReport();
+
+        Document doc = new Document();
+
+        // Load a Word document
+        doc.loadFromFile("ReporteActividadCuidadoAnimal.docx");
+
+        // Save the document to PDF
+        doc.saveToFile("ReporteActividadCuidadoAnimalPDF.pdf", FileFormat.PDF);
+
+        // Dispose resources
+        doc.dispose();
+
+
+
     }
 }
