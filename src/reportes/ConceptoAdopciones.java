@@ -27,6 +27,8 @@ public class ConceptoAdopciones {
         JasperViewer view = new JasperViewer(jprint, false);
         view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         view.setVisible(true);
+        view.getContentPane().add(new JButton("Casa"));
+
     }
 
     public void exportarPDF_DOC() throws JRException {

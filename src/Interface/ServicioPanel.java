@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 
@@ -43,13 +45,25 @@ public class ServicioPanel extends JPanel {
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
+
         add(getLblPrecio());
         add(getTxtFPrecio());
-        add(getTxtFModalidad());
+
         add(getLblModalidad());
-        add(getScrollPane());
+        add(getTxtFModalidad());
+
         add(getLblTipoServicio());
         add(getComboBoxTipoServicio());
+
+        add(getScrollPane());
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(!tableServicio.contains(e.getPoint()))
+                    tableServicio.clearSelection();
+            }
+        });
     }
 
 

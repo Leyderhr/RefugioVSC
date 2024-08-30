@@ -14,6 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,20 +57,31 @@ public class CuidadoDiarioPanel extends JPanel {
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las Actividades de Cuidado Diario Animal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
+
         add(getLblFecha());
         add(getFecha());
 
-        add(getSpinnerHora());
         add(getLblHora());
-        add(getScrollPane());
+        add(getSpinnerHora());
+
         add(getLblDescActividad());
         add(getTextFieldDescAct());
+
         add(getLblIdAnimal());
         add(getComboBoxIdAnimal());
+
         add(getLblIdContrato());
         add(getComboBoxIdContrato());
-        //add(getTxtDIdContrato());
 
+        add(getScrollPane());
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(!tableActividad.contains(e.getPoint()))
+                    tableActividad.clearSelection();
+            }
+        });
     }
 
 
@@ -221,14 +234,6 @@ public class CuidadoDiarioPanel extends JPanel {
         }
         return comboBoxIdContrato;
     }
-    // private JTextFieldSoloNumeros getTxtDIdContrato() {
-    //     if (txtFIdContrato == null) {
-    //         txtFIdContrato = new JTextFieldSoloNumeros();
-    //         txtFIdContrato.setBounds(150, 242, 90, 28);
-    //         txtFIdContrato.setColumns(10);
-    //     }
-    //     return txtFIdContrato;
-    // }
     // ========================================================================
 
 

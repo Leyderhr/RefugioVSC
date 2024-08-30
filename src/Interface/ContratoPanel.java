@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -61,25 +63,40 @@ public class ContratoPanel extends JPanel {
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Contratos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
+
         add(getLblResponsable());
         add(getTxtFResponsable());
-        add(getTxtFDescripcion());
+
         add(getLblDescripcion());
+        add(getTxtFDescripcion());
+
         add(getLblFechaConciliacion());
-        add(getScrollPane());
         add(getFechaConciliacion());
+
         add(getLblFechaInicio());
         add(getFechaInicio());
+
         add(getLblFechaFin());
-        //add(getSpinnerFechFin());
         add(getFechaFin());
+
         add(getLblIDServicio());
-        add(getLblIDProveedor());
         add(getTxtFIDServicio());
+
+        add(getLblIDProveedor());
         add(getTxtFIDProveedor());
+
         add(getLblRecargo());
         add(getTxtFRecargo());
 
+        add(getScrollPane());
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(!tableContrato.contains(e.getPoint()))
+                    tableContrato.clearSelection();
+            }
+        });
     }
 
 

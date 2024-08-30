@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class ProveedorPanel extends JPanel {
@@ -94,6 +96,14 @@ public class ProveedorPanel extends JPanel {
         add(getTxtFClinica());
 
         add(getScrollPane());
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(!tableProveedor.contains(e.getPoint()))
+                    tableProveedor.clearSelection();
+            }
+        });
     }
 
 

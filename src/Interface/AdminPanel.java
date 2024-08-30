@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class AdminPanel extends JPanel {
@@ -49,6 +51,14 @@ public class AdminPanel extends JPanel {
         add(getChckbxNewCheckBox());
 
         add(getScrollPane());
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(!tableAdmin.contains(e.getPoint()))
+                    tableAdmin.clearSelection();
+            }
+        });
     }
 
 
