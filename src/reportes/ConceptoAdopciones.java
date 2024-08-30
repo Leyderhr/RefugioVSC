@@ -43,6 +43,7 @@ public class ConceptoAdopciones {
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2 && view.getContentPane().contains(e.getPoint())) {
                     try {
+                        Toolkit.getDefaultToolkit().beep();
                         if(JOptionPane.showConfirmDialog(null, "¿Desea guardar el reporte como pdf?", "Guardar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
                             JFileChooser fileChooser = new JFileChooser();
                             fileChooser.setDialogTitle("Guardar reporte");
@@ -63,6 +64,7 @@ public class ConceptoAdopciones {
                 }
             }
         });
+        Toolkit.getDefaultToolkit().beep();
         JOptionPane.showMessageDialog(null, "Para guardar el reporte de doble click en la barra " +
                 "de herramientas", "Advertencia", JOptionPane.WARNING_MESSAGE);
 

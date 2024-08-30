@@ -27,28 +27,29 @@ public class ReporteActividadCuidadoAnimal {
     public ReporteActividadCuidadoAnimal(int id) throws JRException {
 
         Conexion conexion = new Conexion();
-        JasperReport jr= (JasperReport) JRLoader.loadObject(Objects.requireNonNull(getClass().getResource("/utilesReportes/Programa de Actividades de Cuidado para un Animal/ActividadesCuidadoAnimal.jasper")));
+        JasperReport jr = (JasperReport) JRLoader.loadObject(Objects.requireNonNull(getClass().getResource("/utilesReportes/Programa de Actividades de Cuidado para un Animal/ActividadesCuidadoAnimal.jasper")));
         Map parametro;
         parametro = new HashMap();
         parametro.put("ID_ANIMAL", id);
         jprint = JasperFillManager.fillReport(jr, parametro, conexion.conectar());
     }
 
-    public void mostrarVentanaReporte(){
+    public void mostrarVentanaReporte() {
         JasperViewer view = new JasperViewer(jprint, false);
         view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         view.setVisible(true);
 
         view.getContentPane().setLayout(null);
 
-        view.getContentPane().getComponent(0).getComponentAt(0,0).getComponentAt(0,0).getComponentAt(0,2).setEnabled(false);
-        view.getContentPane().getComponent(0).getComponentAt(0,0).getComponentAt(0,0).getComponentAt(0,2).setVisible(false);
+        view.getContentPane().getComponent(0).getComponentAt(0, 0).getComponentAt(0, 0).getComponentAt(0, 2).setEnabled(false);
+        view.getContentPane().getComponent(0).getComponentAt(0, 0).getComponentAt(0, 0).getComponentAt(0, 2).setVisible(false);
         view.getContentPane().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2 && view.getContentPane().contains(e.getPoint())) {
+                if (e.getClickCount() == 2 && view.getContentPane().contains(e.getPoint())) {
                     try {
-                        if(JOptionPane.showConfirmDialog(null, "¿Desea guardar el reporte como pdf?", "Guardar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
+                        Toolkit.getDefaultToolkit().beep();
+                        if (JOptionPane.showConfirmDialog(null, "¿Desea guardar el reporte como pdf?", "Guardar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
                             JFileChooser fileChooser = new JFileChooser();
                             fileChooser.setDialogTitle("Guardar reporte");
                             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -57,7 +58,7 @@ public class ReporteActividadCuidadoAnimal {
                             // Agregar el filtro al JFileChooser
                             fileChooser.addChoosableFileFilter(filtroPdf);
 
-                            if(fileChooser.showDialog(view, "Guardar") == JFileChooser.APPROVE_OPTION)
+                            if (fileChooser.showDialog(view, "Guardar") == JFileChooser.APPROVE_OPTION)
                                 exportarPDF_DOC(fileChooser.getSelectedFile());
 
                         }
@@ -68,6 +69,7 @@ public class ReporteActividadCuidadoAnimal {
                 }
             }
         });
+        Toolkit.getDefaultToolkit().beep();
         JOptionPane.showMessageDialog(null, "Para guardar el reporte de doble click en la barra " +
                 "de herramientas", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
