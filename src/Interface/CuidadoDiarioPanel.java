@@ -46,7 +46,9 @@ public class CuidadoDiarioPanel extends JPanel {
     private JComboBox<String> comboBoxIdContrato;
 
     private final DAOActividadCuidadoDiario dao = new DAOActividadCuidadoDiario();
-    ArrayList<ActividadCuidadoDiario> lista;
+    private ArrayList<ActividadCuidadoDiario> lista;
+    private ArrayList<Animal> listaAnimales;
+    private ArrayList<Contrato> listaContratos;
     private DefaultTableModel model = new DefaultTableModel();
     // ========================================================================
 
@@ -272,6 +274,37 @@ public class CuidadoDiarioPanel extends JPanel {
                             "Id", "Fecha", "Hora", "Desc. Actividad", "Id Animal", "Id Contrato"
                     }
             ));
+            tableActividad.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e){
+                    if(e.getClickCount() == 1){
+                        if(tableActividad.getSelectedRow() != -1){
+                            fecha.setDate(lista.get(tableActividad.getSelectedRow()).getFecha());
+                            spinnerHora.setValue(lista.get(tableActividad.getSelectedRow()).getHora());
+                            txtFDescActividad.setText(lista.get(tableActividad.getSelectedRow()).getDesc_act());
+
+                            int size;
+                            int[] pos = {-1, -1};
+
+                            if(listaAnimales.size() >= listaContratos.size())
+                                size = listaAnimales.size();
+                            else
+                                size = listaContratos.size();
+
+                            for(int i = 0 ;i < size && (pos[0] == -1 || pos[1] == -1); i++){
+                                if(listaAnimales.size() > i)
+                                    if(listaAnimales.get(i).getId_animal() == lista.get(tableActividad.getSelectedRow()).getId_animal())
+                                        pos[0] = i;
+                                if(listaContratos.size() > i)
+                                    if(listaContratos.get(i).getId_contrato() == lista.get(tableActividad.getSelectedRow()).getId_contrato())
+                                        pos[1] = i;
+                            }
+                            comboBoxIdAnimal.setSelectedIndex(pos[0]);
+                            comboBoxIdContrato.setSelectedIndex(pos[1]);
+                        }
+                    }
+                }
+            });
         }
         return tableActividad;
     }
@@ -378,5 +411,13 @@ public class CuidadoDiarioPanel extends JPanel {
         fecha.setDate(null);
         spinnerHora.setValue(Calendar.getInstance().getTime());
 
+    }
+
+    public void cargarLista(){
+        DAOContrato daoC = new DAOContrato();
+        DAOAnimal daoA = new DAOAnimal();
+
+        listaAnimales = daoA.consultarAnimales();
+        listaContratos = daoC.consultarContratos();
     }
 }

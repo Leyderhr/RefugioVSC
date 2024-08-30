@@ -309,6 +309,29 @@ public class AnimalPanel extends JPanel {
                     new String[] {
                             "id", "Nombre", "Especie", "Raza", "Edad", "Peso", "Cant. dias refugio"
                     }));
+            tableAnimal.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e){
+                    if(e.getClickCount() == 1){
+                        if(tableAnimal.getSelectedRow() != -1){
+                            limpiar();
+                            txtFNombreAnimal.setText(lista.get(tableAnimal.getSelectedRow()).getNombre());
+                            txtFEspecie.setText(lista.get(tableAnimal.getSelectedRow()).getEspecie());
+                            txtFRaza.setText(lista.get(tableAnimal.getSelectedRow()).getRaza());
+                            txtFEdad.setText(String.valueOf(lista.get(tableAnimal.getSelectedRow()).getEdad()));
+                            txtFPeso.setText(String.valueOf(lista.get(tableAnimal.getSelectedRow()).getPeso()));
+                            spinnerDiasRefugio.setValue(lista.get(tableAnimal.getSelectedRow()).getCant_dias_refugio());
+                            AnimalAdoptado ad = daoAdoptado.buscarAnimalAdoptado(lista.get(tableAnimal.getSelectedRow()).getId_animal());
+
+                            if(ad != null){
+                                chckbxesAdoptado.setSelected(true);
+                                txtFPrecioAdopcion.setText(String.valueOf(ad.getPrecio_Total_adopcion()));
+                                txtFCantDonaciones.setText(String.valueOf(ad.getCant_dondaciones()));
+                            }
+                        }
+                    }
+                }
+            });
         }
         return tableAnimal;
     }

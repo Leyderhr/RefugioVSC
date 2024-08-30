@@ -294,6 +294,7 @@ public class Window extends JFrame {
                     ventanas.set(i, false);
                 }
                 cuidadoDiarioPanel.setVisible(true);
+                cuidadoDiarioPanel.cargarLista();
                 ventanas.set(4, true);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);

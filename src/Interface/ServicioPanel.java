@@ -35,7 +35,7 @@ public class ServicioPanel extends JPanel {
     private JTable tableServicio;
     private final DefaultTableModel model = new DefaultTableModel();
     private final DAOServicio dao = new DAOServicio();
-    ArrayList<Servicio> lista;
+    private ArrayList<Servicio> lista;
     // ========================================================================
 
 
@@ -183,6 +183,28 @@ public class ServicioPanel extends JPanel {
                             "Id", "Tipo. Servicio", "Modalidad", "Precio"
                     }
             ));
+            tableServicio.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e){
+                    if(e.getClickCount() == 1){
+                        if(tableServicio.getSelectedRow() != -1){
+                            txtFModalidad.setText(lista.get(tableServicio.getSelectedRow()).getModalidad());
+                            txtFPrecio.setText(String.valueOf(lista.get(tableServicio.getSelectedRow()).getPrecio()));
+                            switch (lista.get(tableServicio.getSelectedRow()).getTipo_servicio()) {
+                                case "Alimentario":
+                                    comboBoxTipoServicio.setSelectedIndex(0);
+                                    break;
+                                case "Veterinario":
+                                    comboBoxTipoServicio.setSelectedIndex(1);
+                                    break;
+                                default:
+                                    comboBoxTipoServicio.setSelectedIndex(2);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            });
         }
         return tableServicio;
     }
