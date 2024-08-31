@@ -42,7 +42,7 @@ public class ServicioPanel extends JPanel {
     // Constructor
     public ServicioPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
 
@@ -73,7 +73,7 @@ public class ServicioPanel extends JPanel {
         if (lblPrecio == null) {
             lblPrecio = new JLabel("Precio");
             lblPrecio.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblPrecio.setBounds(10, 30, 66, 29);
+            lblPrecio.setBounds(10, 36, 66, 15);
         }
         return lblPrecio;
     }
@@ -81,7 +81,7 @@ public class ServicioPanel extends JPanel {
     private JTextFieldNumerosFlotantes getTxtFPrecio() {
         if (txtFPrecio == null) {
             txtFPrecio = new JTextFieldNumerosFlotantes();
-            txtFPrecio.setBounds(102, 36, 131, 20);
+            txtFPrecio.setBounds(102, 30, 131, 28);
             txtFPrecio.setColumns(10);
         }
         return txtFPrecio;
@@ -91,22 +91,22 @@ public class ServicioPanel extends JPanel {
 
     // Cosas de Modalidad
     // ========================================================================
-    private JTextFieldSoloLetras getTxtFModalidad() {
-        if (txtFModalidad == null) {
-            txtFModalidad = new JTextFieldSoloLetras();
-            txtFModalidad.setColumns(10);
-            txtFModalidad.setBounds(102, 85, 131, 20);
-        }
-        return txtFModalidad;
-    }
-
     private JLabel getLblModalidad() {
         if (lblModalidad == null) {
             lblModalidad = new JLabel("Modalidad");
             lblModalidad.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblModalidad.setBounds(10, 79, 76, 29);
+            lblModalidad.setBounds(10, 74, 76, 15);
         }
         return lblModalidad;
+    }
+
+    private JTextFieldSoloLetras getTxtFModalidad() {
+        if (txtFModalidad == null) {
+            txtFModalidad = new JTextFieldSoloLetras();
+            txtFModalidad.setColumns(10);
+            txtFModalidad.setBounds(102, 68, 131, 28);
+        }
+        return txtFModalidad;
     }
     // ========================================================================
 
@@ -117,7 +117,7 @@ public class ServicioPanel extends JPanel {
         if (lblTipoServicio == null) {
             lblTipoServicio = new JLabel("Tipo de Servicio");
             lblTipoServicio.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblTipoServicio.setBounds(10, 120, 150, 29);
+            lblTipoServicio.setBounds(10, 116, 150, 15);
         }
         return lblTipoServicio;
     }
@@ -127,7 +127,7 @@ public class ServicioPanel extends JPanel {
         if (comboBoxTipoServicio == null) {
             comboBoxTipoServicio = new JComboBox<>();
             comboBoxTipoServicio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            comboBoxTipoServicio.setBounds(10, 145, 150, 20);
+            comboBoxTipoServicio.setBounds(10, 135, 150, 28);
 
             // ArrayList de prueba para cargar todos los identificadores
 //            ArrayList<String> items = new ArrayList<>();

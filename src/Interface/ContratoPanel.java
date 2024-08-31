@@ -2,8 +2,16 @@ package Interface;
 
 
 import com.toedter.calendar.JDateChooser;
+import dao.DAOAnimal;
 import dao.DAOContrato;
+import dao.DAOProveedor;
+import dao.DAOServicio;
+import logic.Animal;
 import logic.Contrato;
+import logic.Proveedor;
+import logic.Servicio;
+import net.sf.jasperreports.engine.JRException;
+import reportes.ReporteActividadCuidadoAnimal;
 import util.JTextFieldNumerosFlotantes;
 import util.JTextFieldSoloLetras;
 import util.JTextFieldSoloNumeros;
@@ -12,8 +20,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -31,10 +38,10 @@ public class ContratoPanel extends JPanel {
     private JTextFieldSoloLetras txtFDescripcion;
 
     private JLabel lblIDServicio;
-    private JTextFieldSoloNumeros txtFIDServicio;
+    private JComboBox<String> comboBoxIdServicio;
 
     private JLabel lblIDProveedor;
-    private JTextFieldSoloNumeros txtFIDProveedor;
+    private JComboBox<String> comboBoxIdProveedor;
 
     private JLabel lblFechConciliacion;
     private JDateChooser fechaConciliacion;
@@ -55,12 +62,14 @@ public class ContratoPanel extends JPanel {
 
     private final DAOContrato dao = new DAOContrato();
     ArrayList<Contrato> lista;
+    ArrayList<Servicio> listaServicio;
+    ArrayList<Proveedor> listaProveedor;
     // ========================================================================
 
 
     public ContratoPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Contratos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Contratos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
 
@@ -80,10 +89,10 @@ public class ContratoPanel extends JPanel {
         add(getFechaFin());
 
         add(getLblIDServicio());
-        add(getTxtFIDServicio());
+        add(getComboBoxIdAnimal());
 
         add(getLblIDProveedor());
-        add(getTxtFIDProveedor());
+        add(getComboBoxIdProveedor());
 
         add(getLblRecargo());
         add(getTxtFRecargo());
@@ -106,7 +115,7 @@ public class ContratoPanel extends JPanel {
         if (lblResponsable == null) {
             lblResponsable = new JLabel("Responsable");
             lblResponsable.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblResponsable.setBounds(10, 30, 87, 29);
+            lblResponsable.setBounds(10, 36, 87, 29);
         }
         return lblResponsable;
     }
@@ -114,7 +123,7 @@ public class ContratoPanel extends JPanel {
     private JTextFieldSoloLetras getTxtFResponsable() {
         if (txtFResponsable == null) {
             txtFResponsable = new JTextFieldSoloLetras();
-            txtFResponsable.setBounds(102, 36, 131, 20);
+            txtFResponsable.setBounds(102, 30, 131, 28);
             txtFResponsable.setColumns(10);
         }
         return txtFResponsable;
@@ -124,22 +133,22 @@ public class ContratoPanel extends JPanel {
 
     //Cosas de la Descripción
     //=========================================================================
-    private JTextFieldSoloLetras getTxtFDescripcion() {
-        if (txtFDescripcion == null) {
-            txtFDescripcion = new JTextFieldSoloLetras();
-            txtFDescripcion.setColumns(10);
-            txtFDescripcion.setBounds(102, 85, 131, 20);
-        }
-        return txtFDescripcion;
-    }
-
     private JLabel getLblDescripcion() {
         if (lblDescripcion == null) {
             lblDescripcion = new JLabel("Descripción");
             lblDescripcion.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblDescripcion.setBounds(10, 79, 87, 29);
+            lblDescripcion.setBounds(10, 74, 87, 29);
         }
         return lblDescripcion;
+    }
+
+    private JTextFieldSoloLetras getTxtFDescripcion() {
+        if (txtFDescripcion == null) {
+            txtFDescripcion = new JTextFieldSoloLetras();
+            txtFDescripcion.setColumns(10);
+            txtFDescripcion.setBounds(102, 68, 131, 28);
+        }
+        return txtFDescripcion;
     }
     //=========================================================================
 
@@ -150,7 +159,7 @@ public class ContratoPanel extends JPanel {
         if (lblFechConciliacion == null) {
             lblFechConciliacion = new JLabel("Fecha de Conciliación");
             lblFechConciliacion.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblFechConciliacion.setBounds(10, 128, 171, 29);
+            lblFechConciliacion.setBounds(10, 112, 171, 29);
         }
         return lblFechConciliacion;
     }
@@ -161,8 +170,25 @@ public class ContratoPanel extends JPanel {
     private JDateChooser getFechaConciliacion() {
         if (fechaConciliacion == null) {
             fechaConciliacion = new JDateChooser();
-            fechaConciliacion.setBounds(163, 130, 100, 20);
+            fechaConciliacion.setBounds(163, 106, 105, 28);
             fechaConciliacion.setMaxSelectableDate(Calendar.getInstance().getTime());
+
+            // Obtener el JFormattedTextField que contiene la fecha
+            JFormattedTextField campoFecha = (JFormattedTextField) fechaConciliacion.getComponent(1);
+
+            // Agregar un FocusListener para cambiar el color del texto
+            fechaConciliacion.getComponent(1).addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    // No hacer nada cuando se gana el foco
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    // Cambiar el color del texto a blanco cuando se pierde el foco
+                    campoFecha.setForeground(new Color(184,184,184,255));
+                }
+            });
         }
         return fechaConciliacion;
     }
@@ -175,7 +201,7 @@ public class ContratoPanel extends JPanel {
         if (lblFechInicio == null) {
             lblFechInicio = new JLabel("Fecha de Inicio");
             lblFechInicio.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblFechInicio.setBounds(10, 160, 171, 29);
+            lblFechInicio.setBounds(10, 150, 171, 29);
         }
         return lblFechInicio;
     }
@@ -186,7 +212,23 @@ public class ContratoPanel extends JPanel {
     private JDateChooser getFechaInicio() {
         if (fechaInicio == null) {
             fechaInicio = new JDateChooser();
-            fechaInicio.setBounds(163, 162, 100, 20);
+            // Obtener el JFormattedTextField que contiene la fecha
+            JFormattedTextField campoFecha = (JFormattedTextField) fechaInicio.getComponent(1);
+
+            // Agregar un FocusListener para cambiar el color del texto
+            fechaInicio.getComponent(1).addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    // No hacer nada cuando se gana el foco
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    // Cambiar el color del texto a blanco cuando se pierde el foco
+                    campoFecha.setForeground(Color.WHITE);
+                }
+            });
+            fechaInicio.setBounds(163, 144, 105, 28);
         }
         return fechaInicio;
     }
@@ -199,7 +241,7 @@ public class ContratoPanel extends JPanel {
         if (lblFechFin == null) {
             lblFechFin = new JLabel("Fecha de Finalización");
             lblFechFin.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblFechFin.setBounds(10, 200, 171, 29);
+            lblFechFin.setBounds(10, 188, 171, 15);
         }
         return lblFechFin;
     }
@@ -209,7 +251,24 @@ public class ContratoPanel extends JPanel {
     private JDateChooser getFechaFin() {
         if (fechaFin == null) {
             fechaFin = new JDateChooser();
-            fechaFin.setBounds(163, 202, 100, 20);
+
+            // Obtener el JFormattedTextField que contiene la fecha
+            JFormattedTextField campoFecha = (JFormattedTextField) fechaFin.getComponent(1);
+
+            // Agregar un FocusListener para cambiar el color del texto
+            fechaFin.getComponent(1).addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    // No hacer nada cuando se gana el foco
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    // Cambiar el color del texto a blanco cuando se pierde el foco
+                    campoFecha.setForeground(Color.WHITE);
+                }
+            });
+            fechaFin.setBounds(163, 182, 105, 28);
         }
         return fechaFin;
     }
@@ -222,20 +281,29 @@ public class ContratoPanel extends JPanel {
         if (lblIDServicio == null) {
             lblIDServicio = new JLabel("Id. Servicio");
             lblIDServicio.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblIDServicio.setBounds(10, 238, 181, 29);
+            lblIDServicio.setBounds(10, 226, 181, 15);
         }
         return lblIDServicio;
     }
 
+    private JComboBox<String> getComboBoxIdAnimal(){
+        if(comboBoxIdServicio == null){
+            comboBoxIdServicio = new JComboBox<>();
+            comboBoxIdServicio.setBounds(102, 220, 131, 28);
+            comboBoxIdServicio.setVisible(true);
 
-    private JTextField getTxtFIDServicio() {
-        if (txtFIDServicio == null) {
-            txtFIDServicio = new JTextFieldSoloNumeros();
-            txtFIDServicio.setColumns(10);
-            txtFIDServicio.setBounds(102, 240, 131, 20);
+
+            DAOServicio daoServicio = new DAOServicio();
+            ArrayList<Servicio> a = daoServicio.consultarServicios();
+
+            for(Servicio servicio: a){
+                comboBoxIdServicio.addItem("Id del Servicio: "+servicio.getId_servicio()+"    "+"Tipo: "+servicio.getTipo_servicio());
+            }
+            comboBoxIdServicio.setSelectedIndex(-1);
         }
-        return txtFIDServicio;
+        return comboBoxIdServicio;
     }
+
     //=========================================================================
 
 
@@ -245,19 +313,30 @@ public class ContratoPanel extends JPanel {
         if (lblIDProveedor == null) {
             lblIDProveedor = new JLabel("Id. Proveedor");
             lblIDProveedor.setFont(new Font("Bahnschrift", Font.BOLD, 13));
-            lblIDProveedor.setBounds(10, 280, 181, 29);
+            lblIDProveedor.setBounds(10, 264, 181, 15);
         }
         return lblIDProveedor;
     }
 
-    private JTextFieldSoloNumeros getTxtFIDProveedor() {
-        if (txtFIDProveedor == null) {
-            txtFIDProveedor = new JTextFieldSoloNumeros();
-            txtFIDProveedor.setColumns(10);
-            txtFIDProveedor.setBounds(102, 282, 131, 20);
+    private JComboBox<String> getComboBoxIdProveedor(){
+        if(comboBoxIdProveedor == null){
+            comboBoxIdProveedor = new JComboBox<>();
+            comboBoxIdProveedor.setBounds(102, 258, 131, 28);
+            comboBoxIdProveedor.setVisible(true);
+
+
+            DAOProveedor daoProveedor = new DAOProveedor();
+            ArrayList<Proveedor> proveedors = daoProveedor.consultarProveedores();
+
+            /**TODO Agregar en el comboBox el tipo de proveedor*/
+            for(Proveedor p: proveedors){
+                comboBoxIdProveedor.addItem("Id del Proveedor: "+p.getId_proveedor()+"    "+"Tipo: "+p.getNombre());
+            }
+            comboBoxIdProveedor.setSelectedIndex(-1);
         }
-        return txtFIDProveedor;
+        return comboBoxIdProveedor;
     }
+
     //=========================================================================
 
 
@@ -267,7 +346,7 @@ public class ContratoPanel extends JPanel {
         if (lblRecargo == null) {
             lblRecargo = new JLabel("Recargo");
             lblRecargo.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblRecargo.setBounds(10, 318, 181, 29);
+            lblRecargo.setBounds(10, 302, 181, 15);
         }
         return lblRecargo;
     }
@@ -277,7 +356,7 @@ public class ContratoPanel extends JPanel {
         if (txtFRecargo == null) {
             txtFRecargo = new JTextFieldNumerosFlotantes();
             txtFRecargo.setColumns(10);
-            txtFRecargo.setBounds(102, 320, 131, 20);
+            txtFRecargo.setBounds(102, 296, 131, 28);
         }
         return txtFRecargo;
     }
@@ -352,8 +431,8 @@ public class ContratoPanel extends JPanel {
         Contrato c = new Contrato();
 
         try {
-            c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
-            c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
+            c.setId_proveedor(listaProveedor.get(comboBoxIdProveedor.getSelectedIndex()).getId_proveedor());
+            c.setId_servicio(listaServicio.get(comboBoxIdServicio.getSelectedIndex()).getId_servicio());
             c.setFecha_ini(new java.sql.Date(fechaInicio.getDate().getTime()));
             c.setFecha_term(new java.sql.Date(fechaFin.getDate().getTime()));
             c.setFecha_conc((new java.sql.Date(fechaConciliacion.getDate().getTime())));
@@ -381,10 +460,10 @@ public class ContratoPanel extends JPanel {
         if (tableContrato.getSelectedRowCount() >= 1) {
             Contrato c = lista.get(tableContrato.getSelectedRow());
 
-            if (!txtFIDProveedor.getText().isEmpty())
-                c.setId_proveedor(Integer.parseInt(txtFIDProveedor.getText()));
-            if (!txtFIDServicio.getText().isEmpty())
-                c.setId_servicio(Integer.parseInt(txtFIDServicio.getText()));
+            if (comboBoxIdProveedor.getSelectedIndex() != -1)
+                c.setId_proveedor(listaProveedor.get(comboBoxIdProveedor.getSelectedIndex()).getId_proveedor());
+            if (comboBoxIdServicio.getSelectedIndex() != -1)
+                c.setId_servicio(listaServicio.get(comboBoxIdServicio.getSelectedIndex()).getId_servicio());
             if (!txtFDescripcion.getText().isEmpty())
                 c.setDesc_cont(txtFDescripcion.getText());
             if (!txtFResponsable.getText().isEmpty())
@@ -424,12 +503,19 @@ public class ContratoPanel extends JPanel {
     public void limpiar() {
         txtFRecargo.setText("");
         txtFResponsable.setText("");
-        txtFIDProveedor.setText("");
-        txtFIDServicio.setText("");
+        comboBoxIdProveedor.setSelectedIndex(-1);
+        comboBoxIdServicio.setSelectedIndex(-1);
         txtFDescripcion.setText("");
         fechaConciliacion.setDate(null);
         fechaInicio.setDate(null);
         fechaFin.setDate(null);
     }
 
+    public void cargarListas(){
+        DAOServicio daoServicio = new DAOServicio();
+        DAOProveedor daoProveedor = new DAOProveedor();
+
+        listaServicio = daoServicio.consultarServicios();
+        listaProveedor = daoProveedor.consultarProveedores();
+    }
 }

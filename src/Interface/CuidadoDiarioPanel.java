@@ -14,6 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Time;
@@ -56,7 +58,7 @@ public class CuidadoDiarioPanel extends JPanel {
     // Constructor
     public CuidadoDiarioPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las Actividades de Cuidado Diario Animal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de las Actividades de Cuidado Diario Animal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
 
@@ -93,7 +95,7 @@ public class CuidadoDiarioPanel extends JPanel {
         if (lblFecha == null) {
             lblFecha = new JLabel("Fecha");
             lblFecha.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblFecha.setBounds(10, 30, 66, 29);
+            lblFecha.setBounds(10, 36, 66, 15);
         }
         return lblFecha;
     }
@@ -104,8 +106,25 @@ public class CuidadoDiarioPanel extends JPanel {
     private JDateChooser getFecha() {
         if (fecha == null) {
             fecha = new JDateChooser();
-            fecha.setBounds(102, 36, 131, 20);
+            fecha.setBounds(102, 30, 131, 28);
             fecha.setMinSelectableDate(Calendar.getInstance().getTime());
+
+            // Obtener el JFormattedTextField que contiene la fecha
+            JFormattedTextField campoFecha = (JFormattedTextField) fecha.getComponent(1);
+
+            // Agregar un FocusListener para cambiar el color del texto
+            fecha.getComponent(1).addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    // No hacer nada cuando se gana el foco
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    // Cambiar el color del texto a blanco cuando se pierde el foco
+                    campoFecha.setForeground(new Color(184,184,184,255));
+                }
+            });
         }
         return fecha;
     }
@@ -118,7 +137,7 @@ public class CuidadoDiarioPanel extends JPanel {
         if (lblHora == null) {
             lblHora = new JLabel("Hora");
             lblHora.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblHora.setBounds(10, 79, 76, 29);
+            lblHora.setBounds(10, 79, 76, 15);
         }
         return lblHora;
     }
@@ -132,7 +151,7 @@ public class CuidadoDiarioPanel extends JPanel {
 
             spinnerHora = new JSpinner();
             spinnerHora.setModel(modelo);
-            spinnerHora.setBounds(102, 85, 131, 20);
+            spinnerHora.setBounds(102, 68, 131, 28);
             JSpinner.DateEditor de = new JSpinner.DateEditor(spinnerHora, "HH:mm");
             spinnerHora.setEditor(de);
 
@@ -159,7 +178,7 @@ public class CuidadoDiarioPanel extends JPanel {
         if (lblDescActividad == null) {
             lblDescActividad = new JLabel("Desc. Actividad");
             lblDescActividad.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblDescActividad.setBounds(10, 125, 130, 29);
+            lblDescActividad.setBounds(10, 136, 130, 15);
         }
         return lblDescActividad;
     }
@@ -168,7 +187,7 @@ public class CuidadoDiarioPanel extends JPanel {
     private JTextField getTextFieldDescAct() {
         if (txtFDescActividad == null) {
             txtFDescActividad = new JTextField();
-            txtFDescActividad.setBounds(10, 160, 226, 28);
+            txtFDescActividad.setBounds(10, 156, 226, 28);
             txtFDescActividad.setColumns(10);
         }
         return txtFDescActividad;
@@ -182,7 +201,7 @@ public class CuidadoDiarioPanel extends JPanel {
         if (lblIdAnimal == null) {
             lblIdAnimal = new JLabel("Id. Animal");
             lblIdAnimal.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblIdAnimal.setBounds(10, 208, 70, 15);
+            lblIdAnimal.setBounds(10, 204, 70, 15);
         }
         return lblIdAnimal;
     }
@@ -190,7 +209,7 @@ public class CuidadoDiarioPanel extends JPanel {
     private JComboBox<String> getComboBoxIdAnimal(){
         if(comboBoxIdAnimal == null){
             comboBoxIdAnimal = new JComboBox<>();
-            comboBoxIdAnimal.setBounds(10, 233, 226, 28);
+            comboBoxIdAnimal.setBounds(10, 224, 226, 28);
             comboBoxIdAnimal.setVisible(true);
 
 
@@ -198,7 +217,7 @@ public class CuidadoDiarioPanel extends JPanel {
             ArrayList<Animal> a = daoAnimal.consultarAnimales();
 
             for(Animal animal: a){
-                comboBoxIdAnimal.addItem("Id del Animal: "+animal.getId_animal()+" "+"Nombre: "+animal.getNombre());
+                comboBoxIdAnimal.addItem("Id del Animal: "+animal.getId_animal()+"   "+"Nombre: "+animal.getNombre());
             }
             comboBoxIdAnimal.setSelectedIndex(-1);
         }
@@ -214,7 +233,7 @@ public class CuidadoDiarioPanel extends JPanel {
         if (lblIdContrato == null) {
             lblIdContrato = new JLabel("Id. Contrato");
             lblIdContrato.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblIdContrato.setBounds(10, 293, 90, 15);
+            lblIdContrato.setBounds(10, 272, 90, 15);
         }
         return lblIdContrato;
     }
@@ -222,7 +241,7 @@ public class CuidadoDiarioPanel extends JPanel {
     private JComboBox<String> getComboBoxIdContrato(){
         if(comboBoxIdContrato == null){
             comboBoxIdContrato = new JComboBox<>();
-            comboBoxIdContrato.setBounds(10, 318, 226, 28);
+            comboBoxIdContrato.setBounds(10, 292, 226, 28);
             comboBoxIdContrato.setVisible(true);
 
 
@@ -230,7 +249,7 @@ public class CuidadoDiarioPanel extends JPanel {
             ArrayList<Contrato> c = daoContrato.consultarContratos();
 
             for(Contrato contrato: c){
-                comboBoxIdContrato.addItem("Id del Contrato: "+contrato.getId_contrato()+" "+"Responsable: "+contrato.getNom_resp());
+                comboBoxIdContrato.addItem("Id del Contrato: "+contrato.getId_contrato()+"   "+"Responsable: "+contrato.getNom_resp());
             }
             comboBoxIdContrato.setSelectedIndex(-1);;
         }

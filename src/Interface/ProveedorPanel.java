@@ -61,7 +61,7 @@ public class ProveedorPanel extends JPanel {
 
     public ProveedorPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Proveedores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Proveedores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
 
@@ -111,7 +111,7 @@ public class ProveedorPanel extends JPanel {
         if (lblNombre == null) {
             lblNombre = new JLabel("Nombre");
             lblNombre.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblNombre.setBounds(10, 33, 66, 15);
+            lblNombre.setBounds(10, 36, 66, 15);
         }
         return lblNombre;
     }
@@ -120,20 +120,10 @@ public class ProveedorPanel extends JPanel {
     private JTextField getTxtFNombre() {
         if (txtFNombre == null) {
             txtFNombre = new JTextField();
-            txtFNombre.setBounds(102, 30, 131, 20);
+            txtFNombre.setBounds(102, 30, 131, 28);
             txtFNombre.setColumns(10);
         }
         return txtFNombre;
-    }
-
-
-    private JTextField getTxtFDireccion() {
-        if (txtFDireccion == null) {
-            txtFDireccion = new JTextField();
-            txtFDireccion.setColumns(10);
-            txtFDireccion.setBounds(102, 60, 131, 20);
-        }
-        return txtFDireccion;
     }
 
 
@@ -141,43 +131,59 @@ public class ProveedorPanel extends JPanel {
         if (lblDireccion == null) {
             lblDireccion = new JLabel("Dirección");
             lblDireccion.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblDireccion.setBounds(10, 63, 76, 15);
+            lblDireccion.setBounds(10, 74, 76, 15);
         }
         return lblDireccion;
     }
 
-
-    private JTextFieldSoloNumeros getTxtFTelefono() {
-        if (txtFTelefono == null) {
-            txtFTelefono = new JTextFieldSoloNumeros();
-            txtFTelefono.setLimite(8);
-            txtFTelefono.setBounds(102, 90, 131, 20);
+    private JTextField getTxtFDireccion() {
+        if (txtFDireccion == null) {
+            txtFDireccion = new JTextField();
+            txtFDireccion.setColumns(10);
+            txtFDireccion.setBounds(102, 68, 131, 28);
         }
-        return txtFTelefono;
+        return txtFDireccion;
     }
-
 
     private JLabel getLblTelefono() {
         if (lblTelefono == null) {
             lblTelefono = new JLabel("Teléfono");
             lblTelefono.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblTelefono.setBounds(10, 93, 66, 15);
+            lblTelefono.setBounds(10, 116, 66, 15);
         }
         return lblTelefono;
+    }
+
+    private JTextFieldSoloNumeros getTxtFTelefono() {
+        if (txtFTelefono == null) {
+            txtFTelefono = new JTextFieldSoloNumeros();
+            txtFTelefono.setLimite(8);
+            txtFTelefono.setBounds(102, 106, 131, 28);
+        }
+        return txtFTelefono;
+    }
+
+    private JLabel getLblProvincia() {
+        if (lblProvincia == null) {
+            lblProvincia = new JLabel("Provincia");
+            lblProvincia.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblProvincia.setBounds(10, 150, 76, 15);
+        }
+        return lblProvincia;
     }
 
 
     private JComboBox<String> getComboBoxProvincia() {
         if (comboBoxProvincia == null) {
             comboBoxProvincia = new JComboBox<>();
-            comboBoxProvincia.setBounds(102, 120, 131, 20);
+            comboBoxProvincia.setBounds(102, 144, 131, 28);
             comboBoxProvincia.setVisible(true);
 
             DAOProvincia daoProvincia = new DAOProvincia();
             ArrayList<Provincia> provincias = daoProvincia.consultarProvincia();
 
             for (Provincia p : provincias) {
-                comboBoxProvincia.addItem("Id: " + p.getId_provinvcia() + " " + "Nombre: " + p.getNombre());
+                comboBoxProvincia.addItem("Id:"+p.getId_provinvcia()+"  "+ p.getNombre());
             }
             comboBoxProvincia.setSelectedIndex(-1);
 
@@ -186,32 +192,22 @@ public class ProveedorPanel extends JPanel {
     }
 
 
-    private JLabel getLblProvincia() {
-        if (lblProvincia == null) {
-            lblProvincia = new JLabel("Provincia");
-            lblProvincia.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblProvincia.setBounds(10, 123, 76, 15);
+    private JLabel getLblEmail() {
+        if (lblEmail == null) {
+            lblEmail = new JLabel("email");
+            lblEmail.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblEmail.setBounds(10, 188, 66, 15);
         }
-        return lblProvincia;
+        return lblEmail;
     }
-
 
     private JTextField getTxtFEmail() {
         if (txtFEmail == null) {
             txtFEmail = new JTextField();
             txtFEmail.setColumns(10);
-            txtFEmail.setBounds(102, 150, 131, 20);
+            txtFEmail.setBounds(102, 182, 131, 28);
         }
         return txtFEmail;
-    }
-
-    private JLabel getLblEmail() {
-        if (lblEmail == null) {
-            lblEmail = new JLabel("email");
-            lblEmail.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEmail.setBounds(10, 153, 66, 15);
-        }
-        return lblEmail;
     }
 
 
@@ -221,7 +217,7 @@ public class ProveedorPanel extends JPanel {
         if (lblTipoProveedor == null) {
             lblTipoProveedor = new JLabel("Tipo de Proveedor");
             lblTipoProveedor.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblTipoProveedor.setBounds(10, 183, 150, 15);
+            lblTipoProveedor.setBounds(10, 220, 150, 15);
             lblTipoProveedor.setVisible(true);
         }
         return lblTipoProveedor;
@@ -230,7 +226,7 @@ public class ProveedorPanel extends JPanel {
     private JComboBox<String> getComboBoxTipoProveedor() {
         if (comboBoxTipoProveedor == null) {
             comboBoxTipoProveedor = new JComboBox<>();
-            comboBoxTipoProveedor.setBounds(10, 208, 131, 20);
+            comboBoxTipoProveedor.setBounds(10, 240, 131, 28);
             comboBoxTipoProveedor.setVisible(true);
 
             comboBoxTipoProveedor.addItem("Alimentario");
@@ -290,7 +286,7 @@ public class ProveedorPanel extends JPanel {
         if (lblRepresentante == null) {
             lblRepresentante = new JLabel("Representante");
             lblRepresentante.setFont(new Font("Bahnschrift", Font.BOLD, 13));
-            lblRepresentante.setBounds(10, 241, 90, 15);
+            lblRepresentante.setBounds(10, 284, 90, 15);
             lblRepresentante.setVisible(false);
         }
         return lblRepresentante;
@@ -299,7 +295,7 @@ public class ProveedorPanel extends JPanel {
     private JTextFieldSoloLetras getTxtFRepresentante() {
         if (txtFRepresentante == null) {
             txtFRepresentante = new JTextFieldSoloLetras();
-            txtFRepresentante.setBounds(102, 238, 131, 20);
+            txtFRepresentante.setBounds(102, 278, 131, 28);
             txtFRepresentante.setVisible(false);
         }
         return txtFRepresentante;
@@ -311,7 +307,7 @@ public class ProveedorPanel extends JPanel {
         if (lblFax == null) {
             lblFax = new JLabel("Fax");
             lblFax.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblFax.setBounds(10, 241, 76, 15);
+            lblFax.setBounds(10, 284, 76, 15);
             lblFax.setVisible(false);
         }
         return lblFax;
@@ -320,7 +316,7 @@ public class ProveedorPanel extends JPanel {
     private JTextField getTxtFFax() {
         if (txtFFax == null) {
             txtFFax = new JTextField();
-            txtFFax.setBounds(102, 238, 131, 20);
+            txtFFax.setBounds(102, 278, 131, 28);
             txtFFax.setVisible(false);
 
         }
@@ -331,7 +327,7 @@ public class ProveedorPanel extends JPanel {
         if (lblEspecialidad == null) {
             lblEspecialidad = new JLabel("Especialidad");
             lblEspecialidad.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEspecialidad.setBounds(10, 271, 90, 15);
+            lblEspecialidad.setBounds(10, 316, 90, 15);
             lblEspecialidad.setVisible(false);
         }
         return lblEspecialidad;
@@ -340,7 +336,7 @@ public class ProveedorPanel extends JPanel {
     private JTextFieldSoloLetras getTxtFEspecialidad() {
         if (txtFEspecialidad == null) {
             txtFEspecialidad = new JTextFieldSoloLetras();
-            txtFEspecialidad.setBounds(102, 268, 131, 20);
+            txtFEspecialidad.setBounds(102, 311, 131, 28);
             txtFEspecialidad.setVisible(false);
 
         }
@@ -351,7 +347,7 @@ public class ProveedorPanel extends JPanel {
         if (lblClinica == null) {
             lblClinica = new JLabel("Clínica");
             lblClinica.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblClinica.setBounds(10, 301, 76, 15);
+            lblClinica.setBounds(10, 350, 76, 15);
             lblClinica.setVisible(false);
         }
         return lblClinica;
@@ -360,7 +356,7 @@ public class ProveedorPanel extends JPanel {
     private JTextFieldSoloLetras getTxtFClinica() {
         if (txtFClinica == null) {
             txtFClinica = new JTextFieldSoloLetras();
-            txtFClinica.setBounds(102, 298, 131, 20);
+            txtFClinica.setBounds(102, 344, 131, 28);
             txtFClinica.setVisible(false);
 
         }

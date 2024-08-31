@@ -1,6 +1,5 @@
 package Interface;
 
-import dao.DAOActividadCuidadoDiario;
 import logic.Usuario;
 import net.sf.jasperreports.engine.JRException;
 import reportes.*;
@@ -31,6 +30,7 @@ public class Window extends JFrame {
     private JMenuItem mntmLogOut;
 
     private JMenu mnVisualizar;
+    private JMenuItem mntmPanelPrincipal;
     private JMenuItem mntmAnimales;
     private JMenuItem mntmContratos;
     private JMenuItem mntmProveedores;
@@ -74,7 +74,6 @@ public class Window extends JFrame {
         //======================================
         contentPane = new JPanel();
         contentPane.setLayout(null);
-        contentPane.setBackground(Color.WHITE);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         setContentPane(contentPane);
@@ -82,6 +81,7 @@ public class Window extends JFrame {
         setTitle("Gestor del Refugio");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 960, 500);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Authentication.class.getResource("/util/ico.png")));
         setJMenuBar(getMenuBarVisualizar(user));
         setLocationRelativeTo(null);
         setResizable(false);
@@ -266,6 +266,7 @@ public class Window extends JFrame {
                     ventanas.set(i, false);
                 }
                 contratoPanel.setVisible(true);
+                contratoPanel.cargarListas();
                 ventanas.set(2, true);
                 animalPanel.setVisible(false);
                 proveedorPanel.setVisible(false);
@@ -333,6 +334,17 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 break;
             default:
+//                for (int i = 0; i < cantPaneles; i++) {
+//                    ventanas.set(i, false);
+//                }
+                adminPanel.setVisible(false);
+                usuarioPanel.setVisible(false);
+                //ventanas.set(6, true);
+                cuidadoDiarioPanel.setVisible(false);
+                contratoPanel.setVisible(false);
+                animalPanel.setVisible(false);
+                proveedorPanel.setVisible(false);
+                servicioPanel.setVisible(false);
                 break;
         }
     }
@@ -573,6 +585,7 @@ public class Window extends JFrame {
     private JMenu getMnVisualizar(Object user) {
         if (mnVisualizar == null) {
             mnVisualizar = new JMenu("Visualizar");
+            mnVisualizar.add(getMntmPanelPrincipal());
             mnVisualizar.add(getMntmAnimales());
             mnVisualizar.add(getMntmContratos());
             mnVisualizar.add(getMntmServicios());
@@ -582,6 +595,18 @@ public class Window extends JFrame {
             mnVisualizar.add(getMntmAdmin(user));
         }
         return mnVisualizar;
+    }
+
+    private JMenuItem getMntmPanelPrincipal() {
+        if (mntmPanelPrincipal == null) {
+            mntmPanelPrincipal = new JMenuItem("Inicio");
+            mntmPanelPrincipal.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    controlPanel(-1);
+                }
+            });
+        }
+        return mntmPanelPrincipal;
     }
 
     private JMenuItem getMntmAnimales() {

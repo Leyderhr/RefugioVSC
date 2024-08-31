@@ -24,7 +24,7 @@ public class AdminPanel extends JPanel {
     private JTextField txtFNombAdmin;
 
     private JLabel lblContrasenna;
-    private JPasswordField pwdFContrasenna;
+    private JTextField pwdFContrasenna;
     private JCheckBox chckbxShowPwd;
 
     private JScrollPane scrollPane;
@@ -39,7 +39,7 @@ public class AdminPanel extends JPanel {
     // Constructor
     public AdminPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los administradores de la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los administradores de la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
 
@@ -48,7 +48,6 @@ public class AdminPanel extends JPanel {
 
         add(getLblContrasenna());
         add(getPwdFContrasenna());
-        add(getChckbxNewCheckBox());
 
         add(getScrollPane());
 
@@ -67,7 +66,7 @@ public class AdminPanel extends JPanel {
     private JLabel getLblNombAdmin() {
         if (lblNombAdmin == null) {
             lblNombAdmin = new JLabel("Nombre de Usuario");
-            lblNombAdmin.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblNombAdmin.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
             lblNombAdmin.setBounds(10, 30, 226, 29);
         }
         return lblNombAdmin;
@@ -92,39 +91,19 @@ public class AdminPanel extends JPanel {
     private JLabel getLblContrasenna() {
         if (lblContrasenna == null) {
             lblContrasenna = new JLabel("Contraseña");
-            lblContrasenna.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblContrasenna.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
             lblContrasenna.setBounds(10, 95, 80, 29);
         }
         return lblContrasenna;
     }
 
-    private JPasswordField getPwdFContrasenna() {
+    private JTextField getPwdFContrasenna() {
         if (pwdFContrasenna == null) {
-            pwdFContrasenna = new JPasswordField();
+            pwdFContrasenna = new JTextField();
             pwdFContrasenna.setBounds(10, 120, 226, 28);
-            pwdFContrasenna.setFont(new Font("Bahnschrift", Font.BOLD, 16));
-            pwdFContrasenna.setEchoChar('*');
 
         }
         return pwdFContrasenna;
-    }
-
-
-    private JCheckBox getChckbxNewCheckBox() {
-        if (chckbxShowPwd == null) {
-            chckbxShowPwd = new JCheckBox("Mostrar Contraseña");
-            chckbxShowPwd.setBounds(10, 152, 148, 23);
-
-            chckbxShowPwd.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (chckbxShowPwd.isSelected())
-                        pwdFContrasenna.setEchoChar((char) 0);
-                    else
-                        pwdFContrasenna.setEchoChar('*');
-                }
-            });
-        }
-        return chckbxShowPwd;
     }
 
     // ========================================================================
@@ -162,6 +141,18 @@ public class AdminPanel extends JPanel {
                             "Nombre", "Contraseña"
                     }
             ));
+
+            tableAdmin.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if(e.getClickCount() ==1){
+                        if(tableAdmin.getSelectedRow() != -1){
+                            txtFNombAdmin.setText(lista.get(tableAdmin.getSelectedRow()).getNombre());
+                            pwdFContrasenna.setText(lista.get(tableAdmin.getSelectedRow()).getContrasegna());
+                        }
+                    }
+                }
+            });
         }
         return tableAdmin;
     }
@@ -212,7 +203,7 @@ public class AdminPanel extends JPanel {
         Administrador a = new Administrador();
 
         a.setNombre(txtFNombAdmin.getText());
-        a.setContrasegna(String.valueOf(pwdFContrasenna.getPassword()));
+        a.setContrasegna(String.valueOf(pwdFContrasenna.getText()));
 
         dao.insertarAdministrador(a);
         actualizarTabla();
@@ -229,8 +220,8 @@ public class AdminPanel extends JPanel {
 
             if (!txtFNombAdmin.getText().isEmpty())
                 a.setNombre(txtFNombAdmin.getText());
-            if (!String.valueOf(pwdFContrasenna.getPassword()).isEmpty())
-                a.setContrasegna(String.valueOf(pwdFContrasenna.getPassword()));
+            if (!String.valueOf(pwdFContrasenna.getText()).isEmpty())
+                a.setContrasegna(String.valueOf(pwdFContrasenna.getText()));
 
             dao.actualizarAdministrador(a);
             actualizarTabla();

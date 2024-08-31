@@ -12,10 +12,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 import com.spire.doc.Document;
-import com.spire.doc.FileFormat;
+
 
 
 public class ConceptoAdopciones {

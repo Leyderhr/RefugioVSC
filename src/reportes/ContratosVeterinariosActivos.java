@@ -1,7 +1,6 @@
 package reportes;
 
 import com.spire.doc.Document;
-import com.spire.doc.FileFormat;
 import conexion.Conexion;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;

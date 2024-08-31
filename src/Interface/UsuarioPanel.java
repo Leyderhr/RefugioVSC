@@ -25,8 +25,7 @@ public class UsuarioPanel extends JPanel {
     private JTextField txtFNombUsuario;
 
     private JLabel lblContrasenna;
-    private JPasswordField pwdFContrasenna;
-    private JCheckBox chckbxShowPwd;
+    private JTextField pwdFContrasenna;
 
     private JScrollPane scrollPane;
     private JTable tableUsuario;
@@ -40,7 +39,7 @@ public class UsuarioPanel extends JPanel {
     // Constructor
     public UsuarioPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los usuarios con acceso a la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los usuarios con acceso a la Base de Datos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
 
@@ -49,7 +48,6 @@ public class UsuarioPanel extends JPanel {
 
         add(getLblContrasenna());
         add(getPwdFContrasenna());
-        add(getChckbxNewCheckBox());
 
         add(getScrollPane());
 
@@ -68,7 +66,7 @@ public class UsuarioPanel extends JPanel {
     private JLabel getLblNombUsuario() {
         if (lblNombUsuario == null) {
             lblNombUsuario = new JLabel("Nombre de Usuario");
-            lblNombUsuario.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblNombUsuario.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
             lblNombUsuario.setBounds(10, 30, 226, 29);
         }
         return lblNombUsuario;
@@ -82,6 +80,7 @@ public class UsuarioPanel extends JPanel {
         if (txtFNombUsuario == null) {
             txtFNombUsuario = new JTextField();
             txtFNombUsuario.setBounds(10, 60, 226, 28);
+            txtFNombUsuario.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
             txtFNombUsuario.setColumns(10);
         }
         return txtFNombUsuario;
@@ -94,39 +93,20 @@ public class UsuarioPanel extends JPanel {
     private JLabel getLblContrasenna() {
         if (lblContrasenna == null) {
             lblContrasenna = new JLabel("Contraseña");
-            lblContrasenna.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblContrasenna.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
             lblContrasenna.setBounds(10, 95, 80, 29);
         }
         return lblContrasenna;
     }
 
-    private JPasswordField getPwdFContrasenna() {
+    private JTextField getPwdFContrasenna() {
         if (pwdFContrasenna == null) {
-            pwdFContrasenna = new JPasswordField();
+            pwdFContrasenna = new JTextField();
+            pwdFContrasenna.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
             pwdFContrasenna.setBounds(10, 120, 226, 28);
-            pwdFContrasenna.setFont(new Font("Bahnschrift", Font.BOLD, 16));
-            pwdFContrasenna.setEchoChar('*');
 
         }
         return pwdFContrasenna;
-    }
-
-
-    private JCheckBox getChckbxNewCheckBox() {
-        if (chckbxShowPwd == null) {
-            chckbxShowPwd = new JCheckBox("Mostrar Contraseña");
-            chckbxShowPwd.setBounds(10, 152, 148, 23);
-
-            chckbxShowPwd.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (chckbxShowPwd.isSelected())
-                        pwdFContrasenna.setEchoChar((char) 0);
-                    else
-                        pwdFContrasenna.setEchoChar('*');
-                }
-            });
-        }
-        return chckbxShowPwd;
     }
 
     // ========================================================================
@@ -166,6 +146,18 @@ public class UsuarioPanel extends JPanel {
                             "Nombre", "Contraseña"
                     }
             ));
+
+            tableUsuario.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if(e.getClickCount() == 1){
+                        if(tableUsuario.getSelectedRow() != -1){
+                            txtFNombUsuario.setText(lista.get(tableUsuario.getSelectedRow()).getNombre());
+                            pwdFContrasenna.setText(lista.get(tableUsuario.getSelectedRow()).getContrasegna());
+                        }
+                    }
+                }
+            });
         }
         return tableUsuario;
     }
@@ -211,7 +203,7 @@ public class UsuarioPanel extends JPanel {
         Usuario u = new Usuario();
 
         u.setNombre(txtFNombUsuario.getText());
-        u.setContrasegna(String.valueOf(pwdFContrasenna.getPassword()));
+        u.setContrasegna(String.valueOf(pwdFContrasenna.getText()));
 
         dao.insertarUsuario(u);
         actualizarTabla();
@@ -228,8 +220,8 @@ public class UsuarioPanel extends JPanel {
 
             if (!txtFNombUsuario.getText().isEmpty())
                 u.setNombre(txtFNombUsuario.getText());
-            if (!String.valueOf(pwdFContrasenna.getPassword()).isEmpty())
-                u.setContrasegna(String.valueOf(pwdFContrasenna.getPassword()));
+            if (!String.valueOf(pwdFContrasenna.getText()).isEmpty())
+                u.setContrasegna(String.valueOf(pwdFContrasenna.getText()));
 
             dao.actualizarUsuario(u);
             actualizarTabla();

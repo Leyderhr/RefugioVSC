@@ -56,7 +56,7 @@ public class AnimalPanel extends JPanel {
     public AnimalPanel() {
         setBounds(20, 11, 914, 385);
         setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Animales",
-                TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+                TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
         setLayout(null);
         setVisible(false);
         add(getLblNombreAnimal());
@@ -100,7 +100,7 @@ public class AnimalPanel extends JPanel {
         if (lblNombreAnimal == null) {
             lblNombreAnimal = new JLabel("Nombre");
             lblNombreAnimal.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblNombreAnimal.setBounds(10, 38, 66, 15);
+            lblNombreAnimal.setBounds(10, 36, 66, 15);
         }
         return lblNombreAnimal;
     }
@@ -108,89 +108,89 @@ public class AnimalPanel extends JPanel {
     private JTextFieldSoloLetras getTxtFNombreAnimal() {
         if (txtFNombreAnimal == null) {
             txtFNombreAnimal = new JTextFieldSoloLetras();
-            txtFNombreAnimal.setBounds(102, 36, 131, 20);
+            txtFNombreAnimal.setBounds(102, 30, 131, 28);
             txtFNombreAnimal.setColumns(10);
         }
         return txtFNombreAnimal;
-    }
-
-    private JTextFieldSoloLetras getTxtFEspecie() {
-        if (txtFEspecie == null) {
-            txtFEspecie = new JTextFieldSoloLetras();
-            txtFEspecie.setColumns(10);
-            txtFEspecie.setBounds(102, 66, 131, 20);
-        }
-        return txtFEspecie;
     }
 
     private JLabel getLblEspecie() {
         if (lblEspecie == null) {
             lblEspecie = new JLabel("Especie");
             lblEspecie.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEspecie.setBounds(10, 69, 66, 15);
+            lblEspecie.setBounds(10, 74, 66, 15);
         }
         return lblEspecie;
     }
 
-    private JTextFieldSoloLetras getTxtFRaza() {
-        if (txtFRaza == null) {
-            txtFRaza = new JTextFieldSoloLetras();
-            txtFRaza.setColumns(10);
-            txtFRaza.setBounds(102, 96, 131, 20);
+    private JTextFieldSoloLetras getTxtFEspecie() {
+        if (txtFEspecie == null) {
+            txtFEspecie = new JTextFieldSoloLetras();
+            txtFEspecie.setColumns(10);
+            txtFEspecie.setBounds(102, 68, 131, 28);
         }
-        return txtFRaza;
+        return txtFEspecie;
     }
 
     private JLabel getLblRaza() {
         if (lblRaza == null) {
             lblRaza = new JLabel("Raza");
             lblRaza.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblRaza.setBounds(10, 99, 66, 15);
+            lblRaza.setBounds(10, 112, 66, 15);
         }
         return lblRaza;
     }
 
-    private JTextFieldSoloNumeros getTxtFEdad() {
-        if (txtFEdad == null) {
-            txtFEdad = new JTextFieldSoloNumeros();
-            txtFEdad.setColumns(10);
-            txtFEdad.setBounds(102, 126, 131, 20);
+    private JTextFieldSoloLetras getTxtFRaza() {
+        if (txtFRaza == null) {
+            txtFRaza = new JTextFieldSoloLetras();
+            txtFRaza.setColumns(10);
+            txtFRaza.setBounds(102, 106, 131, 28);
         }
-        return txtFEdad;
+        return txtFRaza;
     }
 
     private JLabel getLblEdad() {
         if (lblEdad == null) {
             lblEdad = new JLabel("Edad");
             lblEdad.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblEdad.setBounds(10, 129, 66, 15);
+            lblEdad.setBounds(10, 150, 66, 15);
         }
         return lblEdad;
     }
 
-    private JTextFieldSoloNumeros getTxtFPeso() {
-        if (txtFPeso == null) {
-            txtFPeso = new JTextFieldSoloNumeros();
-            txtFPeso.setColumns(10);
-            txtFPeso.setBounds(102, 156, 131, 20);
+    private JTextFieldSoloNumeros getTxtFEdad() {
+        if (txtFEdad == null) {
+            txtFEdad = new JTextFieldSoloNumeros();
+            txtFEdad.setColumns(10);
+            txtFEdad.setBounds(102, 144, 131, 28);
         }
-        return txtFPeso;
+        return txtFEdad;
     }
 
     private JLabel getLblPeso() {
         if (lblPeso == null) {
             lblPeso = new JLabel("Peso");
             lblPeso.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblPeso.setBounds(10, 159, 66, 15);
+            lblPeso.setBounds(10, 190, 66, 15);
         }
         return lblPeso;
     }
 
+    private JTextFieldSoloNumeros getTxtFPeso() {
+        if (txtFPeso == null) {
+            txtFPeso = new JTextFieldSoloNumeros();
+            txtFPeso.setColumns(10);
+            txtFPeso.setBounds(102, 182, 131, 28);
+        }
+        return txtFPeso;
+    }
+
     private JLabel getLblCantDasEn() {
         if (lblCantDasEn == null) {
-            lblCantDasEn = new JLabel("Cant. días en el Refigio");
+            lblCantDasEn = new JLabel("Cant. días en el Refugio");
             lblCantDasEn.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblCantDasEn.setBounds(10, 189, 171, 15);
+            lblCantDasEn.setBounds(10, 226, 160, 15);
         }
         return lblCantDasEn;
     }
@@ -199,7 +199,7 @@ public class AnimalPanel extends JPanel {
         if (spinnerDiasRefugio == null) {
             spinnerDiasRefugio = new JSpinner();
             spinnerDiasRefugio.setModel(new SpinnerNumberModel(0, 0, null, 1));
-            spinnerDiasRefugio.setBounds(191, 186, 42, 20);
+            spinnerDiasRefugio.setBounds(191, 220, 60, 25);
         }
         return spinnerDiasRefugio;
     }
@@ -210,7 +210,7 @@ public class AnimalPanel extends JPanel {
         if (chckbxesAdoptado == null) {
             chckbxesAdoptado = new JCheckBox("¿Es adoptado?");
             chckbxesAdoptado.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            chckbxesAdoptado.setBounds(10, 216, 137, 23);
+            chckbxesAdoptado.setBounds(10, 255, 137, 23);
 
             chckbxesAdoptado.addItemListener(new ItemListener() {
                 @Override
@@ -234,44 +234,44 @@ public class AnimalPanel extends JPanel {
         return chckbxesAdoptado;
     }
 
-    private JTextFieldNumerosFlotantes getTxtFPrecioTotalAdopcion() {
-        if (txtFPrecioAdopcion == null) {
-            txtFPrecioAdopcion = new JTextFieldNumerosFlotantes();
-            txtFPrecioAdopcion.setColumns(10);
-            txtFPrecioAdopcion.setBounds(191, 249, 42, 20);
-            txtFPrecioAdopcion.setVisible(false);
-        }
-        return txtFPrecioAdopcion;
-    }
-
     private JLabel getLblPrecioTotalAdopcion() {
         if (lblPrecioAdopcion == null) {
             lblPrecioAdopcion = new JLabel("Precio Total de Adopción");
             lblPrecioAdopcion.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblPrecioAdopcion.setBounds(10, 282, 171, 15);
+            lblPrecioAdopcion.setBounds(10, 304, 171, 15);
             lblPrecioAdopcion.setVisible(false);
         }
         return lblPrecioAdopcion;
     }
 
-    private JTextFieldNumerosFlotantes getTxtCantDonaciones() {
-        if (txtFCantDonaciones == null) {
-            txtFCantDonaciones = new JTextFieldNumerosFlotantes();
-            txtFCantDonaciones.setColumns(10);
-            txtFCantDonaciones.setBounds(191, 279, 42, 20);
-            txtFCantDonaciones.setVisible(false);
+    private JTextFieldNumerosFlotantes getTxtFPrecioTotalAdopcion() {
+        if (txtFPrecioAdopcion == null) {
+            txtFPrecioAdopcion = new JTextFieldNumerosFlotantes();
+            txtFPrecioAdopcion.setColumns(10);
+            txtFPrecioAdopcion.setBounds(191, 298, 42, 28);
+            txtFPrecioAdopcion.setVisible(false);
         }
-        return txtFCantDonaciones;
+        return txtFPrecioAdopcion;
     }
 
     private JLabel getLblCantDonaciones() {
         if (lblCantDonaciones == null) {
             lblCantDonaciones = new JLabel("Cantidad de Donaciones");
             lblCantDonaciones.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblCantDonaciones.setBounds(10, 252, 171, 15);
+            lblCantDonaciones.setBounds(10, 342, 171, 15);
             lblCantDonaciones.setVisible(false);
         }
         return lblCantDonaciones;
+    }
+
+    private JTextFieldNumerosFlotantes getTxtCantDonaciones() {
+        if (txtFCantDonaciones == null) {
+            txtFCantDonaciones = new JTextFieldNumerosFlotantes();
+            txtFCantDonaciones.setColumns(10);
+            txtFCantDonaciones.setBounds(191, 336, 42, 28);
+            txtFCantDonaciones.setVisible(false);
+        }
+        return txtFCantDonaciones;
     }
 
     // =========================================================================

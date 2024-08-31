@@ -27,7 +27,6 @@ public class IdAnimalJDialog extends JDialog{
 
         JPanel contentPanel = new JPanel();
         contentPanel.setSize(300,200);
-        contentPanel.setBackground(Color.WHITE);
         getContentPane().add(contentPanel);
         contentPanel.setLayout(null);
 
@@ -60,7 +59,7 @@ public class IdAnimalJDialog extends JDialog{
             ArrayList<Animal> a = daoAnimal.consultarAnimales();
 
             for(Animal animal: a){
-                comboBoxIdAnimal.addItem("Id del Animal: "+animal.getId_animal()+" "+"Nombre: "+animal.getNombre());
+                comboBoxIdAnimal.addItem("Id del Animal: "+animal.getId_animal()+"    "+"Nombre: "+animal.getNombre());
             }
             comboBoxIdAnimal.setSelectedIndex(-1);
 

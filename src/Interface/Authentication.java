@@ -37,9 +37,9 @@ public class Authentication extends JFrame {
 
         //Config de la ventana
         setTitle("Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Authentication.class.getResource("/util/ico.png")));
         setBounds(100, 100, 300, 375);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
         //Config del Panel
@@ -51,8 +51,6 @@ public class Authentication extends JFrame {
         contentPane.add(getLabel_2());
         contentPane.add(getBtnEnter());
         contentPane.add(getChckbxNewCheckBox());
-
-        //Construimos la ventana principal
 
 
         daoUsuario = new DAOUsuario();
@@ -86,6 +84,7 @@ public class Authentication extends JFrame {
                         }
                         else if (users.contains(user)) {
                             try {
+                                //Construimos la ventana principal
                                 window = new Window(user);
                                 window.setVisible(true);
                             } catch (Exception e1) {
@@ -95,8 +94,10 @@ public class Authentication extends JFrame {
                             Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
                         }
-                        else
+                        else {
+                            Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
 
                     }
 
@@ -165,6 +166,7 @@ public class Authentication extends JFrame {
 
                     if (admins.contains(admin)) {
                         try {
+                            //Construimos la ventana principal
                             window = new Window(admin);
                             window.setVisible(true);
                         } catch (Exception e1) {
@@ -182,8 +184,10 @@ public class Authentication extends JFrame {
                             System.out.println(e1.getMessage());
                         }
                         dispose();
-                    } else
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
 
@@ -200,8 +204,9 @@ public class Authentication extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if (chckbxShowPwd.isSelected())
                         passwordField.setEchoChar((char) 0);
-                    else
+                    else {
                         passwordField.setEchoChar('*');
+                    }
                 }
             });
         }

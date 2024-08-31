@@ -1,12 +1,10 @@
 package reportes;
 
 import com.spire.doc.Document;
-import com.spire.doc.FileFormat;
 import conexion.Conexion;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.xml.JRGenericPrintElementParameterFactory;
 import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.*;
@@ -16,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
