@@ -90,4 +90,27 @@ public class DAOProveedorAlimentos {
             return false;
         }
     }
+
+    public ProvAlimentos buscarProveedorAlimentos(int id) {
+        ProvAlimentos pv = null;
+
+        try {
+            ResultSet rs = null;
+            PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_provalimentos(?)");
+
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                pv = new ProvAlimentos(); 
+                pv.setRepresentante(rs.getString(1));
+                pv.setId_proveedor(rs.getInt(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pv;
+    }
 }

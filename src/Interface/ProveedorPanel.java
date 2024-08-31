@@ -51,10 +51,8 @@ public class ProveedorPanel extends JPanel {
     private JScrollPane scrollPane;
     private JTable tableProveedor;
     private final DAOProveedor dao = new DAOProveedor();
-    private final DAOProveedorAlimentos daoProvAlimentos = new DAOProveedorAlimentos();
-    private final DAOProvServComplementarios daoProvServComp = new DAOProvServComplementarios();
-    private final DAOVeterinario daoVeterinario = new DAOVeterinario();
-    ArrayList<Proveedor> lista;
+    private ArrayList<Proveedor> lista;
+    private ArrayList<Provincia> listaProvincia;
     private final DefaultTableModel model = new DefaultTableModel();
     // ========================================================================
 
@@ -377,6 +375,7 @@ public class ProveedorPanel extends JPanel {
             model.addColumn("Teléfono");
             model.addColumn("Email");
             model.addColumn("id Provincia");
+            model.addColumn("Tipo de Proveedor");
             actualizarTabla();
         }
         return scrollPane;
@@ -393,15 +392,68 @@ public class ProveedorPanel extends JPanel {
                 }
             };
             tableProveedor.getTableHeader().setReorderingAllowed(false);
+            tableProveedor = new JTable() {
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return false;
+                }
+            };
+            tableProveedor.getTableHeader().setReorderingAllowed(false);
             tableProveedor.setModel(new DefaultTableModel(
                     new Object[][]{
-                            {null, null, null, null, null},
-                            {null, null, null, null, null},
+                            {null, null, null, null, null, null, null},
+                            {null, null, null, null, null, null, null},
                     },
                     new String[]{
-                            "Id", "Nombre", "Dirección", "Teléfono", "Provincia", "Email"
+                            "Id", "Nombre", "Dirección", "Teléfono", "Provincia", "Email", "Tipo de Proveedor"
                     }
             ));
+            tableProveedor.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if(e.getClickCount() == 1){
+                        if(tableProveedor.getSelectedRow() != -1){
+                            limpiar();
+                            txtFNombre.setText(lista.get(tableProveedor.getSelectedRow()).getNombre());
+                            txtFDireccion.setText(lista.get(tableProveedor.getSelectedRow()).getDireccion());
+                            txtFTelefono.setText(lista.get(tableProveedor.getSelectedRow()).getTelefono());
+
+                            int pos = -1;
+                            for(int i = 0; i < listaProvincia.size() && pos == -1; i++){
+                                if(listaProvincia.get(i).getId_provinvcia() == lista.get(tableProveedor.getSelectedRow()).getProvincia())
+                                    pos = i;
+                            }
+                            comboBoxProvincia.setSelectedIndex(pos);
+
+                            txtFEmail.setText(lista.get(tableProveedor.getSelectedRow()).getEmail());
+                            switch (lista.get(tableProveedor.getSelectedRow()).getTipo_proveedor()){
+                                case 'A':
+                                    comboBoxTipoProveedor.setSelectedIndex(0);
+                                    DAOProveedorAlimentos daoA = new DAOProveedorAlimentos();
+                                    ProvAlimentos provA = daoA.buscarProveedorAlimentos(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
+                                    txtFRepresentante.setText(provA.getRepresentante());
+                                    break;
+                                case 'V':
+                                    comboBoxTipoProveedor.setSelectedIndex(1);
+                                    DAOVeterinario daoV = new DAOVeterinario();
+                                    Veterinario vet = daoV.buscarVeterinario(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
+                                    txtFClinica.setText(vet.getClinica());
+                                    txtFEspecialidad.setText(vet.getEspecialidad());
+                                    txtFFax.setText(vet.getFax());
+                                    break;
+
+                                default:
+                                    comboBoxTipoProveedor.setSelectedIndex(2);
+                                    DAOProvServComplementarios daoC = new DAOProvServComplementarios();
+                                    ProvServComplementarios provC = daoC.buscarProvServComplementarios(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
+                                    txtFRepresentante.setText(provC.getRepresentante());
+                                    break;
+                            }
+
+
+                        }
+                    }
+                }
+            });
         }
         return tableProveedor;
     }
@@ -414,13 +466,14 @@ public class ProveedorPanel extends JPanel {
         lista = dao.consultarProveedores();
         for (Proveedor a : lista) {
 
-            Object[] ob = new Object[6];
+            Object[] ob = new Object[7];
             ob[0] = a.getId_proveedor();
             ob[1] = a.getNombre();
             ob[2] = a.getDireccion();
             ob[3] = a.getTelefono();
             ob[4] = a.getEmail();
             ob[5] = a.getProvincia();
+            ob[6] = a.getTipo_proveedor();
             model.addRow(ob);
         }
         tableProveedor.setModel(model);
@@ -465,6 +518,7 @@ public class ProveedorPanel extends JPanel {
             switch (comboBoxTipoProveedor.getSelectedIndex()) {
                 case 0:
                     ProvAlimentos provAlimentos = new ProvAlimentos();
+                    DAOProveedorAlimentos daoProvAlimentos = new DAOProveedorAlimentos();
                     provAlimentos.setId_proveedor(idProveedor);
                     provAlimentos.setRepresentante(txtFRepresentante.getText());
                     daoProvAlimentos.insertarProveedorAlimentos(provAlimentos);
@@ -472,6 +526,7 @@ public class ProveedorPanel extends JPanel {
                     break;
                 case 1:
                     Veterinario vet = new Veterinario();
+                    DAOVeterinario daoVeterinario = new DAOVeterinario();
                     vet.setId_proveedor(idProveedor);
                     vet.setEspecialidad(txtFEspecialidad.getText());
                     vet.setFax(txtFFax.getText());
@@ -481,6 +536,7 @@ public class ProveedorPanel extends JPanel {
                     break;
                 case 2:
                     ProvServComplementarios provServCompl = new ProvServComplementarios();
+                    DAOProvServComplementarios daoProvServComp = new DAOProvServComplementarios();
                     provServCompl.setId_proveedor(idProveedor);
                     provServCompl.setRepresentante(txtFRepresentante.getText());
                     daoProvServComp.insertarProvServComplementarios(provServCompl);
@@ -553,7 +609,8 @@ public class ProveedorPanel extends JPanel {
         }
     }
 
-    public void actualizarComboBox() {
-
+    public void cargarListas(){
+        DAOProvincia daoP = new DAOProvincia();
+        listaProvincia = daoP.consultarProvincia();
     }
 }

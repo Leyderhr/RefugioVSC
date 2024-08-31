@@ -4,6 +4,7 @@ public class Proveedor {
 
     private int id_proveedor, provincia;
     private String nombre, direccion, telefono, email;
+    private char tipo_proveedor;
 
     public Proveedor() {
     }
@@ -64,4 +65,8 @@ public class Proveedor {
     public void setProvincia(int provincia) {
         this.provincia = provincia;
     }
+
+    public char getTipo_proveedor() {return tipo_proveedor;}
+
+    public void setTipo_proveedor(char tipo_proveedor) {this.tipo_proveedor = tipo_proveedor;}
 }

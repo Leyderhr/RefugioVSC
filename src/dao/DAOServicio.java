@@ -95,4 +95,30 @@ public class DAOServicio {
             return false;
         }
     }
+
+    public Servicio buscarServicio(int id) {
+        Servicio s = null;
+
+        try {
+            ResultSet rs = null;
+            PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_servicio(?)");
+
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                s = new Servicio();
+                s.setId_servicio(rs.getInt(1));
+                s.setPrecio(rs.getDouble(2));
+                s.setTipo_servicio(rs.getString(3));
+                s.setModalidad(rs.getString(4));
+    
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return s;
+    }
 }

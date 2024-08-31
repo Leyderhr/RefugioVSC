@@ -90,4 +90,27 @@ public class DAOProvServComplementarios {
             return false;
         }
     }
+
+    public ProvServComplementarios buscarProvServComplementarios(int id) {
+        ProvServComplementarios pvs = null;
+
+        try {
+            ResultSet rs = null;
+            PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_provservcomplementario(?)");
+
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                pvs = new ProvServComplementarios();
+                pvs.setRepresentante(rs.getString(1));
+                pvs.setId_proveedor(rs.getInt(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pvs;
+    }
 }

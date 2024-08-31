@@ -119,4 +119,31 @@ public class DAOAnimal {
             return false;
         }
     }
+
+    public Animal buscarAnimales(int id) {
+        Animal a = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = cx.conectar().prepareStatement("SELECT * FROM find_animal(?)");
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                a = new Animal();
+                a.setId_animal(rs.getInt("id_animal"));
+                a.setNombre(rs.getString("nombre"));
+                a.setEspecie(rs.getString("especie"));
+                a.setRaza(rs.getString("raza"));
+                a.setEdad(rs.getInt("edad"));
+                a.setPeso((double) rs.getInt("peso"));
+                a.setCant_dias_refugio(rs.getInt("cant_dias"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return a;
+    }
 }

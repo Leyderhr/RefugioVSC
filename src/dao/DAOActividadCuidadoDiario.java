@@ -100,28 +100,31 @@ public class DAOActividadCuidadoDiario {
         }
     }
 
-//    public ActividadCuidadoDiario encontrarACD(Date d, Time t, int id){
-//        ActividadCuidadoDiario a = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            ps = cx.conectar().prepareStatement("SELECT find_actividadcuidadodiario('1923/10/21','12:00:00',1)");
-//            ps.setDate(1, d);
-//            ps.setTime(2, t);
-//          ps.setInt(3, id);
-//            rs = ps.executeQuery();
-//            a = new ActividadCuidadoDiario();
-//            a.setHora(rs.getTime("hora"));
-//            a.setFecha(rs.getDate("fecha"));
-//            a.setDesc_act(rs.getString("desc_act"));
-//            a.setId_animal(rs.getInt("id_animal"));
-//            a.setId_contrato(rs.getInt("id_contrato"));
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return a;
-//    }
+     public ActividadCuidadoDiario buscarACD(Date d, Time t, int id) {
+         ActividadCuidadoDiario acd = null;
+
+         try {
+             ResultSet rs = null;
+             PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_actividadcuidadodiario(?, ?, ?)");
+
+             ps.setDate(1, d);
+             ps.setTime(2, t);
+             ps.setInt(3, id);
+
+             rs = ps.executeQuery();
+
+             if (rs.next()) {
+                 acd = new ActividadCuidadoDiario();
+                 acd.setFecha(rs.getDate(1));
+                 acd.setHora(rs.getTime(2));
+                 acd.setDesc_act(rs.getString(3));
+                 acd.setId_animal(rs.getInt(4));
+                 acd.setId_contrato(rs.getInt(5));
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+
+         return acd;
+     }
 }

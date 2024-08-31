@@ -96,4 +96,29 @@ public class DAOVeterinario {
             return false;
         }
     }
+
+    public Veterinario buscarVeterinario(int id) {
+        Veterinario v = null;
+
+        try {
+            ResultSet rs = null;
+            PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_veterinario(?)");
+
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                v = new Veterinario();
+                v.setFax(rs.getString(1));
+                v.setEspecialidad(rs.getString(2));
+                v.setId_proveedor(rs.getInt(3));
+                v.setClinica(rs.getString(4));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return v;
+    }
 }

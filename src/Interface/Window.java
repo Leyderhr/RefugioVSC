@@ -252,6 +252,7 @@ public class Window extends JFrame {
                     ventanas.set(i, false);
                 }
                 proveedorPanel.setVisible(true);
+                proveedorPanel.cargarListas();
                 ventanas.set(1, true);
                 animalPanel.setVisible(false);
                 contratoPanel.setVisible(false);

@@ -40,13 +40,14 @@ public class DAOProveedor {
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select proveedor_insert(?,?,?,?,?)");
+            ps = cx.conectar().prepareStatement("select proveedor_insert(?,?,?,?,?,?)");
 
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getDireccion());
             ps.setString(3, p.getTelefono());
             ps.setString(4, p.getEmail());
             ps.setInt(5, p.getProvincia());
+            ps.setString(6, String.valueOf(p.getTipo_proveedor()));
             ps.execute();
             cx.desconectar();
             return true;
@@ -71,6 +72,7 @@ public class DAOProveedor {
                 p.setTelefono(rs.getString("telefono"));
                 p.setEmail(rs.getString("email"));
                 p.setProvincia(rs.getInt("id_provincia"));
+                p.setTipo_proveedor(rs.getString("tipo_proveedor").charAt(0));
                 lista.add(p);
             }
         } catch (SQLException e) {
@@ -102,7 +104,7 @@ public class DAOProveedor {
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select proveedor_update(?,?,?,?,?,?)");
+            ps = cx.conectar().prepareStatement("select proveedor_update(?,?,?,?,?,?,?)");
 
             ps.setInt(1, p.getId_proveedor());
             ps.setString(2, p.getNombre());
@@ -110,6 +112,7 @@ public class DAOProveedor {
             ps.setString(4, p.getTelefono());
             ps.setString(5, p.getEmail());
             ps.setInt(6, p.getProvincia());
+            ps.setString(7, String.valueOf(p.getTipo_proveedor()));
             ps.execute();
             cx.desconectar();
             return true;
