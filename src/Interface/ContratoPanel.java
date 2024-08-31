@@ -89,7 +89,7 @@ public class ContratoPanel extends JPanel {
         add(getFechaFin());
 
         add(getLblIDServicio());
-        add(getComboBoxIdAnimal());
+        add(getComboBoxIServicio());
 
         add(getLblIDProveedor());
         add(getComboBoxIdProveedor());
@@ -286,7 +286,7 @@ public class ContratoPanel extends JPanel {
         return lblIDServicio;
     }
 
-    private JComboBox<String> getComboBoxIdAnimal(){
+    private JComboBox<String> getComboBoxIServicio(){
         if(comboBoxIdServicio == null){
             comboBoxIdServicio = new JComboBox<>();
             comboBoxIdServicio.setBounds(102, 220, 131, 28);
@@ -328,9 +328,9 @@ public class ContratoPanel extends JPanel {
             DAOProveedor daoProveedor = new DAOProveedor();
             ArrayList<Proveedor> proveedors = daoProveedor.consultarProveedores();
 
-            /**TODO Agregar en el comboBox el tipo de proveedor*/
+            
             for(Proveedor p: proveedors){
-                comboBoxIdProveedor.addItem("Id del Proveedor: "+p.getId_proveedor()+"    "+"Tipo: "+p.getNombre());
+                comboBoxIdProveedor.addItem("Id del Proveedor: "+p.getId_proveedor()+"    "+"Tipo: "+p.getTipo_proveedor());
             }
             comboBoxIdProveedor.setSelectedIndex(-1);
         }

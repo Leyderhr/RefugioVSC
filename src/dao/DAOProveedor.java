@@ -62,7 +62,7 @@ public class DAOProveedor {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM proveedor");
+            ps = cx.conectar().prepareStatement("SELECT * FROM proveedor ORDER BY id_proveedor ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Proveedor p = new Proveedor();
@@ -113,6 +113,7 @@ public class DAOProveedor {
             ps.setString(5, p.getEmail());
             ps.setInt(6, p.getProvincia());
             ps.setString(7, String.valueOf(p.getTipo_proveedor()));
+
             ps.execute();
             cx.desconectar();
             return true;
