@@ -1,20 +1,14 @@
 package Interface;
 
-
 import com.toedter.calendar.JDateChooser;
-import dao.DAOAnimal;
 import dao.DAOContrato;
 import dao.DAOProveedor;
 import dao.DAOServicio;
-import logic.Animal;
 import logic.Contrato;
 import logic.Proveedor;
 import logic.Servicio;
-import net.sf.jasperreports.engine.JRException;
-import reportes.ReporteActividadCuidadoAnimal;
 import util.JTextFieldNumerosFlotantes;
 import util.JTextFieldSoloLetras;
-import util.JTextFieldSoloNumeros;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -26,7 +20,6 @@ import java.util.Calendar;
 
 @SuppressWarnings("Unchecked")
 public class ContratoPanel extends JPanel {
-
 
     // Atributos de la clase
     // ========================================================================
@@ -50,7 +43,6 @@ public class ContratoPanel extends JPanel {
     private JDateChooser fechaInicio;
 
     private JLabel lblFechFin;
-    //   private JSpinner spinnerFechFin;
     private JDateChooser fechaFin;
 
     private JLabel lblRecargo;
@@ -61,15 +53,15 @@ public class ContratoPanel extends JPanel {
     private final DefaultTableModel model = new DefaultTableModel();
 
     private final DAOContrato dao = new DAOContrato();
-    ArrayList<Contrato> lista;
-    ArrayList<Servicio> listaServicio;
-    ArrayList<Proveedor> listaProveedor;
+    private ArrayList<Contrato> lista;
+    private ArrayList<Servicio> listaServicio;
+    private ArrayList<Proveedor> listaProveedor;
     // ========================================================================
-
 
     public ContratoPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Contratos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Contratos",
+                TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184, 184, 184, 255)));
         setLayout(null);
         setVisible(false);
 
@@ -102,15 +94,14 @@ public class ContratoPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(!tableContrato.contains(e.getPoint()))
+                if (!tableContrato.contains(e.getPoint()))
                     tableContrato.clearSelection();
             }
         });
     }
 
-
-    //Cosas del Responsable
-    //=========================================================================
+    // Cosas del Responsable
+    // =========================================================================
     private JLabel getLblResponsable() {
         if (lblResponsable == null) {
             lblResponsable = new JLabel("Responsable");
@@ -128,11 +119,10 @@ public class ContratoPanel extends JPanel {
         }
         return txtFResponsable;
     }
-    //=========================================================================
+    // =========================================================================
 
-
-    //Cosas de la Descripción
-    //=========================================================================
+    // Cosas de la Descripción
+    // =========================================================================
     private JLabel getLblDescripcion() {
         if (lblDescripcion == null) {
             lblDescripcion = new JLabel("Descripción");
@@ -150,11 +140,10 @@ public class ContratoPanel extends JPanel {
         }
         return txtFDescripcion;
     }
-    //=========================================================================
+    // =========================================================================
 
-
-    //Cosas de la Fecha de Conciliación
-    //=========================================================================
+    // Cosas de la Fecha de Conciliación
+    // =========================================================================
     private JLabel getLblFechaConciliacion() {
         if (lblFechConciliacion == null) {
             lblFechConciliacion = new JLabel("Fecha de Conciliación");
@@ -163,7 +152,6 @@ public class ContratoPanel extends JPanel {
         }
         return lblFechConciliacion;
     }
-
 
     // JDateChooser para asignar la fecha de la conciliación del contrato
     // ========================================================================
@@ -186,7 +174,7 @@ public class ContratoPanel extends JPanel {
                 @Override
                 public void focusLost(FocusEvent e) {
                     // Cambiar el color del texto a blanco cuando se pierde el foco
-                    campoFecha.setForeground(new Color(184,184,184,255));
+                    campoFecha.setForeground(new Color(184, 184, 184, 255));
                 }
             });
         }
@@ -194,9 +182,8 @@ public class ContratoPanel extends JPanel {
     }
     // ========================================================================
 
-
-    //Cosas de la Fecha de Inicio
-    //=========================================================================
+    // Cosas de la Fecha de Inicio
+    // =========================================================================
     private JLabel getLblFechaInicio() {
         if (lblFechInicio == null) {
             lblFechInicio = new JLabel("Fecha de Inicio");
@@ -205,7 +192,6 @@ public class ContratoPanel extends JPanel {
         }
         return lblFechInicio;
     }
-
 
     // JDateChooser para asignar la fecha de la inicio del contrato
     // ========================================================================
@@ -234,9 +220,8 @@ public class ContratoPanel extends JPanel {
     }
     // ========================================================================
 
-
-    //Cosas de la Fecha de Terminación
-    //=========================================================================
+    // Cosas de la Fecha de Terminación
+    // =========================================================================
     private JLabel getLblFechaFin() {
         if (lblFechFin == null) {
             lblFechFin = new JLabel("Fecha de Finalización");
@@ -274,9 +259,8 @@ public class ContratoPanel extends JPanel {
     }
     // ========================================================================
 
-
-    //Cosas para el ID de Servicio
-    //=========================================================================
+    // Cosas para el ID de Servicio
+    // =========================================================================
     private JLabel getLblIDServicio() {
         if (lblIDServicio == null) {
             lblIDServicio = new JLabel("Id. Servicio");
@@ -286,29 +270,28 @@ public class ContratoPanel extends JPanel {
         return lblIDServicio;
     }
 
-    private JComboBox<String> getComboBoxIServicio(){
-        if(comboBoxIdServicio == null){
+    private JComboBox<String> getComboBoxIServicio() {
+        if (comboBoxIdServicio == null) {
             comboBoxIdServicio = new JComboBox<>();
             comboBoxIdServicio.setBounds(102, 220, 131, 28);
             comboBoxIdServicio.setVisible(true);
 
-
             DAOServicio daoServicio = new DAOServicio();
             ArrayList<Servicio> a = daoServicio.consultarServicios();
 
-            for(Servicio servicio: a){
-                comboBoxIdServicio.addItem("Id del Servicio: "+servicio.getId_servicio()+"    "+"Tipo: "+servicio.getTipo_servicio());
+            for (Servicio servicio : a) {
+                comboBoxIdServicio.addItem("Id del Servicio: " + servicio.getId_servicio() + "    " + "Tipo: "
+                        + servicio.getTipo_servicio());
             }
             comboBoxIdServicio.setSelectedIndex(-1);
         }
         return comboBoxIdServicio;
     }
 
-    //=========================================================================
+    // =========================================================================
 
-
-    //Cosas para seleccionar el id del Proveedor
-    //=========================================================================
+    // Cosas para seleccionar el id del Proveedor
+    // =========================================================================
     private JLabel getLblIDProveedor() {
         if (lblIDProveedor == null) {
             lblIDProveedor = new JLabel("Id. Proveedor");
@@ -318,30 +301,28 @@ public class ContratoPanel extends JPanel {
         return lblIDProveedor;
     }
 
-    private JComboBox<String> getComboBoxIdProveedor(){
-        if(comboBoxIdProveedor == null){
+    private JComboBox<String> getComboBoxIdProveedor() {
+        if (comboBoxIdProveedor == null) {
             comboBoxIdProveedor = new JComboBox<>();
             comboBoxIdProveedor.setBounds(102, 258, 131, 28);
             comboBoxIdProveedor.setVisible(true);
 
-
             DAOProveedor daoProveedor = new DAOProveedor();
             ArrayList<Proveedor> proveedors = daoProveedor.consultarProveedores();
 
-            
-            for(Proveedor p: proveedors){
-                comboBoxIdProveedor.addItem("Id del Proveedor: "+p.getId_proveedor()+"    "+"Tipo: "+p.getTipo_proveedor());
+            for (Proveedor p : proveedors) {
+                comboBoxIdProveedor.addItem(
+                        "Id del Proveedor: " + p.getId_proveedor() + "    " + "Tipo: " + p.getTipo_proveedor());
             }
             comboBoxIdProveedor.setSelectedIndex(-1);
         }
         return comboBoxIdProveedor;
     }
 
-    //=========================================================================
+    // =========================================================================
 
-
-    //Cosas para el Recargo
-    //=========================================================================
+    // Cosas para el Recargo
+    // =========================================================================
     private JLabel getLblRecargo() {
         if (lblRecargo == null) {
             lblRecargo = new JLabel("Recargo");
@@ -351,7 +332,6 @@ public class ContratoPanel extends JPanel {
         return lblRecargo;
     }
 
-
     private JTextFieldNumerosFlotantes getTxtFRecargo() {
         if (txtFRecargo == null) {
             txtFRecargo = new JTextFieldNumerosFlotantes();
@@ -360,11 +340,10 @@ public class ContratoPanel extends JPanel {
         }
         return txtFRecargo;
     }
-    //=========================================================================
+    // =========================================================================
 
-
-    //Panel de Scroll de la Tabla
-    //=========================================================================
+    // Panel de Scroll de la Tabla
+    // =========================================================================
     private JScrollPane getScrollPane() {
         if (scrollPane == null) {
             scrollPane = new JScrollPane();
@@ -385,7 +364,6 @@ public class ContratoPanel extends JPanel {
     }
     // ========================================================================
 
-
     // Tabla con los contratos
     // ========================================================================
     private JTable getTableContrato() {
@@ -395,11 +373,45 @@ public class ContratoPanel extends JPanel {
                     return false;
                 }
             };
+            tableContrato.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 1) {
+                        if (tableContrato.getSelectedRow() != -1) {
+                            txtFResponsable.setText(lista.get(tableContrato.getSelectedRow()).getNom_resp());
+                            txtFDescripcion.setText(lista.get(tableContrato.getSelectedRow()).getDesc_cont());
+                            fechaConciliacion.setDate(lista.get(tableContrato.getSelectedRow()).getFecha_conc());
+                            fechaInicio.setDate(lista.get(tableContrato.getSelectedRow()).getFecha_ini());
+                            fechaFin.setDate(lista.get(tableContrato.getSelectedRow()).getFecha_term());
+
+                            int size;
+                            int[] pos = { -1, -1 };
+
+                            if (listaProveedor.size() >= listaServicio.size())
+                                size = listaProveedor.size();
+                            else
+                                size = listaServicio.size();
+
+                            for (int i = 0; i < size && (pos[0] == -1 || pos[1] == -1); i++) {
+                                if (listaProveedor.size() > i)
+                                    if (listaProveedor.get(i).getId_proveedor() == lista
+                                            .get(tableContrato.getSelectedRow()).getId_proveedor())
+                                        pos[0] = i;
+                                if (listaServicio.size() > i)
+                                    if (listaServicio.get(i).getId_servicio() == lista.get(tableContrato.getSelectedRow()).getId_servicio())
+                                        pos[1] = i;
+                            }
+                            comboBoxIdProveedor.setSelectedIndex(pos[0]);
+                            comboBoxIdServicio.setSelectedIndex(pos[1]);
+                            txtFRecargo.setText(String.valueOf(lista.get(tableContrato.getSelectedRow()).getRecargo()));
+                        }
+                    }
+                }
+            });
             tableContrato.getTableHeader().setReorderingAllowed(false);
         }
         return tableContrato;
     }
-
 
     public void actualizarTabla() {
         while (model.getRowCount() > 0)
@@ -424,7 +436,6 @@ public class ContratoPanel extends JPanel {
     }
     // ========================================================================
 
-
     // Método para crear y agregar un contrato
     // ========================================================================
     public Contrato agregarContrato() {
@@ -443,16 +454,14 @@ public class ContratoPanel extends JPanel {
             dao.insertarContrato(c);
             actualizarTabla();
             limpiar();
-        }catch (Exception e){
+        } catch (Exception e) {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No se puede agregar un animal si algún campo está" +
-                    " vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return c;
     }
     // ========================================================================
-
 
     // Método para actualizar un contrato
     // ========================================================================
@@ -482,11 +491,11 @@ public class ContratoPanel extends JPanel {
             actualizarTabla();
         } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
     // ========================================================================
-
 
     // Método para eliminar un contrato
     // ========================================================================
@@ -496,7 +505,8 @@ public class ContratoPanel extends JPanel {
             actualizarTabla();
         } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -511,7 +521,7 @@ public class ContratoPanel extends JPanel {
         fechaFin.setDate(null);
     }
 
-    public void cargarListas(){
+    public void cargarListas() {
         DAOServicio daoServicio = new DAOServicio();
         DAOProveedor daoProveedor = new DAOProveedor();
 

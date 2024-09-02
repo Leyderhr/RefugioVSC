@@ -3,12 +3,9 @@ package dao;
 import conexion.Conexion;
 import logic.Proveedor;
 
-import javax.swing.*;
-import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 
@@ -16,30 +13,34 @@ public class DAOProveedor {
 
     Conexion cx;
 
-    public DAOProveedor(){
+    public DAOProveedor() {
         cx = new Conexion();
     }
 
-
     public int obtenerUltimoID() throws SQLException {
-        ResultSet rs = null;
-        Statement stmt = cx.conectar().createStatement();
-        int ultimoId = 0;
-        String sql = "SELECT obtener_ultimo_idProveedor();";
-        rs = stmt.executeQuery(sql);
+        int ultimoId = -1;
 
-        // Procesar el resultado
-        if (rs.next()) {
-            ultimoId = rs.getInt(1); // Obtener el primer (y único) valor de la fila
+        try {
+            ResultSet rs = null;
+            PreparedStatement stmt = cx.conectar().prepareStatement("SELECT * FROM obtener_ultimo_idProveedor()");
+            
+            rs = stmt.executeQuery();
+
+            // Procesar el resultado
+            if (rs.next()) {
+                ultimoId = rs.getInt(1); // Obtener el primer (y único) valor de la fila
+            }
+        } catch (SQLException e) {
+
         }
 
         return ultimoId;
     }
 
-    public boolean insertarProveedor(Proveedor p){
+    public boolean insertarProveedor(Proveedor p) {
 
         PreparedStatement ps = null;
-        try{
+        try {
 
             ps = cx.conectar().prepareStatement("select proveedor_insert(?,?,?,?,?,?)");
 
@@ -53,11 +54,11 @@ public class DAOProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Los campos para agregar la información de un proveedor no pueden estar vacios");
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public ArrayList<Proveedor> consultarProveedores()  {
+    public ArrayList<Proveedor> consultarProveedores() {
         ArrayList<Proveedor> lista = new ArrayList<Proveedor>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -65,7 +66,7 @@ public class DAOProveedor {
         try {
             ps = cx.conectar().prepareStatement("SELECT * FROM proveedor ORDER BY id_proveedor ASC");
             rs = ps.executeQuery();
-            while ((rs.next())){
+            while ((rs.next())) {
                 Proveedor p = new Proveedor();
                 p.setId_proveedor(rs.getInt("id_proveedor"));
                 p.setNombre(rs.getString("nombre"));
@@ -77,13 +78,13 @@ public class DAOProveedor {
                 lista.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return lista;
     }
 
-    public boolean eliminarProveedor(int id){
+    public boolean eliminarProveedor(int id) {
 
         PreparedStatement ps = null;
 
@@ -94,22 +95,20 @@ public class DAOProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public boolean actualizarProveedor(Proveedor p){
+    public boolean actualizarProveedor(Proveedor p) {
 
         PreparedStatement ps = null;
-        try{
+        try {
 
             ps = cx.conectar().prepareStatement("select proveedor_update(?,?,?,?,?,?,?)");
 
             ps.setInt(1, p.getId_proveedor());
             ps.setString(2, p.getNombre());
-            ps.setString(3,p.getDireccion());
+            ps.setString(3, p.getDireccion());
             ps.setString(4, p.getTelefono());
             ps.setString(5, p.getEmail());
             ps.setInt(6, p.getProvincia());
@@ -120,7 +119,6 @@ public class DAOProveedor {
             return true;
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
-            //return false;
         }
     }
 }

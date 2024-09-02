@@ -29,8 +29,7 @@ public class DAOServicioProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -49,7 +48,7 @@ public class DAOServicioProveedor {
                 lista.add(t);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return lista;
@@ -67,8 +66,7 @@ public class DAOServicioProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -85,8 +83,7 @@ public class DAOServicioProveedor {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 }

@@ -1,7 +1,6 @@
 package Interface;
 
 import dao.DAOAdministrador;
-import dao.DAOUsuario;
 import logic.Administrador;
 import logic.Usuario;
 
@@ -9,8 +8,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -25,7 +22,6 @@ public class AdminPanel extends JPanel {
 
     private JLabel lblContrasenna;
     private JTextField pwdFContrasenna;
-    private JCheckBox chckbxShowPwd;
 
     private JScrollPane scrollPane;
     private JTable tableAdmin;

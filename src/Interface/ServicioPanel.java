@@ -1,6 +1,5 @@
 package Interface;
 
-
 import dao.DAOServicio;
 
 import logic.Servicio;
@@ -15,9 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-
 public class ServicioPanel extends JPanel {
-
 
     // Atributos
     // ========================================================================
@@ -38,11 +35,11 @@ public class ServicioPanel extends JPanel {
     private ArrayList<Servicio> lista;
     // ========================================================================
 
-
     // Constructor
     public ServicioPanel() {
         setBounds(20, 11, 914, 385);
-        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184,184,184,255)));
+        setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de los Servicios",
+                TitledBorder.LEADING, TitledBorder.TOP, null, new Color(184, 184, 184, 255)));
         setLayout(null);
         setVisible(false);
 
@@ -60,12 +57,11 @@ public class ServicioPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(!tableServicio.contains(e.getPoint()))
+                if (!tableServicio.contains(e.getPoint()))
                     tableServicio.clearSelection();
             }
         });
     }
-
 
     // Cosas del Precio
     // ========================================================================
@@ -88,7 +84,6 @@ public class ServicioPanel extends JPanel {
     }
     // ========================================================================
 
-
     // Cosas de Modalidad
     // ========================================================================
     private JLabel getLblModalidad() {
@@ -110,7 +105,6 @@ public class ServicioPanel extends JPanel {
     }
     // ========================================================================
 
-
     // JLabel y ComboBox para ingresar los tipos de Servicios
     // ========================================================================
     private JLabel getLblTipoServicio() {
@@ -122,7 +116,6 @@ public class ServicioPanel extends JPanel {
         return lblTipoServicio;
     }
 
-
     private JComboBox<String> getComboBoxTipoServicio() {
         if (comboBoxTipoServicio == null) {
             comboBoxTipoServicio = new JComboBox<>();
@@ -130,24 +123,24 @@ public class ServicioPanel extends JPanel {
             comboBoxTipoServicio.setBounds(10, 135, 150, 28);
 
             // ArrayList de prueba para cargar todos los identificadores
-//            ArrayList<String> items = new ArrayList<>();
-//            items.add("Item 1");
-//            items.add("Item 2");
-//            items.add("Item 3");
+            // ArrayList<String> items = new ArrayList<>();
+            // items.add("Item 1");
+            // items.add("Item 2");
+            // items.add("Item 3");
 
             // Cargar el JComboBox con los datos del ArrayList
-//            for (String item : items) {
-//                ComboBoxTipoServicio.addItem(item);
-//            }
+            // for (String item : items) {
+            // ComboBoxTipoServicio.addItem(item);
+            // }
 
-            comboBoxTipoServicio.setModel(new DefaultComboBoxModel<String>(new String[]{"Alimentario", "Veterinario", "Complementario"}));
+            comboBoxTipoServicio.setModel(
+                    new DefaultComboBoxModel<String>(new String[] { "Alimentario", "Veterinario", "Complementario" }));
             comboBoxTipoServicio.setSelectedIndex(-1);
         }
 
         return comboBoxTipoServicio;
     }
     // ========================================================================
-
 
     private JScrollPane getScrollPane() {
         if (scrollPane == null) {
@@ -163,7 +156,6 @@ public class ServicioPanel extends JPanel {
         return scrollPane;
     }
 
-
     // Método de la tabla de los Proveedores
     // ========================================================================
     private JTable getTableProveedor() {
@@ -175,19 +167,18 @@ public class ServicioPanel extends JPanel {
             };
             tableServicio.getTableHeader().setReorderingAllowed(false);
             tableServicio.setModel(new DefaultTableModel(
-                    new Object[][]{
-                            {null, null, null, null, null},
-                            {null, null, null, null, null},
+                    new Object[][] {
+                            { null, null, null, null, null },
+                            { null, null, null, null, null },
                     },
-                    new String[]{
+                    new String[] {
                             "Id", "Tipo. Servicio", "Modalidad", "Precio"
-                    }
-            ));
+                    }));
             tableServicio.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e){
-                    if(e.getClickCount() == 1){
-                        if(tableServicio.getSelectedRow() != -1){
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 1) {
+                        if (tableServicio.getSelectedRow() != -1) {
                             txtFModalidad.setText(lista.get(tableServicio.getSelectedRow()).getModalidad());
                             txtFPrecio.setText(String.valueOf(lista.get(tableServicio.getSelectedRow()).getPrecio()));
                             switch (lista.get(tableServicio.getSelectedRow()).getTipo_servicio()) {
@@ -226,7 +217,6 @@ public class ServicioPanel extends JPanel {
     }
     // ========================================================================
 
-
     // Método para eliminar a un proveedor
     // ========================================================================
     public void eliminarServicio() {
@@ -236,11 +226,11 @@ public class ServicioPanel extends JPanel {
             actualizarTabla();
         } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
     // ========================================================================
-
 
     // Método para crear y agregar un Servicio
     // ========================================================================
@@ -255,13 +245,14 @@ public class ServicioPanel extends JPanel {
             dao.insertarServicio(s);
             actualizarTabla();
             limpiar();
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
         return s;
     }
     // ========================================================================
-
 
     // Método para actualizar un Servicio
     // ========================================================================
@@ -269,21 +260,25 @@ public class ServicioPanel extends JPanel {
         if (tableServicio.getSelectedRowCount() >= 1) {
             Servicio s = lista.get(tableServicio.getSelectedRow());
 
-            if (!txtFPrecio.getText().isEmpty())
+            try {
                 s.setPrecio(Double.parseDouble(txtFPrecio.getText()));
-            if (!txtFModalidad.getText().isEmpty())
                 s.setModalidad(txtFModalidad.getText());
+                s.setTipo_servicio((String) getComboBoxTipoServicio().getSelectedItem());
+                dao.actualizarTipoServicio(s);
+            } catch (Exception e) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 
-
-            dao.actualizarTipoServicio(s);
             actualizarTabla();
         } else {
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
     // ========================================================================
-
 
     public void limpiar() {
         txtFModalidad.setText("");

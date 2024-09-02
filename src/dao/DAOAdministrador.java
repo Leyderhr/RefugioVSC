@@ -29,8 +29,7 @@ public class DAOAdministrador {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -49,7 +48,7 @@ public class DAOAdministrador {
                 lista.add(a);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return lista;
@@ -66,8 +65,7 @@ public class DAOAdministrador {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -84,8 +82,7 @@ public class DAOAdministrador {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 }

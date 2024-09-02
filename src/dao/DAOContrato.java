@@ -3,8 +3,6 @@ package dao;
 import conexion.Conexion;
 import logic.Contrato;
 
-import javax.swing.*;
-import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,13 +28,14 @@ public class DAOContrato {
             ps.setString(4, c.getDesc_cont());
             ps.setString(5, c.getNom_resp());
             ps.setInt(6, c.getId_proveedor());
-            ps.setDouble(8, c.getRecargo());
-            ps.setInt(7, c.getId_servicio());
+            ps.setDouble(7, c.getRecargo());
+            ps.setInt(8, c.getId_servicio());
             ps.execute();
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Los campos no pueden estar vacios");
+            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -62,7 +61,7 @@ public class DAOContrato {
                 lista.add(c);
             }
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Los campos para agregar la información de un contrato no pueden estar vacios");
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return lista;
@@ -79,9 +78,7 @@ public class DAOContrato {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -105,8 +102,7 @@ public class DAOContrato {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 

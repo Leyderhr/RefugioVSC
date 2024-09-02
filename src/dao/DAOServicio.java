@@ -3,8 +3,6 @@ package dao;
 import conexion.Conexion;
 import logic.Servicio;
 
-import javax.swing.*;
-import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +30,7 @@ public class DAOServicio {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Los campos para agregar la información de un servicio no pueden estar vacios");
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -42,7 +40,7 @@ public class DAOServicio {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM servicio");
+            ps = cx.conectar().prepareStatement("SELECT * FROM servicio ORDER BY id_servicio ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Servicio t = new Servicio();
@@ -53,7 +51,7 @@ public class DAOServicio {
                 lista.add(t);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return lista;
@@ -70,9 +68,7 @@ public class DAOServicio {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -91,8 +87,7 @@ public class DAOServicio {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -116,7 +111,7 @@ public class DAOServicio {
     
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return s;

@@ -1,6 +1,5 @@
 package dao;
 
-
 import conexion.Conexion;
 import logic.Animal;
 
@@ -17,17 +16,20 @@ public class DAOAnimal {
         cx = new Conexion();
     }
 
-
     public int obtenerUltimoID() throws SQLException {
-        ResultSet rs = null;
-        Statement stmt = cx.conectar().createStatement();
-        int ultimoId = 0;
-        String sql = "SELECT obtener_ultimo_id();";
-        rs = stmt.executeQuery(sql);
+        int ultimoId = -1;
 
-        // Procesar el resultado
-        if (rs.next()) {
-            ultimoId = rs.getInt(1); // Obtener el primer (y único) valor de la fila
+        try {
+            ResultSet rs = null;
+            PreparedStatement stmt = cx.conectar().prepareStatement("SELECT * FROM obtener_ultimo_idAnimal()");
+            rs = stmt.executeQuery();
+
+            // Procesar el resultado
+            if (rs.next()) {
+                ultimoId = rs.getInt(1); // Obtener el primer (y único) valor de la fila
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return ultimoId;
@@ -115,8 +117,7 @@ public class DAOAnimal {
             cx.desconectar();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -141,7 +142,7 @@ public class DAOAnimal {
                 a.setCant_dias_refugio(rs.getInt("cant_dias"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         return a;
