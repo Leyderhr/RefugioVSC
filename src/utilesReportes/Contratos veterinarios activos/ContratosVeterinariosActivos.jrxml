@@ -4,9 +4,9 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Refugio"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT CURRENT_DATE as fecha, proveedor.nombre as nombre_proveedor, clinica.nombre as nombre_clinica, provincia.nombre as nombre_provincia, veterinario.especialidad, proveedor.telefono,
+		<![CDATA[SELECT CURRENT_DATE as fecha, proveedor.nombre as nombre_proveedor, veterinario.clinica as nombre_clinica, provincia.nombre as nombre_provincia, veterinario.especialidad, proveedor.telefono,
 			veterinario.fax, proveedor.email, servicio.modalidad
-			FROM proveedor INNER JOIN veterinario ON proveedor.id_proveedor = veterinario.id_proveedor INNER JOIN provincia ON proveedor.id_provincia = provincia.id_provincia INNER JOIN clinica ON veterinario.id_clinica = clinica.id_clinica  INNER JOIN contrato ON contrato.id_proveedor = proveedor.id_proveedor INNER JOIN servicio ON contrato.id_servicio = servicio.id_servicio
+			FROM proveedor INNER JOIN veterinario ON proveedor.id_proveedor = veterinario.id_proveedor INNER JOIN provincia ON proveedor.id_provincia = provincia.id_provincia INNER JOIN contrato ON contrato.id_proveedor = proveedor.id_proveedor INNER JOIN servicio ON contrato.id_servicio = servicio.id_servicio
 			WHERE  CURRENT_DATE BETWEEN contrato.fecha_ini AND contrato.fecha_term]]>
 	</queryString>
 	<field name="fecha" class="java.sql.Date">
@@ -325,7 +325,7 @@ voluntariado.]]></text>
 				<textElement verticalAlignment="Middle">
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre_provincia}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nombre_clinica}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="257" y="0" width="63" height="30" backcolor="#C0EDCB" uuid="68a8ad9e-652b-4ab0-9c34-b55f1be41482">

@@ -78,13 +78,13 @@ public class ConceptoAdopciones {
         JRDocxExporter exporter = new JRDocxExporter();
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jprint);
         //exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "ConceptoAdopciones.docx");
-        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, String.valueOf(currentD));
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, String.valueOf(currentD)+".docx");
         exporter.exportReport();
 
         Document doc = new Document();
 
-        doc.loadFromFile(String.valueOf(currentD));
-        doc.saveToFile(String.valueOf(currentD));
+        doc.loadFromFile(String.valueOf(currentD)+".docx");
+        doc.saveToFile(String.valueOf(currentD)+".pdf");
 
         try {
             Desktop.getDesktop().open(currentD);

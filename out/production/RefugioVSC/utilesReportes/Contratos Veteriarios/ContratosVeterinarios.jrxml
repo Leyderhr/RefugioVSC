@@ -4,8 +4,8 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Refugio"/>
 	<queryString language="SQL">
-		<![CDATA[select proveedor.nombre as nombre_proveedor, clinica.nombre as nombre_clinica, provincia.nombre as nombre_provincia, proveedor.direccion, veterinario.especialidad, contrato.fecha_ini, contrato.fecha_term, contrato.fecha_conc, contrato.desc_contrato
-from contrato inner join proveedor on contrato.id_proveedor = proveedor.id_proveedor inner join veterinario on proveedor.id_proveedor = veterinario.id_proveedor inner join provincia on proveedor.id_provincia = provincia.id_provincia inner join clinica on veterinario.id_clinica = clinica.id_clinica]]>
+		<![CDATA[select proveedor.nombre as nombre_proveedor, veterinario.clinica as nombre_clinica, provincia.nombre as nombre_provincia, proveedor.direccion, veterinario.especialidad, contrato.fecha_ini, contrato.fecha_term, contrato.fecha_conc, contrato.desc_contrato
+from contrato inner join proveedor on contrato.id_proveedor = proveedor.id_proveedor inner join veterinario on proveedor.id_proveedor = veterinario.id_proveedor inner join provincia on proveedor.id_provincia = provincia.id_provincia ]]>
 	</queryString>
 	<field name="nombre_proveedor" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nombre_proveedor"/>
