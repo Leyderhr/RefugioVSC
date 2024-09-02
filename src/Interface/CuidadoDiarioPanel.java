@@ -249,7 +249,7 @@ public class CuidadoDiarioPanel extends JPanel {
             for(Contrato contrato: c){
                 comboBoxIdContrato.addItem("Id del Contrato: "+contrato.getId_contrato()+"   "+"Responsable: "+contrato.getNom_resp());
             }
-            comboBoxIdContrato.setSelectedIndex(-1);;
+            comboBoxIdContrato.setSelectedIndex(-1);
         }
         return comboBoxIdContrato;
     }
@@ -436,5 +436,30 @@ public class CuidadoDiarioPanel extends JPanel {
 
         listaAnimales = daoA.consultarAnimales();
         listaContratos = daoC.consultarContratos();
+        cargarComboBox();
     }
+
+    public void cargarComboBox(){
+
+        DAOContrato daoContrato = new DAOContrato();
+        ArrayList<Contrato> c = daoContrato.consultarContratos();
+
+        comboBoxIdAnimal.removeAllItems();
+        comboBoxIdContrato.removeAllItems();
+
+        for(Contrato contrato: c){
+            comboBoxIdContrato.addItem("Id del Contrato: "+contrato.getId_contrato()+"   "+"Responsable: "+contrato.getNom_resp());
+        }
+        comboBoxIdContrato.setSelectedIndex(-1);
+
+        DAOAnimal daoAnimal = new DAOAnimal();
+        ArrayList<Animal> a = daoAnimal.consultarAnimales();
+
+        for(Animal animal: a){
+            comboBoxIdAnimal.addItem("Id del Animal: "+animal.getId_animal()+"   "+"Nombre: "+animal.getNombre());
+        }
+        comboBoxIdAnimal.setSelectedIndex(-1);
+    }
+
+
 }

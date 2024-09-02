@@ -525,7 +525,32 @@ public class ContratoPanel extends JPanel {
         DAOServicio daoServicio = new DAOServicio();
         DAOProveedor daoProveedor = new DAOProveedor();
 
+        cargarComboBox();
         listaServicio = daoServicio.consultarServicios();
         listaProveedor = daoProveedor.consultarProveedores();
+    }
+
+    public void cargarComboBox(){
+
+        comboBoxIdProveedor.removeAllItems();
+        comboBoxIdServicio.removeAllItems();
+
+        DAOServicio daoServicio = new DAOServicio();
+        ArrayList<Servicio> a = daoServicio.consultarServicios();
+
+        for (Servicio servicio : a) {
+            comboBoxIdServicio.addItem("Id del Servicio: " + servicio.getId_servicio() + "    " + "Tipo: "
+                    + servicio.getTipo_servicio());
+        }
+        comboBoxIdServicio.setSelectedIndex(-1);
+
+        DAOProveedor daoProveedor = new DAOProveedor();
+        ArrayList<Proveedor> proveedors = daoProveedor.consultarProveedores();
+
+        for (Proveedor p : proveedors) {
+            comboBoxIdProveedor.addItem(
+                    "Id del Proveedor: " + p.getId_proveedor() + "    " + "Tipo: " + p.getTipo_proveedor());
+        }
+        comboBoxIdProveedor.setSelectedIndex(-1);
     }
 }

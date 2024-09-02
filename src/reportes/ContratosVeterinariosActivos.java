@@ -51,7 +51,7 @@ public class ContratosVeterinariosActivos {
                             // Agregar el filtro al JFileChooser
                             fileChooser.addChoosableFileFilter(filtroPdf);
 
-                            if(fileChooser.showDialog(view, "Guardar") == JFileChooser.APPROVE_OPTION){
+                            if(fileChooser.showDialog(view, "Guardar") == JFileChooser.APPROVE_OPTION) {
                                 Cursor cursorEspera = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
                                 view.setCursor(cursorEspera);
                                 exportarPDF_DOC(fileChooser.getSelectedFile());
