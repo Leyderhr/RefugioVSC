@@ -535,7 +535,6 @@ public class ContratoPanel extends JPanel {
         comboBoxIdProveedor.removeAllItems();
         comboBoxIdServicio.removeAllItems();
 
-        int x = 7;
 
         DAOServicio daoServicio = new DAOServicio();
         ArrayList<Servicio> a = daoServicio.consultarServicios();
