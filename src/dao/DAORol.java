@@ -1,30 +1,30 @@
 package dao;
 
 import conexion.Conexion;
-import logic.Administrador;
+import logic.Rol;
+import logic.Usuario;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DAOAdministrador {
-
+public class DAORol {
     Conexion cx;
 
-    public DAOAdministrador(){
+    public DAORol(){
         cx = new Conexion();
     }
 
-    public boolean insertarAdministrador(Administrador a){
+    public boolean insertarRol(Rol r){
 
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select administrador_insert(?,?)");
+            ps = cx.conectar().prepareStatement("select roles_insert(?,?)");
 
-            ps.setString(1, a.getContrasegna());
-            ps.setString(2, a.getNombre());
+            ps.setInt(1, r.getId());
+            ps.setString(2, r.getRol());
             ps.execute();
             cx.desconectar();
             return true;
@@ -33,19 +33,19 @@ public class DAOAdministrador {
         }
     }
 
-    public ArrayList<Administrador> consultarAdministrador()  {
-        ArrayList<Administrador> lista = new ArrayList<Administrador>();
+    public ArrayList<Rol> consultarRol()  {
+        ArrayList<Rol> lista = new ArrayList<Rol>();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM administrador ORDER BY nombre ASC");
+            ps = cx.conectar().prepareStatement("SELECT * FROM roles");
             rs = ps.executeQuery();
             while ((rs.next())){
-                Administrador a = new Administrador();
-                a.setNombre(rs.getString("nombre"));
-                a.setContrasegna(rs.getString("contrasegna"));
-                lista.add(a);
+                Rol r = new Rol();
+                r.setId(rs.getInt("id_rol"));
+                r.setRol(rs.getString("rol"));
+                lista.add(r);
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
@@ -54,13 +54,13 @@ public class DAOAdministrador {
         return lista;
     }
 
-    public boolean eliminarAdministrador(String id){
+    public boolean eliminarRol(int id){
 
         PreparedStatement ps = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT administrador_delete(?)");
-            ps.setString(1, id);
+            ps = cx.conectar().prepareStatement("SELECT roles_delete(?)");
+            ps.setInt(1, id);
             ps.execute();
             cx.desconectar();
             return true;
@@ -69,15 +69,15 @@ public class DAOAdministrador {
         }
     }
 
-    public boolean actualizarAdministrador(Administrador a){
+    public boolean actualizarRol(Rol r){
 
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select administrador_update(?,?)");
+            ps = cx.conectar().prepareStatement("select roles_update(?,?)");
 
-            ps.setString(1, a.getContrasegna());
-            ps.setString(2, a.getNombre());
+            ps.setInt(1, r.getId());
+            ps.setString(2, r.getRol());
             ps.execute();
             cx.desconectar();
             return true;

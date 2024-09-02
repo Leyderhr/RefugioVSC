@@ -21,10 +21,11 @@ public class DAOUsuario {
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select usuarios_insert(?,?)");
+            ps = cx.conectar().prepareStatement("select usuarios_insert(?,?,?)");
 
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getContrasegna());
+            ps.setInt(3, u.getRol());
             ps.execute();
             cx.desconectar();
             return true;
@@ -45,6 +46,7 @@ public class DAOUsuario {
                 Usuario c = new Usuario();
                 c.setNombre(rs.getString("nombre"));
                 c.setContrasegna(rs.getString("contrasegna"));
+                c.setRol(rs.getInt("id_rol"));
                 lista.add(c);
             }
         } catch (SQLException e) {
@@ -78,6 +80,7 @@ public class DAOUsuario {
 
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getContrasegna());
+            ps.setInt(3, u.getRol());
             ps.execute();
             cx.desconectar();
             return true;

@@ -3,12 +3,22 @@ package logic;
 public class Usuario {
     private String nombre;
     private String contrasegna;
+    private int rol;
+
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
 
     public Usuario(){}
 
-    public Usuario(String nombre, String contrasegna) {
+    public Usuario(String nombre, String contrasegna, int rol) {
         setNombre(nombre);
         setContrasegna(contrasegna);
+        setRol(rol);
     }
 
     public String getNombre() {
