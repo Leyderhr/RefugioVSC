@@ -1,8 +1,6 @@
 package Interface;
 
-import dao.DAOAdministrador;
 import dao.DAOUsuario;
-import logic.Administrador;
 import logic.Usuario;
 
 import javax.swing.*;
@@ -15,9 +13,7 @@ import java.util.ArrayList;
 public class Authentication extends JFrame {
 
     private final ArrayList<Usuario> users;
-    private final ArrayList<Administrador> admins;
     private final DAOUsuario daoUsuario;
-    private final DAOAdministrador daoAdministrador;
 
     private JTextField txtFUsuario;
     private JLabel lblLogin;
@@ -54,9 +50,7 @@ public class Authentication extends JFrame {
 
 
         daoUsuario = new DAOUsuario();
-        daoAdministrador = new DAOAdministrador();
         users = daoUsuario.consultarUsuario();
-        admins = daoAdministrador.consultarAdministrador();
     }
 
     private JPasswordField getPasswordField() {
@@ -71,30 +65,43 @@ public class Authentication extends JFrame {
                 public void keyReleased(KeyEvent e) {
                     if (e.getKeyChar() == '\n') {
                         Usuario user = new Usuario(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
-                        Administrador admin = new Administrador(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
 
-                        if (admins.contains(admin)) {
-                            try {
-                                window = new Window(admin);
-                                window.setVisible(true);
-                            } catch (Exception e1) {
-                                System.out.println(e1.getMessage());
+                        // Verificamos que en la BD esté el usuario y la contraseña
+                        if (users.contains(user)) {
+                            // Asignamos nuevo valor a user, para coger también el ID del rol
+                            user = users.get(users.indexOf(user));
+                            if (users.get(users.indexOf(user)).getRol() == 1) {
+                                try {
+                                    //Construimos la ventana principal
+                                    window = new Window(user);
+                                    window.setVisible(true);
+                                } catch (Exception e1) {
+                                    System.out.println(e1.getMessage());
+                                }
+                                dispose();
+                            } else if (users.get(users.indexOf(user)).getRol() == 2) {
+                                try {
+                                    window = new Window(user);
+                                    window.setVisible(true);
+                                    Toolkit.getDefaultToolkit().beep();
+                                    JOptionPane.showMessageDialog(null, "Ha ingresado como director por lo que podrá " +
+                                            "editar los datos excepto modificar usuarios", "Atención", JOptionPane.WARNING_MESSAGE);
+                                } catch (Exception e1) {
+                                    System.out.println(e1.getMessage());
+                                }
+                                dispose();
+                            } else {
+                                try {
+                                    window = new Window(user);
+                                    window.setVisible(true);
+                                    Toolkit.getDefaultToolkit().beep();
+                                    JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
+                                } catch (Exception e1) {
+                                    System.out.println(e1.getMessage());
+                                }
+                                dispose();
                             }
-                            dispose();
-                        }
-                        else if (users.contains(user)) {
-                            try {
-                                //Construimos la ventana principal
-                                window = new Window(user);
-                                window.setVisible(true);
-                            } catch (Exception e1) {
-                                System.out.println(e1.getMessage());
-                            }
-                            dispose();
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
-                        }
-                        else {
+                        } else {
                             Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                         }
@@ -134,8 +141,8 @@ public class Authentication extends JFrame {
 
             txtFUsuario.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyReleased(KeyEvent e){
-                    if(e.getKeyChar() == '\n'){
+                public void keyReleased(KeyEvent e) {
+                    if (e.getKeyChar() == '\n') {
                         passwordField.requestFocus();
                     }
                 }
@@ -162,56 +169,69 @@ public class Authentication extends JFrame {
             btnEntrar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Usuario user = new Usuario(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
-                    Administrador admin = new Administrador(getTextFieldUsuario().getText(), String.valueOf(passwordField.getPassword()));
 
-                    if (admins.contains(admin)) {
-                        try {
-                            //Construimos la ventana principal
-                            window = new Window(admin);
-                            window.setVisible(true);
-                        } catch (Exception e1) {
-                            System.out.println(e1.getMessage());
+                    if (users.contains(user)) {
+                        user = users.get(users.indexOf(user));
+                        if (users.get(users.indexOf(user)).getRol() == 1) {
+                            try {
+                                //Construimos la ventana principal
+                                window = new Window(user);
+                                window.setVisible(true);
+                            } catch (Exception e1) {
+                                System.out.println(e1.getMessage());
+                            }
+                            dispose();
+                        } else if (users.get(users.indexOf(user)).getRol() == 2) {
+                            try {
+                                window = new Window(user);
+                                window.setVisible(true);
+                                Toolkit.getDefaultToolkit().beep();
+                                JOptionPane.showMessageDialog(null, "Ha ingresado como director por lo que podrá " +
+                                        "editar los datos excepto modificar usuarios", "Atención", JOptionPane.WARNING_MESSAGE);
+                            } catch (Exception e1) {
+                                System.out.println(e1.getMessage());
+                            }
+                            dispose();
+                        } else {
+                            try {
+                                window = new Window(user);
+                                window.setVisible(true);
+                                Toolkit.getDefaultToolkit().beep();
+                                JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
+                            } catch (Exception e1) {
+                                System.out.println(e1.getMessage());
+                            }
+                            dispose();
                         }
-                        dispose();
-                    }
-                    else if (users.contains(user)) {
-                        try {
-                            window = new Window(user);
-                            window.setVisible(true);
-                            Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
-                        } catch (Exception e1) {
-                            System.out.println(e1.getMessage());
-                        }
-                        dispose();
                     } else {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            });
+            }
+        );
 
-        }
+    }
         return btnEntrar;
-    }
+}
 
-    private JCheckBox getChckbxNewCheckBox() {
-        if (chckbxShowPwd == null) {
-            chckbxShowPwd = new JCheckBox("Mostrar Contraseña");
-            chckbxShowPwd.setBounds(10, 249, 148, 23);
+private JCheckBox getChckbxNewCheckBox() {
+    if (chckbxShowPwd == null) {
+        chckbxShowPwd = new JCheckBox("Mostrar Contraseña");
+        chckbxShowPwd.setBounds(10, 249, 148, 23);
 
-            chckbxShowPwd.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (chckbxShowPwd.isSelected())
-                        passwordField.setEchoChar((char) 0);
-                    else {
-                        passwordField.setEchoChar('*');
-                    }
+        chckbxShowPwd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (chckbxShowPwd.isSelected())
+                    passwordField.setEchoChar((char) 0);
+                else {
+                    passwordField.setEchoChar('*');
                 }
-            });
-        }
-        return chckbxShowPwd;
+            }
+        });
     }
+    return chckbxShowPwd;
+}
 
 
 }

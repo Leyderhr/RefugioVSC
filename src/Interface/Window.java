@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class Window extends JFrame {
 
-    private final int cantPaneles = 7;
+    private final int cantPaneles = 6;
     private final JPanel contentPane;
     private JButton btnAgregar;
     private JButton btnEliminar;
@@ -38,7 +38,6 @@ public class Window extends JFrame {
     private JMenuItem mntmServicios;
     private JMenuItem mntmCuidadoDiario;
     private JMenuItem mntmUsuario;
-    private JMenuItem mntmAdmin;
 
     private JMenu mnReportes;
     private JMenuItem mntmContratoProvDeAlimento;
@@ -57,7 +56,6 @@ public class Window extends JFrame {
     private ServicioPanel servicioPanel;
     private CuidadoDiarioPanel cuidadoDiarioPanel;
     private UsuarioPanel usuarioPanel;
-    private AdminPanel adminPanel;
 
     // Atributos del fondo principal
     private JLabel lblFotoZooIzq;
@@ -99,7 +97,6 @@ public class Window extends JFrame {
         contentPane.add(getServicioPanel());
         contentPane.add(getCuidadoDiarioPanel());
         contentPane.add(getUsuarioPanel());
-        contentPane.add(getAdminPanel());
 
         contentPane.add(getFotoZooIzq());
         contentPane.add(getFotoZooDer());
@@ -220,12 +217,6 @@ public class Window extends JFrame {
         return usuarioPanel;
     }
 
-    private AdminPanel getAdminPanel() {
-        if (adminPanel == null) {
-            adminPanel = new AdminPanel();
-        }
-        return adminPanel;
-    }
     //=========================================================================
 
 
@@ -245,7 +236,6 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
-                adminPanel.setVisible(false);
                 break;
             case 2:
 
@@ -260,7 +250,6 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
-                adminPanel.setVisible(false);
                 break;
             case 3:
 
@@ -275,7 +264,6 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
-                adminPanel.setVisible(false);
                 break;
             case 4:
 
@@ -289,7 +277,6 @@ public class Window extends JFrame {
                 proveedorPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
-                adminPanel.setVisible(false);
                 break;
             case 5:
 
@@ -304,7 +291,6 @@ public class Window extends JFrame {
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
-                adminPanel.setVisible(false);
                 break;
 
             case 6:
@@ -319,14 +305,12 @@ public class Window extends JFrame {
                 animalPanel.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
-                adminPanel.setVisible(false);
                 break;
             case 7:
 
                 for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
-                adminPanel.setVisible(true);
                 usuarioPanel.setVisible(false);
                 ventanas.set(6, true);
                 cuidadoDiarioPanel.setVisible(false);
@@ -336,12 +320,7 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 break;
             default:
-//                for (int i = 0; i < cantPaneles; i++) {
-//                    ventanas.set(i, false);
-//                }
-                adminPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
-                //ventanas.set(6, true);
                 cuidadoDiarioPanel.setVisible(false);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
@@ -354,7 +333,7 @@ public class Window extends JFrame {
     private JButton getBtnAgregar(Object user) {
         if (btnAgregar == null) {
             btnAgregar = new JButton("Agregar");
-            if (user.getClass() == Usuario.class)
+            if (((Usuario)user).getRol() == 3)
                 btnAgregar.setEnabled(false);
 
             btnAgregar.addActionListener(new ActionListener() {
@@ -388,9 +367,6 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.agregarUsuario();
                             break;
-                        case 7:
-                            adminPanel.agregarAdmin();
-                            break;
                         default:
                             break;
                     }
@@ -405,7 +381,7 @@ public class Window extends JFrame {
         if (btnEliminar == null) {
             btnEliminar = new JButton("Eliminar");
 
-            if (user.getClass() == Usuario.class)
+            if (((Usuario)user).getRol() == 3)
                 btnEliminar.setEnabled(false);
 
             btnEliminar.addActionListener(new ActionListener() {
@@ -436,8 +412,7 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.eliminarUsuario();
                             break;
-                        case 7:
-                            adminPanel.eliminarAdmin((Usuario) user);
+                        default:
                             break;
                     }
 
@@ -452,7 +427,7 @@ public class Window extends JFrame {
         if (btnActualizar == null) {
             btnActualizar = new JButton("Actualizar");
 
-            if (user.getClass() == Usuario.class)
+            if (((Usuario)user).getRol() == 3)
                 btnActualizar.setEnabled(false);
 
             btnActualizar.addActionListener(new ActionListener() {
@@ -482,8 +457,6 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.actualizarUsuarioPanel();
                             break;
-                        case 7:
-                            adminPanel.actualizarAdminPanel();
                         default:
                             break;
                     }
@@ -525,8 +498,6 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.limpiar();
                             break;
-                        case 7:
-                            adminPanel.limpiar();
                         default:
                             break;
                     }
@@ -594,7 +565,7 @@ public class Window extends JFrame {
             mnVisualizar.add(getMntmProveedores());
             mnVisualizar.add(getMntmCuidadoDiario());
             mnVisualizar.add(getMntmUsuario(user));
-            mnVisualizar.add(getMntmAdmin(user));
+            //mnVisualizar.add(getMntmAdmin(user));
         }
         return mnVisualizar;
     }
@@ -678,7 +649,7 @@ public class Window extends JFrame {
             mntmUsuario.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
 
-                    if (user.getClass() == Usuario.class) {
+                    if (((Usuario)user).getRol() != 1) {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
                                 "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -688,23 +659,6 @@ public class Window extends JFrame {
             });
         }
         return mntmUsuario;
-    }
-
-    private JMenuItem getMntmAdmin(Object user) {
-        if (mntmAdmin == null) {
-            mntmAdmin = new JMenuItem("Administradores");
-            mntmAdmin.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    if (user.getClass() == Usuario.class) {
-                        Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
-                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else
-                        controlPanel(AdminPanel.VALUE);
-                }
-            });
-        }
-        return mntmAdmin;
     }
 
 
