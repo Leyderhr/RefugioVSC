@@ -68,44 +68,42 @@ public class Authentication extends JFrame {
 
                         // Verificamos que en la BD esté el usuario y la contraseña
                         if (users.contains(user)) {
-                            // Asignamos nuevo valor a user, para coger también el ID del rol
                             user = users.get(users.indexOf(user));
-                            if (users.get(users.indexOf(user)).getRol() == 1) {
-                                try {
-                                    //Construimos la ventana principal
-                                    window = new Window(user);
-                                    window.setVisible(true);
-                                } catch (Exception e1) {
-                                    System.out.println(e1.getMessage());
+                            try {
+                                switch (users.get(users.indexOf(user)).getRol()) {
+                                    case 1:
+                                        //Construimos la ventana principal
+                                        window = new Window(user);
+                                        window.setVisible(true);
+                                        dispose();
+                                        break;
+                                    case 2:
+                                        window = new Window(user);
+                                        window.setVisible(true);
+                                        Toolkit.getDefaultToolkit().beep();
+                                        JOptionPane.showMessageDialog(null, "Ha ingresado como director por lo que podrá " +
+                                                "editar los datos excepto modificar usuarios", "Atención", JOptionPane.WARNING_MESSAGE);
+
+                                        dispose();
+                                        break;
+                                    case 3:
+
+                                        window = new Window(user);
+                                        window.setVisible(true);
+                                        Toolkit.getDefaultToolkit().beep();
+                                        JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
+                                        dispose();
+                                        break;
+                                    default:
+                                        break;
                                 }
-                                dispose();
-                            } else if (users.get(users.indexOf(user)).getRol() == 2) {
-                                try {
-                                    window = new Window(user);
-                                    window.setVisible(true);
-                                    Toolkit.getDefaultToolkit().beep();
-                                    JOptionPane.showMessageDialog(null, "Ha ingresado como director por lo que podrá " +
-                                            "editar los datos excepto modificar usuarios", "Atención", JOptionPane.WARNING_MESSAGE);
-                                } catch (Exception e1) {
-                                    System.out.println(e1.getMessage());
-                                }
-                                dispose();
-                            } else {
-                                try {
-                                    window = new Window(user);
-                                    window.setVisible(true);
-                                    Toolkit.getDefaultToolkit().beep();
-                                    JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
-                                } catch (Exception e1) {
-                                    System.out.println(e1.getMessage());
-                                }
-                                dispose();
+                            } catch (Exception e1) {
+                                System.out.println(e1.getMessage());
                             }
-                        } else {
+                        }else {
                             Toolkit.getDefaultToolkit().beep();
                             JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-
                     }
 
 
@@ -172,66 +170,66 @@ public class Authentication extends JFrame {
 
                     if (users.contains(user)) {
                         user = users.get(users.indexOf(user));
-                        if (users.get(users.indexOf(user)).getRol() == 1) {
-                            try {
-                                //Construimos la ventana principal
-                                window = new Window(user);
-                                window.setVisible(true);
-                            } catch (Exception e1) {
-                                System.out.println(e1.getMessage());
+                        try {
+                            switch (users.get(users.indexOf(user)).getRol()) {
+                                case 1:
+                                    //Construimos la ventana principal
+                                    window = new Window(user);
+                                    window.setVisible(true);
+                                    dispose();
+                                    break;
+                                case 2:
+                                    window = new Window(user);
+                                    window.setVisible(true);
+                                    Toolkit.getDefaultToolkit().beep();
+                                    JOptionPane.showMessageDialog(null, "Ha ingresado como director por lo que podrá " +
+                                            "editar los datos excepto modificar usuarios", "Atención", JOptionPane.WARNING_MESSAGE);
+
+                                    dispose();
+                                    break;
+                                case 3:
+
+                                    window = new Window(user);
+                                    window.setVisible(true);
+                                    Toolkit.getDefaultToolkit().beep();
+                                    JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
+                                    dispose();
+                                    break;
+                                default:
+                                    break;
                             }
-                            dispose();
-                        } else if (users.get(users.indexOf(user)).getRol() == 2) {
-                            try {
-                                window = new Window(user);
-                                window.setVisible(true);
-                                Toolkit.getDefaultToolkit().beep();
-                                JOptionPane.showMessageDialog(null, "Ha ingresado como director por lo que podrá " +
-                                        "editar los datos excepto modificar usuarios", "Atención", JOptionPane.WARNING_MESSAGE);
-                            } catch (Exception e1) {
-                                System.out.println(e1.getMessage());
-                            }
-                            dispose();
-                        } else {
-                            try {
-                                window = new Window(user);
-                                window.setVisible(true);
-                                Toolkit.getDefaultToolkit().beep();
-                                JOptionPane.showMessageDialog(null, "Ha ingresado como un usuario común por lo que solo tendrá permisos de lectura en el programa", "Atención", JOptionPane.WARNING_MESSAGE);
-                            } catch (Exception e1) {
-                                System.out.println(e1.getMessage());
-                            }
-                            dispose();
+                        } catch (Exception e1) {
+                            System.out.println(e1.getMessage());
                         }
-                    } else {
+                    }else {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            }
-        );
 
-    }
+            });
+
+        }
         return btnEntrar;
-}
-
-private JCheckBox getChckbxNewCheckBox() {
-    if (chckbxShowPwd == null) {
-        chckbxShowPwd = new JCheckBox("Mostrar Contraseña");
-        chckbxShowPwd.setBounds(10, 249, 148, 23);
-
-        chckbxShowPwd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (chckbxShowPwd.isSelected())
-                    passwordField.setEchoChar((char) 0);
-                else {
-                    passwordField.setEchoChar('*');
-                }
-            }
-        });
     }
-    return chckbxShowPwd;
-}
+
+    private JCheckBox getChckbxNewCheckBox() {
+        if (chckbxShowPwd == null) {
+            chckbxShowPwd = new JCheckBox("Mostrar Contraseña");
+            chckbxShowPwd.setBounds(10, 249, 148, 23);
+
+            chckbxShowPwd.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (chckbxShowPwd.isSelected())
+                        passwordField.setEchoChar((char) 0);
+                    else {
+                        passwordField.setEchoChar('*');
+                    }
+                }
+            });
+        }
+        return chckbxShowPwd;
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package Interface;
 
+import com.toedter.calendar.JDateChooser;
 import dao.DAOAnimal;
 import dao.DAOAnimalAdoptado;
 import logic.Animal;
@@ -35,6 +36,8 @@ public class AnimalPanel extends JPanel {
     private JLabel lblPeso;
 
     private JLabel lblCantDasEn;
+    private JLabel lblFechaEntrada;
+    private JDateChooser fechaEntrada;
     private JSpinner spinnerDiasRefugio;
 
     private JCheckBox chckbxesAdoptado;
@@ -74,8 +77,10 @@ public class AnimalPanel extends JPanel {
         add(getTxtFPeso());
         add(getLblPeso());
 
-        add(getLblCantDasEn());
-        add(getSpinnerDiasRefugio());
+//        add(getLblCantDasEn());
+//        add(getSpinnerDiasRefugio());
+        add(getLblFechaEntrada());
+        add(getFechaEntrada());
 
         add(getChckbxesAdoptado());
 
@@ -186,23 +191,40 @@ public class AnimalPanel extends JPanel {
         return txtFPeso;
     }
 
-    private JLabel getLblCantDasEn() {
-        if (lblCantDasEn == null) {
-            lblCantDasEn = new JLabel("Cant. días en el Refugio");
-            lblCantDasEn.setFont(new Font("Bahnschrift", Font.BOLD, 14));
-            lblCantDasEn.setBounds(10, 226, 160, 15);
+    private JLabel getLblFechaEntrada() {
+        if (lblFechaEntrada == null) {
+            lblFechaEntrada = new JLabel("Fecha de Entrada");
+            lblFechaEntrada.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+            lblFechaEntrada.setBounds(10, 226, 130, 15);
         }
-        return lblCantDasEn;
+        return lblFechaEntrada;
     }
 
-    private JSpinner getSpinnerDiasRefugio() {
-        if (spinnerDiasRefugio == null) {
-            spinnerDiasRefugio = new JSpinner();
-            spinnerDiasRefugio.setModel(new SpinnerNumberModel(0, 0, null, 1));
-            spinnerDiasRefugio.setBounds(191, 220, 60, 25);
+    private JDateChooser getFechaEntrada() {
+        if (fechaEntrada == null) {
+            fechaEntrada = new JDateChooser();
+            fechaEntrada.setBounds(150, 220, 100, 25);
         }
-        return spinnerDiasRefugio;
+        return fechaEntrada;
     }
+
+//    private JLabel getLblCantDasEn() {
+//        if (lblCantDasEn == null) {
+//            lblCantDasEn = new JLabel("Cant. días en el Refugio");
+//            lblCantDasEn.setFont(new Font("Bahnschrift", Font.BOLD, 14));
+//            lblCantDasEn.setBounds(10, 226, 160, 15);
+//        }
+//        return lblCantDasEn;
+//    }
+//
+//    private JSpinner getSpinnerDiasRefugio() {
+//        if (spinnerDiasRefugio == null) {
+//            spinnerDiasRefugio = new JSpinner();
+//            spinnerDiasRefugio.setModel(new SpinnerNumberModel(0, 0, null, 1));
+//            spinnerDiasRefugio.setBounds(191, 220, 60, 25);
+//        }
+//        return spinnerDiasRefugio;
+//    }
 
     // Métodos para ingresar a un animal adoptado
     // =========================================================================
@@ -287,6 +309,7 @@ public class AnimalPanel extends JPanel {
             model.addColumn("Raza");
             model.addColumn("Edad");
             model.addColumn("Peso");
+            model.addColumn("Fecha de Entrada");
             model.addColumn("Cant. dias refugio");
             actualizarTabla();
         }
@@ -307,7 +330,7 @@ public class AnimalPanel extends JPanel {
                             { null, null, null, null, null, null, null },
                     },
                     new String[] {
-                            "id", "Nombre", "Especie", "Raza", "Edad", "Peso", "Cant. dias refugio"
+                            "id", "Nombre", "Especie", "Raza", "Edad", "Peso", "Fecha de Entrada", "Cant. dias refugio"
                     }));
             tableAnimal.addMouseListener(new MouseAdapter() {
                 @Override

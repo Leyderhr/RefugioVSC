@@ -565,7 +565,7 @@ public class Window extends JFrame {
             mnVisualizar.add(getMntmProveedores());
             mnVisualizar.add(getMntmCuidadoDiario());
             mnVisualizar.add(getMntmUsuario(user));
-            //mnVisualizar.add(getMntmAdmin(user));
+
         }
         return mnVisualizar;
     }
