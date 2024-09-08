@@ -75,6 +75,7 @@ public class Authentication extends JFrame {
                                         //Construimos la ventana principal
                                         window = new Window(user);
                                         window.setVisible(true);
+
                                         dispose();
                                         break;
                                     case 2:
@@ -198,6 +199,7 @@ public class Authentication extends JFrame {
                                 default:
                                     break;
                             }
+
                         } catch (Exception e1) {
                             System.out.println(e1.getMessage());
                         }

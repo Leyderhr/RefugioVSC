@@ -28,6 +28,7 @@ public class Window extends JFrame {
     private JButton btnEliminar;
     private JButton btnActualizar;
     private JButton btnLimpiar;
+    private JButton btnActTablaAnimales;
 
     // Atributos del menu
     private JMenuBar menuBar;
@@ -96,6 +97,7 @@ public class Window extends JFrame {
         contentPane.add(getBtnEliminar(user));
         contentPane.add(getBtnActualizar(user));
         contentPane.add(getBtnLimpiar());
+        contentPane.add(getbtnActTablaAnimales());
 
         contentPane.add(getAnimalPanel());
         contentPane.add(getProovedorPanel());
@@ -116,6 +118,7 @@ public class Window extends JFrame {
         }
 
         animalPanel.actualizarCantDias();
+
 
     }
 
@@ -231,14 +234,6 @@ public class Window extends JFrame {
     //Método para controlar la visibilidad de los paneles en la ventana
     //=========================================================================
     private void controlPanel(int value) {
-        Thread hilo = new Thread(() -> {
-            try {
-                compruebaFecha();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        hilo.start();
 
         switch (value) {
             case 1:
@@ -247,6 +242,7 @@ public class Window extends JFrame {
                     ventanas.set(i, false);
                 }
                 animalPanel.setVisible(true);
+                btnActTablaAnimales.setVisible(true);
                 ventanas.set(0, true);
                 proveedorPanel.setVisible(false);
                 contratoPanel.setVisible(false);
@@ -263,6 +259,7 @@ public class Window extends JFrame {
                 proveedorPanel.cargarListas();
                 ventanas.set(1, true);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 contratoPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
@@ -277,6 +274,7 @@ public class Window extends JFrame {
                 contratoPanel.cargarListas();
                 ventanas.set(2, true);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
@@ -291,6 +289,7 @@ public class Window extends JFrame {
                 ventanas.set(3, true);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
@@ -305,6 +304,7 @@ public class Window extends JFrame {
                 ventanas.set(4, true);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
@@ -320,6 +320,7 @@ public class Window extends JFrame {
                 cuidadoDiarioPanel.setVisible(false);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 break;
@@ -333,6 +334,7 @@ public class Window extends JFrame {
                 cuidadoDiarioPanel.setVisible(false);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 break;
@@ -341,6 +343,7 @@ public class Window extends JFrame {
                 cuidadoDiarioPanel.setVisible(false);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 break;
@@ -523,6 +526,24 @@ public class Window extends JFrame {
             btnLimpiar.setBounds(398, 407, 107, 23);
         }
         return btnLimpiar;
+    }
+
+    private JButton getbtnActTablaAnimales(){
+        if(btnActTablaAnimales == null){
+            btnActTablaAnimales = new JButton(new ImageIcon());
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/util/refresh-svgrepo-com(2)(1).png")));
+            btnActTablaAnimales.setIcon(icon);
+            btnActTablaAnimales.setBounds(524, 407, 23, 23);
+            btnActTablaAnimales.setVisible(false);
+
+            btnActTablaAnimales.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    compruebaFecha();
+                }
+            });
+        }
+        return btnActTablaAnimales;
     }
 
 
@@ -808,23 +829,20 @@ public class Window extends JFrame {
         return mntmContratoServComplement;
     }
 
-    public void compruebaFecha() throws InterruptedException {
+    public void compruebaFecha() {
 
-        while (true) {
+        Calendar calendar = Calendar.getInstance();
 
+        calendar.setTime(fecha_actual);
+        int diaBD = calendar.get(Calendar.DAY_OF_MONTH);
 
-            Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new java.util.Date());
+        int diaAC = calendar.get(Calendar.DAY_OF_MONTH);
 
-            calendar.setTime(fecha_actual);
-            int diaBD = calendar.get(Calendar.DAY_OF_MONTH);
+        if (diaAC != diaBD)
+            animalPanel.actualizarCantDias();
 
-            calendar.setTime(new Date());
-            int diaAC = calendar.get(Calendar.DAY_OF_MONTH);
-
-            if (diaAC != diaBD)
-                animalPanel.actualizarCantDias();
-
-            Thread.sleep(60 * 1000);
-        }
     }
+
+
 }
