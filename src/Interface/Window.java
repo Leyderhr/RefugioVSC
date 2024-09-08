@@ -21,7 +21,7 @@ import java.util.Objects;
 
 public class Window extends JFrame {
 
-    private final int cantPaneles = 6;
+    private final int cantPaneles = 8;
     private Date fecha_actual;
     private final JPanel contentPane;
     private JButton btnAgregar;
@@ -32,8 +32,9 @@ public class Window extends JFrame {
 
     // Atributos del menu
     private JMenuBar menuBar;
-    private JMenu mnLogOut;
+    private JMenu mnOpciones;
     private JMenuItem mntmLogOut;
+    private JMenuItem mntmProvincias;
 
     private JMenu mnVisualizar;
     private JMenuItem mntmPanelPrincipal;
@@ -43,6 +44,7 @@ public class Window extends JFrame {
     private JMenuItem mntmServicios;
     private JMenuItem mntmCuidadoDiario;
     private JMenuItem mntmUsuario;
+    private JMenuItem mntmRol;
 
     private JMenu mnReportes;
     private JMenuItem mntmContratoProvDeAlimento;
@@ -61,6 +63,8 @@ public class Window extends JFrame {
     private ServicioPanel servicioPanel;
     private CuidadoDiarioPanel cuidadoDiarioPanel;
     private UsuarioPanel usuarioPanel;
+    private ProvinciaPanel provinciaPanel;
+    private RolPanel rolPanel;
 
     // Atributos del fondo principal
     private JLabel lblFotoZooIzq;
@@ -72,7 +76,7 @@ public class Window extends JFrame {
     /**
      * Constructor de la ventana.
      */
-    public Window(Object user) {
+    public Window(Usuario user) {
 
         //Declaración de atributos de la ventana
         //======================================
@@ -105,6 +109,8 @@ public class Window extends JFrame {
         contentPane.add(getServicioPanel());
         contentPane.add(getCuidadoDiarioPanel());
         contentPane.add(getUsuarioPanel());
+        contentPane.add(getProvinciaPanel());
+        contentPane.add(getRolPanel());
 
         contentPane.add(getFotoZooIzq());
         contentPane.add(getFotoZooDer());
@@ -228,6 +234,20 @@ public class Window extends JFrame {
         return usuarioPanel;
     }
 
+    private ProvinciaPanel getProvinciaPanel(){
+        if(provinciaPanel == null){
+            provinciaPanel = new ProvinciaPanel();
+        }
+        return provinciaPanel;
+    }
+
+    private RolPanel getRolPanel(){
+        if(rolPanel == null){
+            rolPanel = new RolPanel();
+        }
+        return rolPanel;
+    }
+
     //=========================================================================
 
 
@@ -249,6 +269,8 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
             case 2:
 
@@ -264,6 +286,8 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
             case 3:
 
@@ -279,6 +303,8 @@ public class Window extends JFrame {
                 servicioPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
             case 4:
 
@@ -293,6 +319,8 @@ public class Window extends JFrame {
                 proveedorPanel.setVisible(false);
                 cuidadoDiarioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
             case 5:
 
@@ -308,6 +336,8 @@ public class Window extends JFrame {
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
                 usuarioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
 
             case 6:
@@ -323,14 +353,34 @@ public class Window extends JFrame {
                 btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
             case 7:
 
                 for (int i = 0; i < cantPaneles; i++) {
                     ventanas.set(i, false);
                 }
+                provinciaPanel.setVisible(true);
                 usuarioPanel.setVisible(false);
                 ventanas.set(6, true);
+                cuidadoDiarioPanel.setVisible(false);
+                contratoPanel.setVisible(false);
+                animalPanel.setVisible(false);
+                btnActTablaAnimales.setVisible(false);
+                proveedorPanel.setVisible(false);
+                servicioPanel.setVisible(false);
+                rolPanel.setVisible(false);
+                break;
+            case 8:
+
+                for (int i = 0; i < cantPaneles; i++) {
+                    ventanas.set(i, false);
+                }
+                rolPanel.setVisible(true);
+                provinciaPanel.setVisible(false);
+                usuarioPanel.setVisible(false);
+                ventanas.set(7, true);
                 cuidadoDiarioPanel.setVisible(false);
                 contratoPanel.setVisible(false);
                 animalPanel.setVisible(false);
@@ -346,6 +396,8 @@ public class Window extends JFrame {
                 btnActTablaAnimales.setVisible(false);
                 proveedorPanel.setVisible(false);
                 servicioPanel.setVisible(false);
+                provinciaPanel.setVisible(false);
+                rolPanel.setVisible(false);
                 break;
         }
     }
@@ -386,6 +438,12 @@ public class Window extends JFrame {
                             break;
                         case 6:
                             usuarioPanel.agregarUsuario();
+                            break;
+                        case 7:
+                            provinciaPanel.agregarProvincia();
+                            break;
+                        case 8:
+                            rolPanel.agregarRol();
                             break;
                         default:
                             break;
@@ -432,6 +490,12 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.eliminarUsuario();
                             break;
+                        case 7:
+                            provinciaPanel.eliminarProvincia();
+                            break;
+                        case 8:
+                            rolPanel.eliminarRol();
+                            break;
                         default:
                             break;
                     }
@@ -477,6 +541,12 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.actualizarUsuarioPanel();
                             break;
+                        case 7:
+                            provinciaPanel.actualizarProvinciaPanel();
+                            break;
+                        case 8:
+                            rolPanel.actualizarRolPanel();
+                            break;
                         default:
                             break;
                     }
@@ -518,6 +588,12 @@ public class Window extends JFrame {
                         case 6:
                             usuarioPanel.limpiar();
                             break;
+                        case 7:
+                            provinciaPanel.limpiar();
+                            break;
+                        case 8:
+                            rolPanel.limpiar();
+                            break;
                         default:
                             break;
                     }
@@ -549,10 +625,10 @@ public class Window extends JFrame {
 
     // Elementos del menuBar para Visualizar
     // ========================================================================
-    private JMenuBar getMenuBarVisualizar(Object user) {
+    private JMenuBar getMenuBarVisualizar(Usuario user) {
         if (menuBar == null) {
             menuBar = new JMenuBar();
-            menuBar.add(getMnLogOut());
+            menuBar.add(getMnOpciones(user));
             menuBar.add(getMnVisualizar(user));
             menuBar.add(getMnReportes());
         }
@@ -560,14 +636,17 @@ public class Window extends JFrame {
     }
 
 
-    // Elemento para desloguearse
+    // Elementos para las opciones
     // ========================================================================
-    private JMenu getMnLogOut() {
-        if (mnLogOut == null) {
-            mnLogOut = new JMenu("Opciones");
-            mnLogOut.add(getMntmLogOut());
+    private JMenu getMnOpciones(Usuario user) {
+        if (mnOpciones == null) {
+            mnOpciones = new JMenu("Opciones");
+            mnOpciones.add(getMntmUsuario(user));
+            mnOpciones.add(getMntmRol(user));
+            mnOpciones.add(getMntmProvincias(user));
+            mnOpciones.add(getMntmLogOut());
         }
-        return mnLogOut;
+        return mnOpciones;
     }
 
     private JMenuItem getMntmLogOut() {
@@ -590,10 +669,66 @@ public class Window extends JFrame {
         return mntmLogOut;
     }
 
+    private JMenuItem getMntmUsuario(Usuario user) {
+        if (mntmUsuario == null) {
+            mntmUsuario = new JMenuItem("Administrar Usuarios");
+            mntmUsuario.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+
+                    if (user.getRol() != 1) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
+                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else
+                        controlPanel(UsuarioPanel.VALUE);
+                }
+            });
+        }
+        return mntmUsuario;
+    }
+
+
+    private JMenuItem getMntmProvincias(Usuario user) {
+        if (mntmProvincias == null) {
+            mntmProvincias = new JMenuItem("Administrar Provincias");
+            mntmProvincias.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+
+                    if (user.getRol() != 1) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
+                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else
+                        controlPanel(ProvinciaPanel.VALUE);
+
+                }
+            });
+        }
+        return mntmProvincias;
+    }
+
+
+    private JMenuItem getMntmRol(Usuario user) {
+        if (mntmRol == null) {
+            mntmRol = new JMenuItem("Administrar Roles");
+            mntmRol.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+
+                    if (user.getRol() != 1) {
+                        Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
+                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else
+                        controlPanel(RolPanel.VALUE);
+                }
+            });
+        }
+        return mntmRol;
+    }
 
     // Elementos de la visualización de los datos de las tablas
     // ========================================================================
-    private JMenu getMnVisualizar(Object user) {
+    private JMenu getMnVisualizar(Usuario user) {
         if (mnVisualizar == null) {
             mnVisualizar = new JMenu("Visualizar");
             mnVisualizar.add(getMntmPanelPrincipal());
@@ -602,7 +737,6 @@ public class Window extends JFrame {
             mnVisualizar.add(getMntmServicios());
             mnVisualizar.add(getMntmProveedores());
             mnVisualizar.add(getMntmCuidadoDiario());
-            mnVisualizar.add(getMntmUsuario(user));
 
         }
         return mnVisualizar;
@@ -681,23 +815,7 @@ public class Window extends JFrame {
         return mntmCuidadoDiario;
     }
 
-    private JMenuItem getMntmUsuario(Object user) {
-        if (mntmUsuario == null) {
-            mntmUsuario = new JMenuItem("Usuarios");
-            mntmUsuario.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
 
-                    if (((Usuario) user).getRol() != 1) {
-                        Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
-                                "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else
-                        controlPanel(UsuarioPanel.VALUE);
-                }
-            });
-        }
-        return mntmUsuario;
-    }
 
 
     // Elementos de la visualización de los Reportes
