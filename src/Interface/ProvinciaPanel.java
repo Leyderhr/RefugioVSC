@@ -43,9 +43,6 @@ public class ProvinciaPanel extends JPanel {
         add(getLblNombUsuario());
         add(getTextFieldNombUsuario());
 
-        add(getLblIdProvincia());
-        add(getTxtFIdProvincia());
-
         add(getScrollPane());
 
         addMouseListener(new MouseAdapter() {
@@ -84,26 +81,7 @@ public class ProvinciaPanel extends JPanel {
     // ========================================================================
 
 
-    // Cosas de la Contraseña del usuario
-    // ========================================================================
-    private JLabel getLblIdProvincia() {
-        if (lblIdProvincia == null) {
-            lblIdProvincia = new JLabel("Id de Provincia");
-            lblIdProvincia.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            lblIdProvincia.setBounds(10, 95, 100, 15);
-        }
-        return lblIdProvincia;
-    }
 
-    private JTextFieldSoloNumeros getTxtFIdProvincia() {
-        if (txtFIdProvincia == null) {
-            txtFIdProvincia = new JTextFieldSoloNumeros();
-            txtFIdProvincia.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            txtFIdProvincia.setBounds(10, 120, 226, 28);
-
-        }
-        return txtFIdProvincia;
-    }
 
     // ========================================================================
 
@@ -147,7 +125,7 @@ public class ProvinciaPanel extends JPanel {
                     if (e.getClickCount() == 1) {
                         if (tableProvincia.getSelectedRow() != -1) {
                             txtFNombUsuario.setText(lista.get(tableProvincia.getSelectedRow()).getNombre());
-                            txtFIdProvincia.setText(String.valueOf(lista.get(tableProvincia.getSelectedRow()).getId_provinvcia()));
+
                         }
                     }
                 }
@@ -196,7 +174,6 @@ public class ProvinciaPanel extends JPanel {
         Provincia p = new Provincia();
 
         p.setNombre(txtFNombUsuario.getText());
-        p.setId_provinvcia(Integer.parseInt(txtFIdProvincia.getText()));
 
         dao.insertarProvincia(p);
         actualizarTabla();

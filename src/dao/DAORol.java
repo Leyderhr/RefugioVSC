@@ -21,10 +21,9 @@ public class DAORol {
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select roles_insert(?,?)");
+            ps = cx.conectar().prepareStatement("select roles_insert(?)");
 
-            ps.setInt(1, r.getId());
-            ps.setString(2, r.getRol());
+            ps.setString(1, r.getRol());
             ps.execute();
             cx.desconectar();
             return true;

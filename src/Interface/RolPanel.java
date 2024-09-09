@@ -43,9 +43,6 @@ public class RolPanel extends JPanel {
         add(getLblRol());
         add(getTextFieldRol());
 
-        add(getLblIdRol());
-        add(getTxtFIdRol());
-
         add(getScrollPane());
 
         addMouseListener(new MouseAdapter() {
@@ -86,24 +83,9 @@ public class RolPanel extends JPanel {
 
     // Cosas de la Contraseña del usuario
     // ========================================================================
-    private JLabel getLblIdRol() {
-        if (lblIdRol == null) {
-            lblIdRol = new JLabel("Id de Rol");
-            lblIdRol.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            lblIdRol.setBounds(10, 95, 100, 15);
-        }
-        return lblIdRol;
-    }
 
-    private JTextFieldSoloNumeros getTxtFIdRol() {
-        if (txtFIdRol == null) {
-            txtFIdRol = new JTextFieldSoloNumeros();
-            txtFIdRol.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            txtFIdRol.setBounds(10, 120, 226, 28);
 
-        }
-        return txtFIdRol;
-    }
+
 
     // ========================================================================
 
@@ -147,7 +129,6 @@ public class RolPanel extends JPanel {
                     if (e.getClickCount() == 1) {
                         if (tableRol.getSelectedRow() != -1) {
                             txtFRol.setText(lista.get(tableRol.getSelectedRow()).getRol());
-                            txtFIdRol.setText(String.valueOf(lista.get(tableRol.getSelectedRow()).getId()));
                         }
                     }
                 }
@@ -196,7 +177,6 @@ public class RolPanel extends JPanel {
         Rol r = new Rol();
 
         r.setRol(txtFRol.getText());
-        r.setId(Integer.parseInt(txtFIdRol.getText()));
 
         dao.insertarRol(r);
         actualizarTabla();
