@@ -38,7 +38,7 @@ public class DAORol {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM roles");
+            ps = cx.conectar().prepareStatement("SELECT * FROM roles ORDER BY id_rol ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Rol r = new Rol();

@@ -189,7 +189,7 @@ public class UsuarioPanel extends JPanel {
                         if(tableUsuario.getSelectedRow() != -1){
                             txtFNombUsuario.setText(lista.get(tableUsuario.getSelectedRow()).getNombre());
                             pwdFContrasenna.setText(lista.get(tableUsuario.getSelectedRow()).getContrasegna());
-                            comboBoxRol.setSelectedIndex(tableUsuario.getSelectedRow());
+                            comboBoxRol.setSelectedIndex(lista.get(tableUsuario.getSelectedRow()).getRol()-1);
                         }
                     }
                 }
