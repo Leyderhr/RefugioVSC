@@ -1,6 +1,10 @@
 package Interface;
 
+import dao.DAOProvincia;
+import dao.DAORol;
 import dao.DAOUsuario;
+import logic.Provincia;
+import logic.Rol;
 import logic.Usuario;
 
 
@@ -25,6 +29,9 @@ public class UsuarioPanel extends JPanel {
     private JLabel lblContrasenna;
     private JTextField pwdFContrasenna;
 
+    private JLabel lblRol;
+    private  JComboBox<String> comboBoxRol;
+
     private JScrollPane scrollPane;
     private JTable tableUsuario;
 
@@ -46,6 +53,9 @@ public class UsuarioPanel extends JPanel {
 
         add(getLblContrasenna());
         add(getPwdFContrasenna());
+
+        add(getLblRol());
+        add(getComboBoxRol());
 
         add(getScrollPane());
 
@@ -92,7 +102,7 @@ public class UsuarioPanel extends JPanel {
         if (lblContrasenna == null) {
             lblContrasenna = new JLabel("Contraseña");
             lblContrasenna.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
-            lblContrasenna.setBounds(10, 95, 80, 29);
+            lblContrasenna.setBounds(10, 95, 80, 14);
         }
         return lblContrasenna;
     }
@@ -107,6 +117,32 @@ public class UsuarioPanel extends JPanel {
         return pwdFContrasenna;
     }
 
+    private JLabel getLblRol() {
+        if (lblRol == null) {
+            lblRol = new JLabel("Rol del Usuario");
+            lblRol.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
+            lblRol.setBounds(10, 158, 98, 14);
+        }
+        return lblRol;
+    }
+
+    private JComboBox<String> getComboBoxRol() {
+        if (comboBoxRol == null) {
+            comboBoxRol = new JComboBox<>();
+            comboBoxRol.setBounds(10, 173, 131, 28);
+            comboBoxRol.setVisible(true);
+
+            DAORol daoRol = new DAORol();
+            ArrayList<Rol> provincias = daoRol.consultarRol();
+
+            for (Rol r : provincias) {
+                comboBoxRol.addItem("Id:" + r.getId() + "  " + r.getRol());
+            }
+            comboBoxRol.setSelectedIndex(-1);
+
+        }
+        return comboBoxRol;
+    }
     // ========================================================================
 
 
@@ -119,6 +155,7 @@ public class UsuarioPanel extends JPanel {
             scrollPane.setViewportView(getTableUsuario());
             model.addColumn("Nombre");
             model.addColumn("Contraseña");
+            model.addColumn("Rol del Usuario");
             actualizarTabla();
         }
         return scrollPane;
@@ -137,11 +174,11 @@ public class UsuarioPanel extends JPanel {
             tableUsuario.getTableHeader().setReorderingAllowed(false);
             tableUsuario.setModel(new DefaultTableModel(
                     new Object[][]{
-                            {null, null, null, null, null},
-                            {null, null, null, null, null},
+                            {null, null, null},
+                            {null, null, null},
                     },
                     new String[]{
-                            "Nombre", "Contraseña"
+                            "Nombre", "Contraseña, Rol del Usuario"
                     }
             ));
 
@@ -152,6 +189,7 @@ public class UsuarioPanel extends JPanel {
                         if(tableUsuario.getSelectedRow() != -1){
                             txtFNombUsuario.setText(lista.get(tableUsuario.getSelectedRow()).getNombre());
                             pwdFContrasenna.setText(lista.get(tableUsuario.getSelectedRow()).getContrasegna());
+                            comboBoxRol.setSelectedIndex(tableUsuario.getSelectedRow());
                         }
                     }
                 }
@@ -168,9 +206,10 @@ public class UsuarioPanel extends JPanel {
         lista = dao.consultarUsuario();
         for (Usuario u : lista) {
 
-            Object[] ob = new Object[2];
+            Object[] ob = new Object[3];
             ob[0] = u.getNombre();
             ob[1] = u.getContrasegna();
+            ob[2] = u.getRol();
             model.addRow(ob);
         }
         tableUsuario.setModel(model);
@@ -202,6 +241,7 @@ public class UsuarioPanel extends JPanel {
 
         u.setNombre(txtFNombUsuario.getText());
         u.setContrasegna(String.valueOf(pwdFContrasenna.getText()));
+        u.setRol(comboBoxRol.getSelectedIndex()+1);
 
         dao.insertarUsuario(u);
         actualizarTabla();
@@ -220,6 +260,8 @@ public class UsuarioPanel extends JPanel {
                 u.setNombre(txtFNombUsuario.getText());
             if (!String.valueOf(pwdFContrasenna.getText()).isEmpty())
                 u.setContrasegna(String.valueOf(pwdFContrasenna.getText()));
+            if(comboBoxRol.getSelectedIndex() != -1)
+                u.setRol(comboBoxRol.getSelectedIndex()+1);
 
             dao.actualizarUsuario(u);
             actualizarTabla();
@@ -233,6 +275,7 @@ public class UsuarioPanel extends JPanel {
     public void limpiar() {
         txtFNombUsuario.setText("");
         pwdFContrasenna.setText("");
+        comboBoxRol.setSelectedIndex(-1);
 
     }
 

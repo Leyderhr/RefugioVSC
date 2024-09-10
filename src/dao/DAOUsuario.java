@@ -40,7 +40,7 @@ public class DAOUsuario {
         ResultSet rs = null;
 
         try {
-            ps = cx.conectar().prepareStatement("SELECT * FROM usuarios");
+            ps = cx.conectar().prepareStatement("SELECT * FROM usuarios ORDER BY id_rol ASC");
             rs = ps.executeQuery();
             while ((rs.next())){
                 Usuario c = new Usuario();
