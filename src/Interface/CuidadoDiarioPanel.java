@@ -160,7 +160,7 @@ public class CuidadoDiarioPanel extends JPanel {
             //         if(selectedDate.before(hoy)){
             //             JOptionPane.showMessageDialog(null, "No puede selecciar una hora posterior a la actual", "Error", JOptionPane.ERROR_MESSAGE);
             //         }
-                    
+
             //     }
             // });
         }
@@ -372,11 +372,11 @@ public class CuidadoDiarioPanel extends JPanel {
         ac.setDesc_act(txtFDescActividad.getText());
         ac.setFecha(new java.sql.Date(fecha.getDate().getTime()));
         ac.setHora(new Time(((Date) (spinnerHora.getValue())).getTime()));
-        
+
         DAOAnimal daoAnimal = new DAOAnimal();
         ArrayList<Animal> a = daoAnimal.consultarAnimales();
         ac.setId_animal(a.get(comboBoxIdAnimal.getSelectedIndex()).getId_animal());
-        
+
         DAOContrato daoContrato = new DAOContrato();
         ArrayList<Contrato> c = daoContrato.consultarContratos();
         ac.setId_contrato(c.get(comboBoxIdContrato.getSelectedIndex()).getId_contrato());
@@ -413,6 +413,7 @@ public class CuidadoDiarioPanel extends JPanel {
 
             dao.actualizarACD(ac);
             actualizarTabla();
+            limpiar();
         }
         else{
             Toolkit.getDefaultToolkit().beep();

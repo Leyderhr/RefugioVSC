@@ -23,7 +23,7 @@ public class DAOProveedor {
         try {
             ResultSet rs = null;
             PreparedStatement stmt = cx.conectar().prepareStatement("SELECT * FROM obtener_ultimo_idProveedor()");
-            
+
             rs = stmt.executeQuery();
 
             // Procesar el resultado

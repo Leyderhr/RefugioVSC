@@ -157,9 +157,13 @@ public class ProvinciaPanel extends JPanel {
     public void eliminarProvincia() {
 
         if (tableProvincia.getSelectedRowCount() >= 1) {
-            Provincia p = lista.get(tableProvincia.getSelectedRow());
-            dao.eliminarProvincia(p.getId_provinvcia());
-            actualizarTabla();
+            int choice = JOptionPane.showConfirmDialog(null,"Al eliminar una provincia se vera afectada la información de los proveedores relacionados con este ¿Desea eliminar?", "Confirmacion", JOptionPane.OK_CANCEL_OPTION);
+
+            if(choice == JOptionPane.OK_OPTION){
+                Provincia p = lista.get(tableProvincia.getSelectedRow());
+                dao.eliminarProvincia(p.getId_provinvcia());
+                actualizarTabla();
+            }
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
@@ -177,6 +181,7 @@ public class ProvinciaPanel extends JPanel {
 
         dao.insertarProvincia(p);
         actualizarTabla();
+        limpiar();
 
     }
     // ========================================================================
@@ -195,6 +200,7 @@ public class ProvinciaPanel extends JPanel {
 
             dao.actualizarProvincia(p);
             actualizarTabla();
+            limpiar();
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);

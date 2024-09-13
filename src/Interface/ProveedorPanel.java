@@ -45,7 +45,7 @@ public class ProveedorPanel extends JPanel {
     private JLabel lblEspecialidad;
     private JTextFieldSoloLetras txtFEspecialidad;
     private JLabel lblClinica;
-    private JTextFieldSoloLetras txtFClinica;
+    private JTextField txtFClinica;
 
     private JScrollPane scrollPane;
     private JTable tableProveedor;
@@ -342,9 +342,9 @@ public class ProveedorPanel extends JPanel {
         return lblClinica;
     }
 
-    private JTextFieldSoloLetras getTxtFClinica() {
+    private JTextField getTxtFClinica() {
         if (txtFClinica == null) {
-            txtFClinica = new JTextFieldSoloLetras();
+            txtFClinica = new JTextField();
             txtFClinica.setBounds(102, 344, 131, 28);
             txtFClinica.setVisible(false);
 
@@ -475,8 +475,13 @@ public class ProveedorPanel extends JPanel {
     public void eliminarProveedor() {
 
         if (tableProveedor.getSelectedRowCount() >= 1) {
-            dao.eliminarProveedor(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
-            actualizarTabla();
+
+            int choice = JOptionPane.showConfirmDialog(null,"Al eliminar un proveedor se eliminaran todos los contratos realacionados con este ¿Desea eliminar?", "Confirmacion", JOptionPane.OK_CANCEL_OPTION);
+
+            if(choice == JOptionPane.OK_OPTION){
+                dao.eliminarProveedor(lista.get(tableProveedor.getSelectedRow()).getId_proveedor());
+                actualizarTabla();
+            }
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error",

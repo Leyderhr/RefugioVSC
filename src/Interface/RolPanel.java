@@ -160,9 +160,14 @@ public class RolPanel extends JPanel {
     public void eliminarRol() {
 
         if (tableRol.getSelectedRowCount() >= 1) {
-            Rol r = lista.get(tableRol.getSelectedRow());
-            dao.eliminarRol(r.getId());
-            actualizarTabla();
+
+            int choice = JOptionPane.showConfirmDialog(null,"Al eliminar un rol se veran afectados todos los usuarios relacionados con este ¿Desea eliminar?", "Confirmacion", JOptionPane.OK_CANCEL_OPTION);
+
+            if(choice == JOptionPane.OK_OPTION){
+                Rol r = lista.get(tableRol.getSelectedRow());
+                dao.eliminarRol(r.getId());
+                actualizarTabla();
+            }
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);

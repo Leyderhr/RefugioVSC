@@ -23,10 +23,10 @@ public class DAOVeterinario {
 
             ps = cx.conectar().prepareStatement("select veterinario_insert(?,?,?,?)");
 
-            ps.setString(1, v.getClinica());
-            ps.setString(2, v.getFax());
-            ps.setString(3, v.getEspecialidad());
-            ps.setInt(4, v.getId_proveedor());
+            ps.setString(1, v.getFax());
+            ps.setString(2, v.getEspecialidad());
+            ps.setInt(3, v.getId_proveedor());
+            ps.setString(4, v.getClinica());
             ps.execute();
             cx.desconectar();
             return true;
@@ -80,10 +80,10 @@ public class DAOVeterinario {
 
             ps = cx.conectar().prepareStatement("select veterinario_update(?,?,?,?)");
 
-            ps.setString(1, v.getClinica());
-            ps.setString(2, v.getFax());
-            ps.setString(3, v.getEspecialidad());
-            ps.setInt(4, v.getId_proveedor());
+            ps.setString(1, v.getFax());
+            ps.setString(2, v.getEspecialidad());
+            ps.setInt(3, v.getId_proveedor());
+            ps.setString(4, v.getClinica());
             ps.execute();
             cx.desconectar();
             return true;

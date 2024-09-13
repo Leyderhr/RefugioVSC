@@ -100,31 +100,31 @@ public class DAOActividadCuidadoDiario {
         }
     }
 
-     public ActividadCuidadoDiario buscarACD(Date d, Time t, int id) {
-         ActividadCuidadoDiario acd = null;
+    public ActividadCuidadoDiario buscarACD(Date d, Time t, int id) {
+        ActividadCuidadoDiario acd = null;
 
-         try {
-             ResultSet rs = null;
-             PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_actividadcuidadodiario(?, ?, ?)");
+        try {
+            ResultSet rs = null;
+            PreparedStatement ps = cx.conectar().prepareStatement("SELECT * FROM find_actividadcuidadodiario(?, ?, ?)");
 
-             ps.setDate(1, d);
-             ps.setTime(2, t);
-             ps.setInt(3, id);
+            ps.setDate(1, d);
+            ps.setTime(2, t);
+            ps.setInt(3, id);
 
-             rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
-             if (rs.next()) {
-                 acd = new ActividadCuidadoDiario();
-                 acd.setFecha(rs.getDate(1));
-                 acd.setHora(rs.getTime(2));
-                 acd.setDesc_act(rs.getString(3));
-                 acd.setId_animal(rs.getInt(4));
-                 acd.setId_contrato(rs.getInt(5));
-             }
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
+            if (rs.next()) {
+                acd = new ActividadCuidadoDiario();
+                acd.setFecha(rs.getDate(1));
+                acd.setHora(rs.getTime(2));
+                acd.setDesc_act(rs.getString(3));
+                acd.setId_animal(rs.getInt(4));
+                acd.setId_contrato(rs.getInt(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-         return acd;
-     }
+        return acd;
+    }
 }

@@ -494,6 +494,7 @@ public class ContratoPanel extends JPanel {
 
             dao.actualizarContrato(c);
             actualizarTabla();
+            limpiar();
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error",

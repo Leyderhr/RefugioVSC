@@ -222,8 +222,13 @@ public class ServicioPanel extends JPanel {
     public void eliminarServicio() {
 
         if (tableServicio.getSelectedRowCount() >= 1) {
-            dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
-            actualizarTabla();
+
+            int choice = JOptionPane.showConfirmDialog(null,"Al eliminar un servivio se eliminaran todos los contratos relacionados con este ¿Desea eliminar?", "Confirmacion", JOptionPane.OK_CANCEL_OPTION);
+
+            if(choice == JOptionPane.OK_OPTION){
+                dao.eliminarServicio(lista.get(tableServicio.getSelectedRow()).getId_servicio());
+                actualizarTabla();
+            }
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede eliminar si no tiene seleccionada una celda", "Error",
@@ -272,6 +277,7 @@ public class ServicioPanel extends JPanel {
             }
 
             actualizarTabla();
+            limpiar();
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error",

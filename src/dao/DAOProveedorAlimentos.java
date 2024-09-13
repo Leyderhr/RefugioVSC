@@ -103,7 +103,7 @@ public class DAOProveedorAlimentos {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                pv = new ProvAlimentos(); 
+                pv = new ProvAlimentos();
                 pv.setRepresentante(rs.getString(1));
                 pv.setId_proveedor(rs.getInt(2));
             }

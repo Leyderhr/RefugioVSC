@@ -245,6 +245,7 @@ public class UsuarioPanel extends JPanel {
 
         dao.insertarUsuario(u);
         actualizarTabla();
+        limpiar();
 
     }
     // ========================================================================
@@ -265,6 +266,7 @@ public class UsuarioPanel extends JPanel {
 
             dao.actualizarUsuario(u);
             actualizarTabla();
+            limpiar();
         } else {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "No puede actualizar si no tiene seleccionada una celda", "Error", JOptionPane.ERROR_MESSAGE);
