@@ -4,6 +4,8 @@ import Interface.Authentication;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 public class App {
+
+
     public static void main(String[] args) throws Exception {
         
         System.out.println("Conectado con éxito");

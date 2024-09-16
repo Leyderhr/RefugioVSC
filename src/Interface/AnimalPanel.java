@@ -14,7 +14,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 
 public class AnimalPanel extends JPanel {
@@ -55,6 +60,7 @@ public class AnimalPanel extends JPanel {
     private final DAOAnimal dao = new DAOAnimal();
     private final DAOAnimalAdoptado daoAdoptado = new DAOAnimalAdoptado();
     ArrayList<Animal> lista;
+
 
     public AnimalPanel() {
         setBounds(20, 11, 914, 385);
@@ -326,8 +332,8 @@ public class AnimalPanel extends JPanel {
             tableAnimal.getTableHeader().setReorderingAllowed(false);
             tableAnimal.setModel(new DefaultTableModel(
                     new Object[][] {
-                            { null, null, null, null, null, null, null },
-                            { null, null, null, null, null, null, null },
+                            { null, null, null, null, null, null, null, null },
+                            { null, null, null, null, null, null, null, null },
                     },
                     new String[] {
                             "id", "Nombre", "Especie", "Raza", "Edad", "Peso", "Fecha de Entrada", "Cant. dias refugio"
@@ -343,7 +349,8 @@ public class AnimalPanel extends JPanel {
                             txtFRaza.setText(lista.get(tableAnimal.getSelectedRow()).getRaza());
                             txtFEdad.setText(String.valueOf(lista.get(tableAnimal.getSelectedRow()).getEdad()));
                             txtFPeso.setText(String.valueOf(lista.get(tableAnimal.getSelectedRow()).getPeso()));
-                            spinnerDiasRefugio.setValue(lista.get(tableAnimal.getSelectedRow()).getCant_dias_refugio());
+                            fechaEntrada.setDate(lista.get(tableAnimal.getSelectedRow()).getFecha_llegada());
+//                            spinnerDiasRefugio.setValue(lista.get(tableAnimal.getSelectedRow()).getCant_dias_refugio());
                             AnimalAdoptado ad = daoAdoptado
                                     .buscarAnimalAdoptado(lista.get(tableAnimal.getSelectedRow()).getId_animal());
 
@@ -368,17 +375,28 @@ public class AnimalPanel extends JPanel {
         for (Animal a : lista) {
             if (a.getRaza() == null)
                 a.setRaza("-");
-            Object[] ob = new Object[7];
+            Object[] ob = new Object[8];
             ob[0] = a.getId_animal();
             ob[1] = a.getNombre();
             ob[2] = a.getEspecie();
             ob[3] = a.getRaza();
             ob[4] = a.getEdad();
             ob[5] = a.getPeso();
-            ob[6] = a.getCant_dias_refugio();
+            ob[6] = a.getFecha_llegada();
+            ob[7] = a.getCant_dias_refugio();
             model.addRow(ob);
         }
         tableAnimal.setModel(model);
+    }
+
+    public void actualizarCantDias(){
+        lista = dao.consultarAnimales();
+
+        for(Animal a:lista) {
+            a.actualizaCantDias();
+            dao.actualizarAnimal(a);
+        }
+        actualizarTabla();
     }
 
     // Métodos para Agregar, Eliminar y Actualizar
@@ -394,7 +412,8 @@ public class AnimalPanel extends JPanel {
             a.setRaza(txtFRaza.getText());
             a.setEspecie(txtFEspecie.getText());
             a.setPeso(Double.parseDouble(txtFPeso.getText()));
-            a.setCant_dias_refugio((Integer) spinnerDiasRefugio.getValue());
+            a.setFecha_llegada(new java.sql.Date (fechaEntrada.getDate().getTime()));
+            a.setCant_dias_refugio(Math.toIntExact(ChronoUnit.DAYS.between(fechaEntrada.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now())));
 
             dao.insertarAnimal(a);
             add = true;
@@ -447,7 +466,8 @@ public class AnimalPanel extends JPanel {
                 a.setRaza(txtFRaza.getText());
                 a.setEspecie(txtFEspecie.getText());
                 a.setPeso(Double.parseDouble(txtFPeso.getText()));
-                a.setCant_dias_refugio((Integer) spinnerDiasRefugio.getValue());
+                a.setFecha_llegada(new java.sql.Date (fechaEntrada.getDate().getTime()));
+                a.setCant_dias_refugio(Math.toIntExact(ChronoUnit.DAYS.between(fechaEntrada.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now())));
 
                 dao.actualizarAnimal(a);
                 DAOAnimalAdoptado dao_a = new DAOAnimalAdoptado();
@@ -480,7 +500,7 @@ public class AnimalPanel extends JPanel {
         txtFNombreAnimal.setText("");
         txtFEspecie.setText("");
         txtFEdad.setText("");
-        spinnerDiasRefugio.setValue(0);
+        fechaEntrada.setDate(null);
         if (chckbxesAdoptado.isSelected()) {
             txtFCantDonaciones.setText("");
             txtFPrecioAdopcion.setText("");

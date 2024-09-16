@@ -40,7 +40,7 @@ public class DAOAnimal {
         PreparedStatement ps = null;
         try {
 
-            ps = cx.conectar().prepareStatement("select animal_insert(?,?,?,?,?,?)");
+            ps = cx.conectar().prepareStatement("select animal_insert(?,?,?,?,?,?,?)");
 
             ps.setString(1, a.getNombre());
             ps.setString(2, a.getEspecie());
@@ -48,6 +48,7 @@ public class DAOAnimal {
             ps.setInt(4, a.getEdad());
             ps.setDouble(5, a.getPeso());
             ps.setInt(6, a.getCant_dias_refugio());
+            ps.setDate(7, a.getFecha_llegada());
             ps.execute();
             cx.desconectar();
             return true;
@@ -71,8 +72,9 @@ public class DAOAnimal {
                 a.setEspecie(rs.getString("especie"));
                 a.setRaza(rs.getString("raza"));
                 a.setEdad(rs.getInt("edad"));
-                a.setPeso((double) rs.getInt("peso"));
+                a.setPeso(rs.getDouble("peso"));
                 a.setCant_dias_refugio(rs.getInt("cant_dias_refugio"));
+                a.setFecha_llegada(rs.getDate("fecha_llegada"));
                 lista.add(a);
             }
         } catch (SQLException e) {
@@ -104,15 +106,16 @@ public class DAOAnimal {
         PreparedStatement ps = null;
         try {
 
-            ps = cx.conectar().prepareStatement("select animal_update(?,?,?,?,?,?,?)");
+            ps = cx.conectar().prepareStatement("select animal_update(?,?,?,?,?,?,?,?)");
 
             ps.setInt(1, a.getId_animal());
             ps.setString(2, a.getNombre());
             ps.setString(3, a.getEspecie());
             ps.setString(4, a.getRaza());
             ps.setInt(5, a.getEdad());
-            ps.setInt(6, (int) a.getPeso());
+            ps.setDouble(6, a.getPeso());
             ps.setInt(7, a.getCant_dias_refugio());
+            ps.setDate(8, a.getFecha_llegada());
             ps.execute();
             cx.desconectar();
             return true;

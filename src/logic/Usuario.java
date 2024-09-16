@@ -21,7 +21,7 @@ public class Usuario {
         setRol(rol);
     }
 
-    public Usuario(String nombre, String contrasegna) {
+    public Usuario(String nombre, String contrasegna){
         setNombre(nombre);
         setContrasegna(contrasegna);
     }

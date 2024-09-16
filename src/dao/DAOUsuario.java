@@ -76,7 +76,7 @@ public class DAOUsuario {
         PreparedStatement ps = null;
         try{
 
-            ps = cx.conectar().prepareStatement("select usuarios_update(?,?)");
+            ps = cx.conectar().prepareStatement("select usuarios_update(?,?,?)");
 
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getContrasegna());

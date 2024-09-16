@@ -12,13 +12,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 
 public class Window extends JFrame {
 
     private final int cantPaneles = 6;
+    private Date fecha_actual;
     private final JPanel contentPane;
     private JButton btnAgregar;
     private JButton btnEliminar;
@@ -77,6 +81,8 @@ public class Window extends JFrame {
 
         setContentPane(contentPane);
 
+        fecha_actual = new Date();
+
         setTitle("Gestor del Refugio");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 960, 500);
@@ -108,6 +114,8 @@ public class Window extends JFrame {
         for (int i = 0; i < cantPaneles; i++) {
             ventanas.add(false);
         }
+
+        animalPanel.actualizarCantDias();
 
     }
 
@@ -223,6 +231,15 @@ public class Window extends JFrame {
     //Método para controlar la visibilidad de los paneles en la ventana
     //=========================================================================
     private void controlPanel(int value) {
+        Thread hilo = new Thread(() -> {
+            try {
+                compruebaFecha();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        hilo.start();
+
         switch (value) {
             case 1:
 
@@ -333,7 +350,7 @@ public class Window extends JFrame {
     private JButton getBtnAgregar(Object user) {
         if (btnAgregar == null) {
             btnAgregar = new JButton("Agregar");
-            if (((Usuario)user).getRol() == 3)
+            if (((Usuario) user).getRol() == 3)
                 btnAgregar.setEnabled(false);
 
             btnAgregar.addActionListener(new ActionListener() {
@@ -381,7 +398,7 @@ public class Window extends JFrame {
         if (btnEliminar == null) {
             btnEliminar = new JButton("Eliminar");
 
-            if (((Usuario)user).getRol() == 3)
+            if (((Usuario) user).getRol() == 3)
                 btnEliminar.setEnabled(false);
 
             btnEliminar.addActionListener(new ActionListener() {
@@ -427,7 +444,7 @@ public class Window extends JFrame {
         if (btnActualizar == null) {
             btnActualizar = new JButton("Actualizar");
 
-            if (((Usuario)user).getRol() == 3)
+            if (((Usuario) user).getRol() == 3)
                 btnActualizar.setEnabled(false);
 
             btnActualizar.addActionListener(new ActionListener() {
@@ -649,7 +666,7 @@ public class Window extends JFrame {
             mntmUsuario.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
 
-                    if (((Usuario)user).getRol() != 1) {
+                    if (((Usuario) user).getRol() != 1) {
                         Toolkit.getDefaultToolkit().beep();
                         JOptionPane.showMessageDialog(null, "Sólo los administradores pueden " +
                                 "acceder a estos datos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -791,4 +808,23 @@ public class Window extends JFrame {
         return mntmContratoServComplement;
     }
 
+    public void compruebaFecha() throws InterruptedException {
+
+        while (true) {
+
+
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(fecha_actual);
+            int diaBD = calendar.get(Calendar.DAY_OF_MONTH);
+
+            calendar.setTime(new Date());
+            int diaAC = calendar.get(Calendar.DAY_OF_MONTH);
+
+            if (diaAC != diaBD)
+                animalPanel.actualizarCantDias();
+
+            Thread.sleep(60 * 1000);
+        }
+    }
 }

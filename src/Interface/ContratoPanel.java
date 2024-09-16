@@ -4,9 +4,11 @@ import com.toedter.calendar.JDateChooser;
 import dao.DAOContrato;
 import dao.DAOProveedor;
 import dao.DAOServicio;
+import dao.DAOServicioProveedor;
 import logic.Contrato;
 import logic.Proveedor;
 import logic.Servicio;
+import logic.ServicioProveedor;
 import util.JTextFieldNumerosFlotantes;
 import util.JTextFieldSoloLetras;
 
@@ -53,6 +55,7 @@ public class ContratoPanel extends JPanel {
     private final DefaultTableModel model = new DefaultTableModel();
 
     private final DAOContrato dao = new DAOContrato();
+    private final DAOServicioProveedor daoServicioProveedor = new DAOServicioProveedor();
     private ArrayList<Contrato> lista;
     private ArrayList<Servicio> listaServicio;
     private ArrayList<Proveedor> listaProveedor;
@@ -453,6 +456,8 @@ public class ContratoPanel extends JPanel {
 
             dao.insertarContrato(c);
             actualizarTabla();
+            ServicioProveedor servP = new ServicioProveedor(c.getId_proveedor(), c.getId_servicio());
+            daoServicioProveedor.insertarServicioProveedor(servP);
             limpiar();
         } catch (Exception e) {
             Toolkit.getDefaultToolkit().beep();
